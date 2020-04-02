@@ -1,6 +1,8 @@
 # react-pptx
 
-React wrapper for PptxGenJS. 
+React wrapper for PptxGenJS.
+
+<img align="right" width="256" height="300" src="./README_Slides.jpg">
 
 ```jsx
 import * as ReactPPTX from "react-pptx";
@@ -9,19 +11,22 @@ import fs from "fs";
 ReactPPTX.render(
   <presentation>
     <slide>
-      <text x={0} y={0} w={1} h={0.2}>
-        Hello world
+      <text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
+        Hello there!
       </text>
+      <shape
+        type="rect"
+        style={{ x: 3, y: 1.55, w: 3, h: 0.1, backgroundColor: "#FF0000" }}
+      />
     </slide>
     <slide>
       <image
-        url="https://www.abeautifulsite.net/uploads/2014/08/tinypng-logo.png?width=600&key=a909caf7ff544565d9e4befbd97e4e2652440001d7b5a53df36123e6cd7ef5cf"
-        x={0}
-        y={2}
-        w={4}
-        h={4}
+        url="http://www.fillmurray.com/460/300"
+        style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
       />
     </slide>
   </presentation>
-).then(buffer => fs.writeFile("presentation.pptx", buffer));
+).then(buffer => {
+  fs.writeFile("presentation.pptx", buffer);
+});
 ```

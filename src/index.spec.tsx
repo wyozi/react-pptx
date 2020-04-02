@@ -8,26 +8,21 @@ describe("test render", () => {
     const test = (
       <presentation>
         <slide>
-          <text style={{ x: 0, y: 0, w: 1, h: 0.2 }}>Hello world</text>
+          <text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>Hello there!</text>
           <shape
             type="rect"
-            style={{ x: 0, y: 2, w: 3, h: 3, backgroundColor: "#FF0000" }}
-          >
-            Foo bar
-          </shape>
-        </slide>
-        <slide>
-          <image
-            url="https://www.abeautifulsite.net/uploads/2014/08/tinypng-logo.png?width=600&key=a909caf7ff544565d9e4befbd97e4e2652440001d7b5a53df36123e6cd7ef5cf"
-            style={{ x: 0, y: 0, w: 2, h: 2 }}
+            style={{ x: 3, y: 1.55, w: 3, h: 0.1, backgroundColor: "#FF0000" }}
           />
         </slide>
         <slide>
-          <text style={{ x: 0, y: 0, w: 1, h: 0.2 }}>Hello world</text>
+          <image
+            url="http://www.fillmurray.com/460/300"
+            style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
+          />
         </slide>
       </presentation>
     );
     const rendered = await render(test);
-    //fs.writeFileSync("test.pptx", rendered);
+    fs.writeFileSync("test.pptx", rendered);
   }, 25000);
 });
