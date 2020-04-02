@@ -56,3 +56,238 @@ Represents each slide in the presentation.
 | name | values | description |
 | -- | -- | -- |
 | `hidden` | boolean | Whether this slide is hidden during presenting |
+
+### `<text>`
+
+Text layer
+
+#### Props
+
+| name | values | description |
+| -- | -- | -- |
+| `style.x` | number (inches) or string (percentage) | Absolute `x` coordinate |
+| `style.y` | number (inches) or string (percentage) | Absolute `y` coordinate |
+| `style.w` | number (inches) or string (percentage) | Absolute width |
+| `style.h` | number (inches) or string (percentage) | Absolute height |
+| `style.color` | color in hex format (`#FF0000`) | Text color |
+| `style.fontFace` | string | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
+| `style.fontSize` | size in **points** | Font size. Defined in points (96 dpi by default) |
+| `style.align` | "left" or "center" or "right" | Horizontal text alignment within the text box |
+| `style.verticalAlign` | "top" or "middle" or "bottom" | Vertical text alignment within the text box |
+
+### `<image>`
+
+Image layer. Images are automatically fetched and embedded into the .pptx files during the rendering phase.
+
+Supports png, jpg, svg, gif and animated gif.
+
+#### Props
+
+| name | values | description |
+| -- | -- | -- |
+| `url` | absolute URL (`http://`) | Image URL |
+| `style.x` | number (inches) or string (percentage) | Absolute `x` coordinate |
+| `style.y` | number (inches) or string (percentage) | Absolute `y` coordinate |
+| `style.w` | number (inches) or string (percentage) | Absolute width |
+| `style.h` | number (inches) or string (percentage) | Absolute height |
+
+### `<shape>`
+
+Shape layer.
+
+#### Props
+
+| name | values | description |
+| -- | -- | -- |
+| `type` | shape types | Shape type |
+| `style.x` | number (inches) or string (percentage) | Absolute `x` coordinate |
+| `style.y` | number (inches) or string (percentage) | Absolute `y` coordinate |
+| `style.w` | number (inches) or string (percentage) | Absolute width |
+| `style.h` | number (inches) or string (percentage) | Absolute height |
+| `style.backgroundColor` | color in hex format (`#FF0000`) | Shape background color |
+
+
+<details>
+  <summary><b>Shape types</b></summary>
+
+  To find out how these look, easiest to just Google.
+
+- accentBorderCallout1
+- accentBorderCallout2
+- accentBorderCallout3
+- accentCallout1
+- accentCallout2
+- accentCallout3
+- actionButtonBackPrevious
+- actionButtonBeginning
+- actionButtonBlank
+- actionButtonDocument
+- actionButtonEnd
+- actionButtonForwardNext
+- actionButtonHelp
+- actionButtonHome
+- actionButtonInformation
+- actionButtonMovie
+- actionButtonReturn
+- actionButtonSound
+- arc
+- bentArrow
+- bentUpArrow
+- bevel
+- blockArc
+- borderCallout1
+- borderCallout2
+- borderCallout3
+- bracePair
+- bracketPair
+- callout1
+- callout2
+- callout3
+- can
+- chartPlus
+- chartStar
+- chartX
+- chevron
+- chord
+- circularArrow
+- cloud
+- cloudCallout
+- corner
+- cornerTabs
+- cube
+- curvedDownArrow
+- curvedLeftArrow
+- curvedRightArrow
+- curvedUpArrow
+- decagon
+- diagStripe
+- diamond
+- dodecagon
+- donut
+- doubleWave
+- downArrow
+- downArrowCallout
+- ellipse
+- ellipseRibbon
+- ellipseRibbon2
+- flowChartAlternateProcess
+- flowChartCollate
+- flowChartConnector
+- flowChartDecision
+- flowChartDelay
+- flowChartDisplay
+- flowChartDocument
+- flowChartExtract
+- flowChartInputOutput
+- flowChartInternalStorage
+- flowChartMagneticDisk
+- flowChartMagneticDrum
+- flowChartMagneticTape
+- flowChartManualInput
+- flowChartManualOperation
+- flowChartMerge
+- flowChartMultidocument
+- flowChartOfflineStorage
+- flowChartOffpageConnector
+- flowChartOnlineStorage
+- flowChartOr
+- flowChartPredefinedProces'flowChartPredefinedProcess',
+- flowChartPreparation
+- flowChartProcess
+- flowChartPunchedCard
+- flowChartPunchedTape
+- flowChartSort
+- flowChartSummingJunction
+- flowChartTerminator
+- folderCorner
+- frame
+- funnel
+- gear6
+- gear9
+- halfFrame
+- heart
+- heptagon
+- hexagon
+- homePlate
+- horizontalScroll
+- irregularSeal1
+- irregularSeal2
+- leftArrow
+- leftArrowCallout
+- leftBrace
+- leftBracket
+- leftCircularArrow
+- leftRightArrow
+- leftRightArrowCallout
+- leftRightCircularArrow
+- leftRightRibbon
+- leftRightUpArrow
+- leftUpArrow
+- lightningBolt
+- line
+- lineInv
+- mathDivide
+- mathEqual
+- mathMinus
+- mathMultiply
+- mathNotEqual
+- mathPlus
+- moon
+- nonIsoscelesTrapezoid
+- noSmoking
+- notchedRightArrow
+- octagon
+- parallelogram
+- pentagon
+- pie
+- pieWedge
+- plaque
+- plaqueTabs
+- plus
+- quadArrow
+- quadArrowCallout
+- rect
+- ribbon
+- ribbon2
+- rightArrow
+- rightArrowCallout
+- rightBrace
+- rightBracket
+- round1Rect
+- round2DiagRect
+- round2SameRect
+- roundRect
+- rtTriangle
+- smileyFace
+- snip1Rect
+- snip2DiagRect
+- snip2SameRect
+- snipRoundRect
+- squareTabs
+- star10
+- star12
+- star16
+- star24
+- star32
+- star4
+- star5
+- star6
+- star7
+- star8
+- stripedRightArrow
+- sun
+- swooshArrow
+- teardrop
+- trapezoid
+- triangle
+- upArrow
+- upArrowCallout
+- upDownArrow
+- upDownArrowCallout
+- uturnArrow
+- verticalScroll
+- wave
+- wedgeEllipseCallout
+- wedgeRectCallout
+- wedgeRoundRectCallout
+</details>
