@@ -8,10 +8,10 @@ export type VisualElement =
   | React.ReactElement<React.JSX.IntrinsicElements["image"], "image">;
 
 type VisualProps = {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
+  x: number | string;
+  y: number | string;
+  w: number | string;
+  h: number | string;
 };
 
 declare module "react" {
@@ -19,6 +19,7 @@ declare module "react" {
     interface IntrinsicElements {
       presentation: {
         children?: SlideElement | SlideElement[];
+        layout?: "16x9" | "16x10" | "4x3" | "wide";
       };
       slide: {
         children?: VisualElement | VisualElement[];

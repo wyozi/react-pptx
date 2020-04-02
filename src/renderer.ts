@@ -41,14 +41,26 @@ const renderSlide = async (slide: any, node: SlideElement) => {
 };
 
 export const renderPPTX = async ({
-  props: { children }
+  props
 }: React.ReactElement<
   React.JSX.IntrinsicElements["presentation"]
 >): Promise<any> => {
   const pres = new (pptxgen as any)();
 
-  if (children) {
-    const arr = Array.isArray(children) ? children : [children];
+  if (props.layout) {
+    let layout = "LAYOUT_16x9";
+    if (props.layout === "16x10") {
+      layout = "LAYOUT_16x10";
+    } else if (props.layout === "4x3") {
+      layout = "LAYOUT_4x3";
+    } else if (props.layout === "wide") {
+      layout = "LAYOUT_WIDE";
+    }
+    pres.layout = layout;
+  }
+
+  if (props.children) {
+    const arr = Array.isArray(props.children) ? props.children : [props.children];
     await Promise.all(
       arr.map(slideElement => {
         const slide = pres.addSlide();
