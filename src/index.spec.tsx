@@ -28,6 +28,6 @@ describe("test render", () => {
         </slide>
       </presentation>
     );
-    fs.writeFileSync("ok.pptx", await renderPPTX(test));
+    await renderPPTX(test);
   }, 25000);
 });
