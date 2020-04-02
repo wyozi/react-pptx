@@ -2,7 +2,7 @@
 
 React wrapper for PptxGenJS.
 
-<img align="right" width="256" height="300" src="./README_Slides.jpg">
+<img align="right" width="400" height="450" src="./README_Slides.jpg">
 
 ```jsx
 import * as ReactPPTX from "react-pptx";
