@@ -6,7 +6,7 @@ React wrapper for PptxGenJS.
 import * as ReactPPTX from "react-pptx";
 import fs from "fs";
 
-ReactPPTX.renderPPTX(
+ReactPPTX.render(
   <presentation>
     <slide>
       <text x={0} y={0} w={1} h={0.2}>

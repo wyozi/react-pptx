@@ -8,10 +8,12 @@ export type VisualElement =
   | React.ReactElement<React.JSX.IntrinsicElements["image"], "image">;
 
 type VisualProps = {
-  x: number | string;
-  y: number | string;
-  w: number | string;
-  h: number | string;
+  style: {
+    x: number | string;
+    y: number | string;
+    w: number | string;
+    h: number | string;
+  }
 };
 
 declare module "react" {
@@ -23,6 +25,7 @@ declare module "react" {
       };
       slide: {
         children?: VisualElement | VisualElement[];
+        hidden?: boolean;
       };
       text: VisualProps & {
         children?: string;

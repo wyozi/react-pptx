@@ -2,12 +2,11 @@ import * as pptxgen from "pptxgenjs";
 import fetch from "node-fetch";
 import { SlideElement, VisualElement } from "./augmentations";
 
-interface RenderOptions {
-  inlineImages: boolean;
-}
-
-const renderSlideNode = async (slide: any, node: VisualElement) => {
-  const { x, y, w, h } = node.props;
+const renderSlideNode = async (
+  slide: pptxgen.default.Slide,
+  node: VisualElement
+) => {
+  const { x, y, w, h } = node.props.style;
   if (node.type === "text") {
     slide.addText(node.props.children ?? "", {
       x,
@@ -30,17 +29,23 @@ const renderSlideNode = async (slide: any, node: VisualElement) => {
   }
 };
 
-const renderSlide = async (slide: any, node: SlideElement) => {
-  if (Array.isArray(node.props.children)) {
+const renderSlide = async (
+  slide: pptxgen.default.Slide,
+  { props }: SlideElement
+) => {
+  if (props.hidden !== undefined) {
+    slide.hidden = props.hidden;
+  }
+  if (Array.isArray(props.children)) {
     return Promise.all(
-      node.props.children.map(slideNode => renderSlideNode(slide, slideNode))
+      props.children.map(slideNode => renderSlideNode(slide, slideNode))
     );
   } else {
-    return renderSlideNode(slide, node.props.children);
+    return renderSlideNode(slide, props.children);
   }
 };
 
-export const renderPPTX = async ({
+export const render = async ({
   props
 }: React.ReactElement<
   React.JSX.IntrinsicElements["presentation"]
@@ -60,7 +65,9 @@ export const renderPPTX = async ({
   }
 
   if (props.children) {
-    const arr = Array.isArray(props.children) ? props.children : [props.children];
+    const arr = Array.isArray(props.children)
+      ? props.children
+      : [props.children];
     await Promise.all(
       arr.map(slideElement => {
         const slide = pres.addSlide();
