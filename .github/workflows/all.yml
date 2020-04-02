@@ -24,11 +24,7 @@ jobs:
       run: yarn build
     - name: Publish
       if: github.ref == 'refs/heads/master'
-      uses: pascalgn/npm-publish-action@8edc0531ab4eac8c0f17b2261818630b6bbec64d
-      with:
-        tag_name: "v%s"
-        tag_message: "v%s"
-        commit_pattern: "^Release (\\S+)"
+      run: npx semantic-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
