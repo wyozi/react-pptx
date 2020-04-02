@@ -1,10 +1,27 @@
 import * as pptxgen from "pptxgenjs";
+import fetch from "node-fetch";
 import { SlideElement, VisualElement } from "./augmentations";
 
-const renderSlideNode = (slide: pptxgen.Slide, node: VisualElement) => {
+interface RenderOptions {
+  inlineImages: boolean;
+}
+
+const renderSlideNode = async (slide: any, node: VisualElement) => {
+  const { x, y, w, h } = node.props;
   if (node.type === "text") {
-    const { x, y, w, h } = node.props;
     slide.addText(node.props.children ?? "", {
+      x,
+      y,
+      w,
+      h
+    });
+  } else if (node.type === "image") {
+    const req = await fetch(node.props.url);
+    const contentType = req.headers.raw()["content-type"][0];
+    const blob = await req.buffer();
+    const data = `data:${contentType};base64,${blob.toString("base64")}`;
+    slide.addImage({
+      data,
       x,
       y,
       w,
@@ -13,8 +30,14 @@ const renderSlideNode = (slide: pptxgen.Slide, node: VisualElement) => {
   }
 };
 
-const renderSlide = (slide: pptxgen.Slide, node: SlideElement) => {
-  renderSlideNode(slide, node.props.children as any);
+const renderSlide = async (slide: any, node: SlideElement) => {
+  if (Array.isArray(node.props.children)) {
+    return Promise.all(
+      node.props.children.map(slideNode => renderSlideNode(slide, slideNode))
+    );
+  } else {
+    return renderSlideNode(slide, node.props.children);
+  }
 };
 
 export const renderPPTX = async ({
@@ -22,23 +45,17 @@ export const renderPPTX = async ({
 }: React.ReactElement<
   React.JSX.IntrinsicElements["presentation"]
 >): Promise<any> => {
-  const pres = new pptxgen();
+  const pres = new (pptxgen as any)();
 
   if (children) {
     const arr = Array.isArray(children) ? children : [children];
-    arr.forEach(slideElement => {
-      const slide = pres.addNewSlide();
-      renderSlide(slide, slideElement);
-    });
+    await Promise.all(
+      arr.map(slideElement => {
+        const slide = pres.addSlide();
+        return renderSlide(slide, slideElement);
+      })
+    );
   }
 
-  return new Promise(resolve =>
-    pres.save(
-      "pres.pptx",
-      (buf: any) => {
-        resolve(buf);
-      },
-      "nodebuffer"
-    )
-  );
+  return pres.write("nodebuffer");
 };
