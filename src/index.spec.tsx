@@ -10,7 +10,7 @@ describe("test render", () => {
         <slide>
           <text style={{ x: 0, y: 0, w: 1, h: 0.2 }}>Hello world</text>
           <shape
-            shape="rect"
+            type="rect"
             style={{ x: 0, y: 2, w: 3, h: 3, backgroundColor: "#FF0000" }}
           >
             Foo bar
@@ -28,6 +28,6 @@ describe("test render", () => {
       </presentation>
     );
     const rendered = await render(test);
-    fs.writeFileSync("test.pptx", rendered);
+    //fs.writeFileSync("test.pptx", rendered);
   }, 25000);
 });
