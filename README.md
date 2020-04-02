@@ -1,6 +1,6 @@
 # react-pptx
 
-React wrapper for PptxGenJS.
+React wrapper for [PptxGenJS](https://gitbrent.github.io/PptxGenJS/).
 
 <img align="right" width="400" height="450" src="./README_Slides.jpg">
 
@@ -30,3 +30,29 @@ ReactPPTX.render(
   fs.writeFile("presentation.pptx", buffer);
 });
 ```
+
+## Api
+
+### `ReactPPTX.render(<presentation>): Promise<Buffer>`
+
+Asynchronously renders given presentation JSX.
+
+### `<presentation>`
+
+Wraps the whole presentation.
+
+#### Props
+
+| name | values | description |
+| -- | -- | -- |
+| `layout` | "16x9", "16x10", "4x3", or "wide" | [Slide size](https://gitbrent.github.io/PptxGenJS/docs/usage-pres-options.html#slide-layouts-sizes) |
+
+### `<slide>`
+
+Represents each slide in the presentation.
+
+#### Props
+
+| name | values | description |
+| -- | -- | -- |
+| `hidden` | boolean | Whether this slide is hidden during presenting |
