@@ -1,0 +1,31 @@
+on: push
+name: Build and Publish
+jobs:
+  all:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Cache node_modules
+      id: cache-modules
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: Install dependencies
+      if: steps.cache-modules.outputs.cache-hit != 'true'
+      run: yarn install
+    - name: Test
+      run: yarn test
+    - name: Build
+      run: yarn build
+    - name: Publish
+      if: github.ref == 'refs/heads/master'
+      uses: mikeal/merge-release@c05919ea732
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    
