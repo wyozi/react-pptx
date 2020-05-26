@@ -45,9 +45,9 @@ Wraps the whole presentation.
 
 #### Props
 
-| name | values | description |
-| -- | -- | -- |
-| `layout` | "16x9", "16x10", "4x3", or "wide" | [Slide size](https://gitbrent.github.io/PptxGenJS/docs/usage-pres-options.html#slide-layouts-sizes) |
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `layout` | "16x9", "16x10", "4x3", or "wide" | "16x9" | [Slide size](https://gitbrent.github.io/PptxGenJS/docs/usage-pres-options.html#slide-layouts-sizes) |
 
 ### `<slide>`
 
@@ -55,9 +55,9 @@ Represents each slide in the presentation.
 
 #### Props
 
-| name | values | description |
-| -- | -- | -- |
-| `hidden` | boolean | Whether this slide is hidden during presenting |
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `hidden` | boolean | false | Whether this slide is hidden during presenting |
 
 ### `<text>`
 
@@ -65,17 +65,17 @@ Text layer
 
 #### Props
 
-| name | values | description |
-| -- | -- | -- |
-| `style.x` | number (inches) or string (percentage) | Absolute `x` coordinate |
-| `style.y` | number (inches) or string (percentage) | Absolute `y` coordinate |
-| `style.w` | number (inches) or string (percentage) | Absolute width |
-| `style.h` | number (inches) or string (percentage) | Absolute height |
-| `style.color` | color in hex format (`#FF0000`) | Text color |
-| `style.fontFace` | string | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
-| `style.fontSize` | size in **points** | Font size. Defined in points (96 dpi by default) |
-| `style.align` | "left" or "center" or "right" | Horizontal text alignment within the text box |
-| `style.verticalAlign` | "top" or "middle" or "bottom" | Vertical text alignment within the text box |
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `style.x` | number (inches) or string (percentage) |  | Absolute `x` coordinate |
+| `style.y` | number (inches) or string (percentage) |  | Absolute `y` coordinate |
+| `style.w` | number (inches) or string (percentage) |  | Absolute width |
+| `style.h` | number (inches) or string (percentage) |  | Absolute height |
+| `style.color` | color in hex format | `#000000` | Text color |
+| `style.fontFace` | string |  | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
+| `style.fontSize` | size in **points** |  | Font size. Defined in points (96 dpi by default) |
+| `style.align` | "left" or "center" or "right" |  | Horizontal text alignment within the text box |
+| `style.verticalAlign` | "top" or "middle" or "bottom" | | Vertical text alignment within the text box |
 
 ### `<image>`
 
@@ -85,13 +85,13 @@ Supports png, jpg, svg, gif and animated gif.
 
 #### Props
 
-| name | values | description |
-| -- | -- | -- |
-| `url` | absolute URL (`http://`) | Image URL |
-| `style.x` | number (inches) or string (percentage) | Absolute `x` coordinate |
-| `style.y` | number (inches) or string (percentage) | Absolute `y` coordinate |
-| `style.w` | number (inches) or string (percentage) | Absolute width |
-| `style.h` | number (inches) or string (percentage) | Absolute height |
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `url` | absolute URL (`http://`) | | Image URL |
+| `style.x` | number (inches) or string (percentage) | | Absolute `x` coordinate |
+| `style.y` | number (inches) or string (percentage) | | Absolute `y` coordinate |
+| `style.w` | number (inches) or string (percentage) | | Absolute width |
+| `style.h` | number (inches) or string (percentage) | | Absolute height |
 
 ### `<shape>`
 
@@ -99,14 +99,14 @@ Shape layer.
 
 #### Props
 
-| name | values | description |
-| -- | -- | -- |
-| `type` | shape types | Shape type |
-| `style.x` | number (inches) or string (percentage) | Absolute `x` coordinate |
-| `style.y` | number (inches) or string (percentage) | Absolute `y` coordinate |
-| `style.w` | number (inches) or string (percentage) | Absolute width |
-| `style.h` | number (inches) or string (percentage) | Absolute height |
-| `style.backgroundColor` | color in hex format (`#FF0000`) | Shape background color |
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `type` | shape types |  | Shape type |
+| `style.x` | number (inches) or string (percentage) | | Absolute `x` coordinate |
+| `style.y` | number (inches) or string (percentage) | | Absolute `y` coordinate |
+| `style.w` | number (inches) or string (percentage) | | Absolute width |
+| `style.h` | number (inches) or string (percentage) | | Absolute height |
+| `style.backgroundColor` | color in hex format (`#FF0000`) | | Shape background color |
 
 
 <details>
