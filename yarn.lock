@@ -318,6 +318,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.8.tgz#09976420fc80a7a00bf40680c63815ed8c7616f4"
   integrity sha512-1WgO8hsyHynlx7nhP1kr0OFzsgKz5XDQL+Lfc3b1Q3qIln/n8cKD4m09NJ0+P1Rq7Zgnc7N0+SsMnoD1rEb0kA==
 
+"@types/node@^14.0.5":
+  version "14.0.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.5.tgz#3d03acd3b3414cf67faf999aed11682ed121f22b"
+  integrity sha512-90hiq6/VqtQgX8Sp0EzeIsv3r+ellbGj4URKj5j30tLlZvRUpnAe9YbYnjl3pJM93GyXU0tghHhvXHq+5rnCKA==
+
 "@types/prop-types@*":
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
@@ -1855,10 +1860,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jszip@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
-  integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
+jszip@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.4.0.tgz#1a69421fa5f0bb9bc222a46bca88182fba075350"
+  integrity sha512-gZAOYuPl4EhPTXT0GjhI3o+ZAz3su6EhLrKUoAivcKqyqC7laS5JEv4XWZND9BgcDcF83vI85yGbDmDR6UhrIg==
   dependencies:
     lie "~3.3.0"
     pako "~1.0.2"
@@ -2374,14 +2379,15 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
-pptxgenjs@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.1.1.tgz#3b4d86ac943cbe8e8b1f7f2085c7e436628c839f"
-  integrity sha512-mFOh0dtnvjh5qyualGranvHq660b6KZl1yRIe4vXlKd3nqT98hSNPg9YLcKLy8PtBYojyEOUEn37R5lRLa05Yw==
+pptxgenjs@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.2.1.tgz#a05cccc91aca937ffdd998243b96949d229704dc"
+  integrity sha512-dWbDho64IKmfeB/pNYJf/8CLFtQZ/Sq7nHMrWsUR1E5HSV8yEgwgES72fNvT1oOiPPXTTVPdXm2iMRD13q7/Lw==
   dependencies:
+    "@types/node" "^14.0.5"
     https "^1.0.0"
     image-size "^0.8.3"
-    jszip "^3.2.2"
+    jszip "^3.4.0"
 
 prelude-ls@~1.1.2:
   version "1.1.2"
