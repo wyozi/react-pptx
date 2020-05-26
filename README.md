@@ -33,6 +33,10 @@ ReactPPTX.render(
 });
 ```
 
+## Typescript
+
+`react-pptx` includes type declarations, so all the JSX you pass to `render` will be typechecked. Make sure `@types/react` is installed.
+
 ## Api
 
 ### `ReactPPTX.render(<presentation>): Promise<Buffer>`
