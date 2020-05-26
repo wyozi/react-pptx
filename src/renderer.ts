@@ -31,15 +31,24 @@ const renderSlideNode = async (
     });
   } else if (node.type === "image") {
     const req = await fetch(node.props.url);
-    const blob = await req.blob();
 
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    const data = await new Promise<string>((resolve) => {
-      reader.onloadend = function () {
-        resolve(reader.result as string);
-      };
-    });
+    let data: string;
+    if ("buffer" in req) {
+      // node-fetch
+      const contentType = (req as any).headers.raw()["content-type"][0];
+      const buffer: Buffer = await (req as any).buffer();
+      data = `data:${contentType};base64,${buffer.toString("base64")}`;
+    } else {
+      const blob = await req.blob();
+
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      data = await new Promise<string>((resolve) => {
+        reader.onloadend = function () {
+          resolve(reader.result as string);
+        };
+      });
+    }
 
     slide.addImage({
       data,
