@@ -1,4 +1,4 @@
-import * as pptxgenjs from "pptxgenjs";
+import type PptxGenJs from "pptxgenjs";
 export {}; // ensure this is a module
 
 export type SlideElement = React.ReactElement<
@@ -44,7 +44,7 @@ declare module "react" {
         url: string;
       };
       shape: VisualProps & {
-        type: keyof typeof pptxgenjs.default.ShapeType;
+        type: keyof typeof PptxGenJs.ShapeType;
         children?: string;
         style: {
           backgroundColor: string;

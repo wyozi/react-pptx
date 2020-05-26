@@ -1,6 +1,7 @@
-import * as pptxgen from "pptxgenjs";
+const pptxgen = require("pptxgenjs");
 import fetch from "cross-fetch";
 import { SlideElement, VisualElement } from "./augmentations";
+import type PptxGenJs from "pptxgenjs";
 
 const renderColor = (color: string) => {
   if (color.charAt(0) === "#") {
@@ -11,8 +12,8 @@ const renderColor = (color: string) => {
 };
 
 const renderSlideNode = async (
-  pres: pptxgen.default,
-  slide: pptxgen.default.ISlide,
+  pres: PptxGenJs,
+  slide: PptxGenJs.ISlide,
   node: VisualElement
 ) => {
   const { x, y, w, h } = node.props.style;
@@ -86,8 +87,8 @@ const renderSlideNode = async (
 };
 
 const renderSlide = async (
-  pres: pptxgen.default,
-  slide: pptxgen.default.ISlide,
+  pres: PptxGenJs,
+  slide: PptxGenJs.ISlide,
   { props }: SlideElement
 ) => {
   if (props.hidden !== undefined) {
@@ -107,7 +108,7 @@ export const render = async ({
 }: React.ReactElement<React.JSX.IntrinsicElements["presentation"]>): Promise<
   any
 > => {
-  const pres: pptxgen.default = new (pptxgen as any)();
+  const pres: PptxGenJs = new pptxgen();
 
   if (props.layout) {
     let layout = "LAYOUT_16x9";

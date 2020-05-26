@@ -1,6 +1,5 @@
 import * as React from "react";
-import "./index";
-import { render } from "./renderer";
+import { render } from "./index";
 import fs = require("fs");
 
 describe("test render", () => {
