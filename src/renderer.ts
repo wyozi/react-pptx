@@ -1,4 +1,4 @@
-const pptxgen = require("pptxgenjs");
+import pptxgen from "pptxgenjs";
 import fetch from "cross-fetch";
 import { SlideElement, VisualElement } from "./augmentations";
 import type PptxGenJs from "pptxgenjs";

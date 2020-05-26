@@ -3,6 +3,7 @@
     "moduleResolution": "node",
     "target": "es5",
     "lib": ["ES2015", "DOM"],
-    "jsx": "react"
+    "jsx": "react",
+    "esModuleInterop": true
   }
 }
