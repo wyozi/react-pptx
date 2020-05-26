@@ -1,29 +1,36 @@
 {
   "name": "react-pptx",
   "version": "0.0.0-development",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "license": "MIT",
   "files": [
     "dist"
   ],
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "generate-types": "tsc --d --declarationDir dist --emitDeclarationOnly",
+    "build": "rollup -c && yarn generate-types"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-typescript": "^3",
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.5",
     "@types/react": "^16.9.31",
     "jest": "^24.9.0",
     "react": "^16.13.1",
+    "rollup": "^2.10.9",
     "ts-jest": "^24.3.0",
+    "tslib": "^2.0.0",
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "cross-fetch": "^3.0.4",
     "pptxgenjs": "^3.2.1"
   },
   "jest": {

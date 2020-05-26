@@ -1,5 +1,5 @@
 import * as pptxgen from "pptxgenjs";
-import fetch from "node-fetch";
+import fetch from "cross-fetch";
 import { SlideElement, VisualElement } from "./augmentations";
 
 const renderColor = (color: string) => {
@@ -27,19 +27,26 @@ const renderSlideNode = async (
       fontFace: style.fontFace,
       fontSize: style.fontSize,
       align: style.align,
-      valign: style.verticalAlign
+      valign: style.verticalAlign,
     });
   } else if (node.type === "image") {
     const req = await fetch(node.props.url);
-    const contentType = req.headers.raw()["content-type"][0];
-    const blob = await req.buffer();
-    const data = `data:${contentType};base64,${blob.toString("base64")}`;
+    const blob = await req.blob();
+
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    const data = await new Promise<string>((resolve) => {
+      reader.onloadend = function () {
+        resolve(reader.result as string);
+      };
+    });
+
     slide.addImage({
       data,
       x,
       y,
       w,
-      h
+      h,
     });
   } else if (node.type === "shape") {
     const style = node.props.style;
@@ -51,7 +58,9 @@ const renderSlideNode = async (
         y,
         w,
         h,
-        fill: style.backgroundColor ? renderColor(style.backgroundColor) : undefined
+        fill: style.backgroundColor
+          ? renderColor(style.backgroundColor)
+          : undefined,
       });
     } else {
       slide.addShape(shapeType, {
@@ -59,7 +68,9 @@ const renderSlideNode = async (
         y,
         w,
         h,
-        fill: style.backgroundColor ? renderColor(style.backgroundColor) : undefined
+        fill: style.backgroundColor
+          ? renderColor(style.backgroundColor)
+          : undefined,
       });
     }
   }
@@ -75,7 +86,7 @@ const renderSlide = async (
   }
   if (Array.isArray(props.children)) {
     return Promise.all(
-      props.children.map(slideNode => renderSlideNode(pres, slide, slideNode))
+      props.children.map((slideNode) => renderSlideNode(pres, slide, slideNode))
     );
   } else {
     return renderSlideNode(pres, slide, props.children);
@@ -83,10 +94,10 @@ const renderSlide = async (
 };
 
 export const render = async ({
-  props
-}: React.ReactElement<
-  React.JSX.IntrinsicElements["presentation"]
->): Promise<any> => {
+  props,
+}: React.ReactElement<React.JSX.IntrinsicElements["presentation"]>): Promise<
+  any
+> => {
   const pres: pptxgen.default = new (pptxgen as any)();
 
   if (props.layout) {
@@ -106,7 +117,7 @@ export const render = async ({
       ? props.children
       : [props.children];
     await Promise.all(
-      arr.map(slideElement => {
+      arr.map((slideElement) => {
         const slide = pres.addSlide();
         return renderSlide(pres, slide, slideElement);
       })
