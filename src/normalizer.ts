@@ -48,6 +48,7 @@ export type InternalSlideObject = InternalText | InternalImage | InternalShape;
 
 export type InternalSlide = {
   objects: InternalSlideObject[];
+  backgroundColor?: HexColor;
   hidden: boolean;
 };
 
@@ -109,6 +110,9 @@ const normalizeSlide = ({
 }: React.ReactElement<SlideProps>): InternalSlide => {
   const slide = {
     hidden: props.hidden ?? false,
+    backgroundColor: props?.style?.backgroundColor
+      ? renderColor(props.style.backgroundColor)
+      : null,
     objects: [],
   };
   if (props.children) {

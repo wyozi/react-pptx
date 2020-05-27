@@ -7,7 +7,7 @@ describe("test render", () => {
   it("ok", async () => {
     const test = (
       <Presentation>
-        <Slide>
+        <Slide style={{ backgroundColor: "#DDDDDD" }}>
           <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
             Hello there!
           </Text>

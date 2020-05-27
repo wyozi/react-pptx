@@ -99,14 +99,14 @@ const SlidePreview = ({
   slideStyle?: React.CSSProperties;
 }) => {
   const ref = React.useRef();
-  const { width, height } = useResize(ref);
+  const { width } = useResize(ref);
   return (
     <div
       ref={ref}
       style={{
         width: "100%",
         height: width / (dimensions[0] / dimensions[1]),
-        backgroundColor: "white",
+        backgroundColor: slide.backgroundColor ?? "white",
         position: "relative",
         ...slideStyle,
       }}

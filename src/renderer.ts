@@ -81,6 +81,7 @@ const renderSlide = async (
   node: InternalSlide
 ) => {
   slide.hidden = node.hidden;
+  if (node.backgroundColor) slide.bkgd = node.backgroundColor;
 
   return Promise.all(
     node.objects.map((object) => renderSlideObject(pres, slide, object))

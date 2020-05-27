@@ -59,6 +59,9 @@ export type SlideProps = {
     | React.ReactElement<VisualProps>
     | React.ReactElement<VisualProps>[];
   hidden?: boolean;
+  style?: {
+    backgroundColor?: string;
+  };
 };
 export const Slide: React.FC<SlideProps> = ("slide" as unknown) as React.FC;
 
