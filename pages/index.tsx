@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import * as ReactPPTX from "react-pptx";
 import { Presentation, Slide, Image, Text, Shape } from "react-pptx";
 import Preview from "react-pptx/preview";
 import { transform } from "buble";
@@ -101,7 +102,20 @@ const Previewer = () => {
       run();
     });
   }, []);
-  return <Preview slideStyle={{ border: "1px solid black" }}>{doc}</Preview>;
+  return (
+    <div>
+      {doc && (
+        <button
+          onClick={() => {
+            ReactPPTX.render(doc, {outputType: "blob"}).then((blob) => console.log(blob));
+          }}
+        >
+          download
+        </button>
+      )}
+      <Preview slideStyle={{ border: "1px solid black" }}>{doc}</Preview>
+    </div>
+  );
 };
 
 ReactDOM.render(<Previewer />, document.getElementById("output"));

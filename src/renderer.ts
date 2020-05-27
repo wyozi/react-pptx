@@ -87,9 +87,20 @@ const renderSlide = async (
   );
 };
 
-export const render = async (node: React.ReactElement<PresentationProps>): Promise<
-  any
-> => {
+export interface RenderOptions {
+  outputType:
+    | "arraybuffer"
+    | "base64"
+    | "binarystring"
+    | "blob"
+    | "nodebuffer"
+    | "uint8array";
+}
+
+export const render = async (
+  node: React.ReactElement<PresentationProps>,
+  opts?: RenderOptions
+): Promise<string | Blob | ArrayBuffer | Buffer | Uint8Array> => {
   const normalized = normalizeJsx(node);
   const pres: PptxGenJs = new pptxgen();
 
@@ -110,5 +121,5 @@ export const render = async (node: React.ReactElement<PresentationProps>): Promi
     })
   );
 
-  return pres.write("nodebuffer");
+  return pres.write(opts?.outputType ?? "nodebuffer");
 };

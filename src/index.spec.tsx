@@ -8,7 +8,9 @@ describe("test render", () => {
     const test = (
       <Presentation>
         <Slide>
-          <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>Hello there!</Text>
+          <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
+            Hello there!
+          </Text>
           <Shape
             type="rect"
             style={{ x: 3, y: 1.55, w: 3, h: 0.1, backgroundColor: "#FF0000" }}
@@ -22,7 +24,7 @@ describe("test render", () => {
         </Slide>
       </Presentation>
     );
-    const rendered = await render(test);
-    fs.writeFileSync("test.pptx", rendered);
+    const rendered = await render(test, { outputType: "nodebuffer" });
+    fs.writeFileSync("test.pptx", rendered as Buffer);
   }, 25000);
 });
