@@ -7,24 +7,35 @@ React wrapper for [PptxGenJS](https://gitbrent.github.io/PptxGenJS/). Try at htt
 <img align="right" width="400" height="450" src="./README_Slides.jpg">
 
 ```jsx
-import { Presentation, Slide, Text, Shape, Image, render } from "react-pptx";
+import {
+  Presentation, Slide, Text,
+  Shape, Image, render
+} from "react-pptx";
 import fs from "fs";
 
 render(
   <Presentation>
     <Slide>
-      <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
+      <Text style={{
+        x: 3, y: 1, w: 3, h: 0.5,
+        fontSize: 32
+      }}>
         Hello there!
       </Text>
       <Shape
         type="rect"
-        style={{ x: 3, y: 1.55, w: 3, h: 0.1, backgroundColor: "#FF0000" }}
+        style={{
+          x: 3, y: 1.55, w: 3, h: 0.1,
+          backgroundColor: "#FF0000"
+        }}
       />
     </Slide>
     <Slide>
       <Image
         url="http://www.fillmurray.com/460/300"
-        style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
+        style={{
+          x: "10%", y: "10%", w: "80%", h: "80%"
+        }}
       />
     </Slide>
   </Presentation>
