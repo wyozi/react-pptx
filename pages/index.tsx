@@ -84,9 +84,8 @@ const editor = monaco.editor.create(
 const Previewer = () => {
   const [doc, setDoc] = React.useState(null);
   React.useEffect(() => {
-    editor.onDidChangeModelContent((event) => {
+    const run = () => {
       const code = editor.getValue();
-
       transpile(
         code,
         function (doc) {
@@ -96,6 +95,10 @@ const Previewer = () => {
           console.log(err);
         }
       );
+    };
+    run();
+    editor.onDidChangeModelContent((event) => {
+      run();
     });
   }, []);
   return <Preview slideStyle={{ border: "1px solid black" }}>{doc}</Preview>;
