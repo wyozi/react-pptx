@@ -24,7 +24,7 @@ export type InternalText = ObjectBase & {
   kind: "text";
   text: string;
   style: {
-    color: HexColor;
+    color: HexColor | null;
     fontFace: string;
     fontSize: number; // In points
     align: "left" | "right" | "center";
@@ -78,7 +78,7 @@ const normalizeSlideObject = (
         y,
         w,
         h,
-        color: renderColor(style.color ?? "#000000"),
+        color: style.color ? renderColor(style.color) : null,
         fontFace: style.fontFace ?? "Arial",
         fontSize: style.fontSize ?? 18,
         align: style.align ?? "left",

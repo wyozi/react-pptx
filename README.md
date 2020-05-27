@@ -75,7 +75,7 @@ Text layer
 | `style.y` | number (inches) or string (percentage) |  | Absolute `y` coordinate |
 | `style.w` | number (inches) or string (percentage) |  | Absolute width |
 | `style.h` | number (inches) or string (percentage) |  | Absolute height |
-| `style.color` | color in hex format | `#000000` | Text color |
+| `style.color` | color in hex format | | Text color |
 | `style.fontFace` | string | Arial | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
 | `style.fontSize` | size in **points** | 18 | Font size. Defined in points (96 dpi by default) |
 | `style.align` | "left" or "center" or "right" | left | Horizontal text alignment within the text box |
