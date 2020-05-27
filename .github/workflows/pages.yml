@@ -14,7 +14,9 @@ jobs:
         with:
           node-version: "12"
           registry-url: 'https://npm.pkg.github.com'
-      - name: Build
+      - name: Build package
+        run: yarn && yarn build
+      - name: Build pages
         run: cd pages && yarn && yarn build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
