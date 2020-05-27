@@ -115,7 +115,9 @@ const SlidePreview = ({
       style={{
         width: "100%",
         height: width / (dimensions[0] / dimensions[1]),
-        backgroundColor: slide.backgroundColor ?? "white",
+        backgroundColor: slide.backgroundColor
+          ? `#${slide.backgroundColor}`
+          : "white",
         position: "relative",
         ...slideStyle,
       }}
