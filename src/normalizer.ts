@@ -1,4 +1,5 @@
 import type PptxGenJs from "pptxgenjs";
+import d3 from "d3-color";
 import {
   PresentationProps,
   SlideProps,
@@ -9,6 +10,11 @@ import {
 } from "./nodes";
 
 type HexColor = string; // 6-Character hex (without prefix hash)
+type ComplexColor = {
+  type: "solid";
+  color: HexColor;
+  alpha: number; // [0, 100]
+};
 type Position = number | string; // number (inches) or string (`{percentage}%`)
 
 type ObjectBase = {
@@ -24,7 +30,7 @@ export type InternalText = ObjectBase & {
   kind: "text";
   text: string;
   style: {
-    color: HexColor | null;
+    color: HexColor | ComplexColor | null;
     fontFace: string;
     fontSize: number; // In points
     align: "left" | "right" | "center";
@@ -43,7 +49,7 @@ export type InternalShape = ObjectBase & {
   type: keyof typeof PptxGenJs.ShapeType;
   text: string | null;
   style: {
-    backgroundColor: HexColor;
+    backgroundColor: HexColor | ComplexColor;
   };
 };
 
@@ -60,11 +66,30 @@ export type InternalPresentation = {
   layout: "16x9" | "16x10" | "4x3" | "wide";
 };
 
-const renderColor = (color: string) => {
-  if (color.charAt(0) === "#") {
-    return color.substring(1).toUpperCase();
+const normalizeHexColor = (colorString: string): HexColor => {
+  const clr = d3.color(colorString);
+  if (!clr) {
+    throw new TypeError(`Failed to parse '${colorString}' into a color`);
+  }
+
+  return clr.formatHex().substring(1).toUpperCase();
+};
+const normalizeHexOrComplexColor = (colorString: string): HexColor | ComplexColor => {
+  const clr = d3.color(colorString);
+  if (!clr) {
+    throw new TypeError(`Failed to parse '${colorString}' into a color`);
+  }
+
+  const hexColor = clr.formatHex().substring(1).toUpperCase();
+
+  if (clr.opacity === 1) {
+    return hexColor;
   } else {
-    return color;
+    return {
+      type: "solid",
+      color: hexColor,
+      alpha: Math.round(clr.opacity * 100),
+    };
   }
 };
 
@@ -82,7 +107,7 @@ const normalizeSlideObject = (
         y,
         w,
         h,
-        color: style.color ? renderColor(style.color) : null,
+        color: style.color ? normalizeHexOrComplexColor(style.color) : null,
         fontFace: style.fontFace ?? "Arial",
         fontSize: style.fontSize ?? 18,
         align: style.align ?? "left",
@@ -111,7 +136,7 @@ const normalizeSlideObject = (
         y,
         w,
         h,
-        backgroundColor: renderColor(
+        backgroundColor: normalizeHexOrComplexColor(
           node.props.style.backgroundColor ?? "#FFFFFF"
         ),
       },
@@ -124,7 +149,7 @@ const normalizeSlide = ({
   const slide = {
     hidden: props.hidden ?? false,
     backgroundColor: props?.style?.backgroundColor
-      ? renderColor(props.style.backgroundColor)
+      ? normalizeHexColor(props.style.backgroundColor)
       : null,
     objects: [],
   };

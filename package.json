@@ -32,6 +32,7 @@
   "dependencies": {
     "@rollup/plugin-node-resolve": "^8.0.0",
     "cross-fetch": "^3.0.4",
+    "d3-color": "^1.4.1",
     "pptxgenjs": "^3.2.1"
   },
   "jest": {
