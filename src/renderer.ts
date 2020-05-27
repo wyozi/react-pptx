@@ -1,7 +1,7 @@
 import pptxgen from "pptxgenjs";
 import fetch from "cross-fetch";
-import { SlideElement, VisualElement } from "./augmentations";
 import type PptxGenJs from "pptxgenjs";
+import { VisualProps, isText, isImage, isShape, SlideProps, PresentationProps } from "./nodes";
 
 const renderColor = (color: string) => {
   if (color.charAt(0) === "#") {
@@ -14,10 +14,10 @@ const renderColor = (color: string) => {
 const renderSlideNode = async (
   pres: PptxGenJs,
   slide: PptxGenJs.ISlide,
-  node: VisualElement
+  node: React.ReactElement<VisualProps>
 ) => {
   const { x, y, w, h } = node.props.style;
-  if (node.type === "text") {
+  if (isText(node)) {
     const style = node.props.style;
     slide.addText(node.props.children ?? "", {
       x,
@@ -30,7 +30,7 @@ const renderSlideNode = async (
       align: style.align,
       valign: style.verticalAlign,
     });
-  } else if (node.type === "image") {
+  } else if (isImage(node)) {
     const req = await fetch(node.props.url);
 
     let data: string;
@@ -58,7 +58,7 @@ const renderSlideNode = async (
       w,
       h,
     });
-  } else if (node.type === "shape") {
+  } else if (isShape(node)) {
     const style = node.props.style;
     const shapeType = pres.ShapeType[node.props.type];
     if (typeof node.props.children === "string") {
@@ -89,7 +89,7 @@ const renderSlideNode = async (
 const renderSlide = async (
   pres: PptxGenJs,
   slide: PptxGenJs.ISlide,
-  { props }: SlideElement
+  { props }: React.ReactElement<SlideProps>
 ) => {
   if (props.hidden !== undefined) {
     slide.hidden = props.hidden;
@@ -105,7 +105,7 @@ const renderSlide = async (
 
 export const render = async ({
   props,
-}: React.ReactElement<React.JSX.IntrinsicElements["presentation"]>): Promise<
+}: React.ReactElement<PresentationProps>): Promise<
   any
 > => {
   const pres: PptxGenJs = new pptxgen();

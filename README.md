@@ -7,27 +7,27 @@ React wrapper for [PptxGenJS](https://gitbrent.github.io/PptxGenJS/).
 <img align="right" width="400" height="450" src="./README_Slides.jpg">
 
 ```jsx
-import * as ReactPPTX from "react-pptx";
+import { Presentation, Slide, Text, Shape, Image, render } from "react-pptx";
 import fs from "fs";
 
-ReactPPTX.render(
-  <presentation>
-    <slide>
-      <text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
+render(
+  <Presentation>
+    <Slide>
+      <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
         Hello there!
-      </text>
-      <shape
+      </Text>
+      <Shape
         type="rect"
         style={{ x: 3, y: 1.55, w: 3, h: 0.1, backgroundColor: "#FF0000" }}
       />
-    </slide>
-    <slide>
-      <image
+    </Slide>
+    <Slide>
+      <Image
         url="http://www.fillmurray.com/460/300"
         style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
       />
-    </slide>
-  </presentation>
+    </Slide>
+  </Presentation>
 ).then(buffer => {
   fs.writeFile("presentation.pptx", buffer);
 });
@@ -43,7 +43,7 @@ ReactPPTX.render(
 
 Asynchronously renders given presentation JSX.
 
-### `<presentation>`
+### `<Presentation>`
 
 Wraps the whole presentation.
 
@@ -53,7 +53,7 @@ Wraps the whole presentation.
 | -- | -- | -- | -- |
 | `layout` | "16x9", "16x10", "4x3", or "wide" | "16x9" | [Slide size](https://gitbrent.github.io/PptxGenJS/docs/usage-pres-options.html#slide-layouts-sizes) |
 
-### `<slide>`
+### `<Slide>`
 
 Represents each slide in the presentation.
 
@@ -63,7 +63,7 @@ Represents each slide in the presentation.
 | -- | -- | -- | -- |
 | `hidden` | boolean | false | Whether this slide is hidden during presenting |
 
-### `<text>`
+### `<Text>`
 
 Text layer
 
@@ -81,7 +81,7 @@ Text layer
 | `style.align` | "left" or "center" or "right" |  | Horizontal text alignment within the text box |
 | `style.verticalAlign` | "top" or "middle" or "bottom" | | Vertical text alignment within the text box |
 
-### `<image>`
+### `<Image>`
 
 Image layer. Images are automatically fetched and embedded into the .pptx files during the rendering phase.
 
@@ -97,7 +97,7 @@ Supports png, jpg, svg, gif and animated gif.
 | `style.w` | number (inches) or string (percentage) | | Absolute width |
 | `style.h` | number (inches) or string (percentage) | | Absolute height |
 
-### `<shape>`
+### `<Shape>`
 
 Shape layer.
 
