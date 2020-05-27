@@ -76,10 +76,10 @@ Text layer
 | `style.w` | number (inches) or string (percentage) |  | Absolute width |
 | `style.h` | number (inches) or string (percentage) |  | Absolute height |
 | `style.color` | color in hex format | `#000000` | Text color |
-| `style.fontFace` | string |  | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
-| `style.fontSize` | size in **points** |  | Font size. Defined in points (96 dpi by default) |
-| `style.align` | "left" or "center" or "right" |  | Horizontal text alignment within the text box |
-| `style.verticalAlign` | "top" or "middle" or "bottom" | | Vertical text alignment within the text box |
+| `style.fontFace` | string | Arial | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
+| `style.fontSize` | size in **points** | 18 | Font size. Defined in points (96 dpi by default) |
+| `style.align` | "left" or "center" or "right" | left | Horizontal text alignment within the text box |
+| `style.verticalAlign` | "top" or "middle" or "bottom" | middle | Vertical text alignment within the text box |
 
 ### `<Image>`
 
@@ -110,7 +110,7 @@ Shape layer.
 | `style.y` | number (inches) or string (percentage) | | Absolute `y` coordinate |
 | `style.w` | number (inches) or string (percentage) | | Absolute width |
 | `style.h` | number (inches) or string (percentage) | | Absolute height |
-| `style.backgroundColor` | color in hex format (`#FF0000`) | | Shape background color |
+| `style.backgroundColor` | color in hex format | `#FF0000` | Shape background color |
 
 
 <details>

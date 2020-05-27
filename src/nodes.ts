@@ -1,4 +1,5 @@
 import type PptxGenJs from "pptxgenjs";
+import { InternalPresentation, InternalText } from "./normalizer";
 
 type VisualBaseProps = {
   style: {
@@ -15,8 +16,8 @@ export type TextProps = VisualBaseProps & {
     color?: string;
     fontFace?: string;
     fontSize?: number;
-    align?: "left" | "right" | "center";
-    verticalAlign?: "top" | "bottom" | "middle";
+    align?: InternalText["style"]["align"];
+    verticalAlign?: InternalText["style"]["verticalAlign"];
   };
 };
 export const Text: React.FC<TextProps> = ("text" as unknown) as React.FC;
@@ -63,6 +64,6 @@ export const Slide: React.FC<SlideProps> = ("slide" as unknown) as React.FC;
 
 export type PresentationProps = {
   children?: React.ReactElement<SlideProps> | React.ReactElement<SlideProps>[];
-  layout?: "16x9" | "16x10" | "4x3" | "wide";
+  layout?: InternalPresentation["layout"];
 };
 export const Presentation: React.FC<PresentationProps> = ("presentation" as unknown) as React.FC;

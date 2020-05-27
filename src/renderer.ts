@@ -1,37 +1,30 @@
 import pptxgen from "pptxgenjs";
 import fetch from "cross-fetch";
 import type PptxGenJs from "pptxgenjs";
-import { VisualProps, isText, isImage, isShape, SlideProps, PresentationProps } from "./nodes";
+import { PresentationProps } from "./nodes";
+import { normalizeJsx, InternalSlide, InternalSlideObject } from "./normalizer";
 
-const renderColor = (color: string) => {
-  if (color.charAt(0) === "#") {
-    return color.substring(1).toUpperCase();
-  } else {
-    return color;
-  }
-};
-
-const renderSlideNode = async (
+const renderSlideObject = async (
   pres: PptxGenJs,
   slide: PptxGenJs.ISlide,
-  node: React.ReactElement<VisualProps>
+  object: InternalSlideObject
 ) => {
-  const { x, y, w, h } = node.props.style;
-  if (isText(node)) {
-    const style = node.props.style;
-    slide.addText(node.props.children ?? "", {
+  const { x, y, w, h } = object.style;
+  if (object.kind === "text") {
+    const style = object.style;
+    slide.addText(object.text, {
       x,
       y,
       w,
       h,
-      color: style.color ? renderColor(style.color) : undefined,
+      color: style.color,
       fontFace: style.fontFace,
       fontSize: style.fontSize,
       align: style.align,
       valign: style.verticalAlign,
     });
-  } else if (isImage(node)) {
-    const req = await fetch(node.props.url);
+  } else if (object.kind === "image") {
+    const req = await fetch(object.url);
 
     let data: string;
     if ("buffer" in req) {
@@ -58,19 +51,17 @@ const renderSlideNode = async (
       w,
       h,
     });
-  } else if (isShape(node)) {
-    const style = node.props.style;
-    const shapeType = pres.ShapeType[node.props.type];
-    if (typeof node.props.children === "string") {
-      slide.addText(node.props.children, {
+  } else if (object.kind === "shape") {
+    const style = object.style;
+    const shapeType = pres.ShapeType[object.type];
+    if (object.text) {
+      slide.addText(object.text, {
         shape: shapeType,
         x,
         y,
         w,
         h,
-        fill: style.backgroundColor
-          ? renderColor(style.backgroundColor)
-          : undefined,
+        fill: style.backgroundColor,
       });
     } else {
       slide.addShape(shapeType, {
@@ -78,9 +69,7 @@ const renderSlideNode = async (
         y,
         w,
         h,
-        fill: style.backgroundColor
-          ? renderColor(style.backgroundColor)
-          : undefined,
+        fill: style.backgroundColor,
       });
     }
   }
@@ -89,50 +78,37 @@ const renderSlideNode = async (
 const renderSlide = async (
   pres: PptxGenJs,
   slide: PptxGenJs.ISlide,
-  { props }: React.ReactElement<SlideProps>
+  node: InternalSlide
 ) => {
-  if (props.hidden !== undefined) {
-    slide.hidden = props.hidden;
-  }
-  if (Array.isArray(props.children)) {
-    return Promise.all(
-      props.children.map((slideNode) => renderSlideNode(pres, slide, slideNode))
-    );
-  } else {
-    return renderSlideNode(pres, slide, props.children);
-  }
+  slide.hidden = node.hidden;
+
+  return Promise.all(
+    node.objects.map((object) => renderSlideObject(pres, slide, object))
+  );
 };
 
-export const render = async ({
-  props,
-}: React.ReactElement<PresentationProps>): Promise<
+export const render = async (node: React.ReactElement<PresentationProps>): Promise<
   any
 > => {
+  const normalized = normalizeJsx(node);
   const pres: PptxGenJs = new pptxgen();
 
-  if (props.layout) {
-    let layout = "LAYOUT_16x9";
-    if (props.layout === "16x10") {
-      layout = "LAYOUT_16x10";
-    } else if (props.layout === "4x3") {
-      layout = "LAYOUT_4x3";
-    } else if (props.layout === "wide") {
-      layout = "LAYOUT_WIDE";
-    }
-    pres.layout = layout;
+  let layout = "LAYOUT_16x9";
+  if (normalized.layout === "16x10") {
+    layout = "LAYOUT_16x10";
+  } else if (normalized.layout === "4x3") {
+    layout = "LAYOUT_4x3";
+  } else if (normalized.layout === "wide") {
+    layout = "LAYOUT_WIDE";
   }
+  pres.layout = layout;
 
-  if (props.children) {
-    const arr = Array.isArray(props.children)
-      ? props.children
-      : [props.children];
-    await Promise.all(
-      arr.map((slideElement) => {
-        const slide = pres.addSlide();
-        return renderSlide(pres, slide, slideElement);
-      })
-    );
-  }
+  await Promise.all(
+    normalized.slides.map((slideNode) => {
+      const slide = pres.addSlide();
+      return renderSlide(pres, slide, slideNode);
+    })
+  );
 
   return pres.write("nodebuffer");
 };
