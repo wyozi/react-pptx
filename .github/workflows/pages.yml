@@ -1,0 +1,26 @@
+name: Dploy pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Build
+        run: cd pages && yarn && yarn build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: pages/dist
+          CLEAN: true
+          SINGLE_COMMIT: true

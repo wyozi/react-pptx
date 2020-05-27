@@ -1,2 +1,4 @@
 node_modules
 dist
+preview
+!src/preview

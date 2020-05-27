@@ -5,7 +5,8 @@
   "module": "dist/index.mjs",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "preview"
   ],
   "scripts": {
     "test": "jest",

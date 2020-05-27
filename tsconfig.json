@@ -5,5 +5,7 @@
     "lib": ["ES2015", "DOM"],
     "jsx": "react",
     "esModuleInterop": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["dist"]
 }
