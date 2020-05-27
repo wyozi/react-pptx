@@ -38,28 +38,17 @@ const transpile = (code, callback, onError) => {
 
 (self as any).MonacoEnvironment = {
   getWorkerUrl: function (moduleId, label) {
-    if (label === "json") {
-      return "./json.worker.js";
-    }
-    if (label === "css") {
-      return "./css.worker.js";
-    }
-    if (label === "html") {
-      return "./html.worker.js";
-    }
-    if (label === "typescript" || label === "javascript") {
+    if (label === "typescript") {
       return "./ts.worker.js";
     }
     return "./editor.worker.js";
   },
 };
 
-import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
 
-const editor = monaco.editor.create(
-  document.getElementById("code-input-container"),
-  {
-    value: `ReactPPTX.render(
+const code = `ReactPPTX.render(
   <Presentation>
     <Slide>
       <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
@@ -77,8 +66,17 @@ const editor = monaco.editor.create(
       />
     </Slide>
   </Presentation>
-)`,
-    language: "javascript",
+)`;
+const model = monaco.editor.createModel(
+  code,
+  "typescript",
+  monaco.Uri.parse("file:///main.tsx")
+);
+
+const editor = monaco.editor.create(
+  document.getElementById("code-input-container"),
+  {
+    model,
   }
 );
 
@@ -107,7 +105,9 @@ const Previewer = () => {
       {doc && (
         <button
           onClick={() => {
-            ReactPPTX.render(doc, {outputType: "blob"}).then((blob) => console.log(blob));
+            ReactPPTX.render(doc, { outputType: "blob" }).then((blob) =>
+              console.log(blob)
+            );
           }}
         >
           download
