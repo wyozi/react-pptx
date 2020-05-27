@@ -1,0 +1,24 @@
+{
+  "name": "pages",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build-worker": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps",
+    "build-ts-worker": "parcel build node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js --no-source-maps",
+    "build": "yarn build-ts-worker && yarn build-worker && yarn parcel build index.html"
+  },
+  "dependencies": {
+    "buble": "^0.20.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-pptx": "file:../"
+  },
+  "devDependencies": {
+    "monaco-editor": "^0.20.0",
+    "parcel-bundler": "^1.12.4"
+  },
+  "alias": {
+    "react": "./node_modules/react"
+  }
+}
