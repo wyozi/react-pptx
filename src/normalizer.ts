@@ -9,7 +9,7 @@ import {
 } from "./nodes";
 
 type HexColor = string; // 6-Character hex (without prefix hash)
-type Position = number | string; // number (pixels) or string (`{percentage}%`)
+type Position = number | string; // number (inches) or string (`{percentage}%`)
 
 type ObjectBase = {
   style: {
