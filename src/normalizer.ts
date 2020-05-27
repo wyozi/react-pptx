@@ -34,6 +34,9 @@ export type InternalText = ObjectBase & {
 export type InternalImage = ObjectBase & {
   kind: "image";
   url: string;
+  style: {
+    backgroundSize: "contain" | "cover" | null;
+  };
 };
 export type InternalShape = ObjectBase & {
   kind: "shape";
@@ -87,7 +90,17 @@ const normalizeSlideObject = (
       },
     };
   } else if (isImage(node)) {
-    return { kind: "image", url: node.props.url, style: { x, y, w, h } };
+    return {
+      kind: "image",
+      url: node.props.url,
+      style: {
+        x,
+        y,
+        w,
+        h,
+        backgroundSize: node.props.style.backgroundSize ?? null,
+      },
+    };
   } else if (isShape(node)) {
     return {
       kind: "shape",

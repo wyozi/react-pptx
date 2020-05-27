@@ -29,6 +29,9 @@ export const isText = (
 
 export type ImageProps = VisualBaseProps & {
   url: string;
+  style: {
+    backgroundSize?: "contain" | "cover";
+  };
 };
 export const Image: React.FC<ImageProps> = ("image" as unknown) as React.FC;
 export const isImage = (

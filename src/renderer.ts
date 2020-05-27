@@ -50,6 +50,7 @@ const renderSlideObject = async (
       y,
       w,
       h,
+      type: object.style.backgroundSize
     });
   } else if (object.kind === "shape") {
     const style = object.style;

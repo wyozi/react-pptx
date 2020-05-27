@@ -45,7 +45,9 @@ const SlideObjectPreview = ({
       {object.kind === "text" ? (
         <div
           style={{
-            fontSize: (object.style.fontSize * POINTS_TO_INCHES / dimensions[0] * slideWidth),
+            fontSize:
+              ((object.style.fontSize * POINTS_TO_INCHES) / dimensions[0]) *
+              slideWidth,
             color: `#${object.style.color}`,
             fontFamily: object.style.fontFace,
             display: "flex",
@@ -55,7 +57,14 @@ const SlideObjectPreview = ({
           {object.text}
         </div>
       ) : object.kind === "image" ? (
-        <img src={object.url} style={{ width: "100%", height: "100%" }} />
+        <img
+          src={object.url}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: object.style.backgroundSize,
+          }}
+        />
       ) : (
         <div
           style={{
