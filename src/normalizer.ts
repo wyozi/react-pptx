@@ -1,5 +1,5 @@
 import type PptxGenJs from "pptxgenjs";
-import d3 from "d3-color";
+import Color from "color";
 import {
   PresentationProps,
   SlideProps,
@@ -67,29 +67,29 @@ export type InternalPresentation = {
 };
 
 const normalizeHexColor = (colorString: string): HexColor => {
-  const clr = d3.color(colorString);
+  const clr = Color(colorString);
   if (!clr) {
     throw new TypeError(`Failed to parse '${colorString}' into a color`);
   }
 
-  return clr.formatHex().substring(1).toUpperCase();
+  return clr.hex().substring(1).toUpperCase();
 };
 const normalizeHexOrComplexColor = (colorString: string): HexColor | ComplexColor => {
-  const clr = d3.color(colorString);
+  const clr = Color(colorString);
   if (!clr) {
     throw new TypeError(`Failed to parse '${colorString}' into a color`);
   }
 
-  const hexColor = clr.formatHex().substring(1).toUpperCase();
+  const hexColor = clr.hex().substring(1).toUpperCase();
 
-  if (clr.opacity === 1) {
+  if (clr.alpha() === 1) {
     return hexColor;
   } else {
     return {
       type: "solid",
       color: hexColor,
       // Alpha is actually transparency (ie. 0=opaque, 1=fully transparent)
-      alpha: 100 - Math.round(clr.opacity * 100),
+      alpha: 100 - Math.round(clr.alpha() * 100),
     };
   }
 };

@@ -13,7 +13,13 @@ describe("test render", () => {
           </Text>
           <Shape
             type="rect"
-            style={{ x: 3, y: 1.55, w: 3, h: 0.1, backgroundColor: "#FF0000" }}
+            style={{
+              x: 3,
+              y: 1.55,
+              w: 3,
+              h: 0.1,
+              backgroundColor: "rgba(255, 0, 0, 0.4)",
+            }}
           />
         </Slide>
         <Slide>
