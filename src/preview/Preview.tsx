@@ -122,8 +122,9 @@ const SlidePreview = ({
         ...slideStyle,
       }}
     >
-      {slide.objects.map((o) => (
+      {slide.objects.map((o, i) => (
         <SlideObjectPreview
+          key={i}
           object={o}
           dimensions={dimensions}
           slideWidth={width}
@@ -159,8 +160,9 @@ const Preview = (props: {
         width: "100%",
       }}
     >
-      {normalized.slides.map((slide) => (
+      {normalized.slides.map((slide, i) => (
         <SlidePreview
+          key={i}
           slide={slide}
           dimensions={layoutToInches(normalized.layout)}
           slideStyle={props.slideStyle}
