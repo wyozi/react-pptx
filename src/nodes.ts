@@ -10,6 +10,8 @@ type VisualBaseProps = {
   };
 };
 
+type ChildElement<P> = React.ReactElement<P> | ChildElement<P>[];
+
 export type TextProps = VisualBaseProps & {
   children?: string;
   style?: {
@@ -58,9 +60,7 @@ export type VisualProps = TextProps | ImageProps | ShapeProps;
 export type Visual = typeof Text | typeof Image | typeof Shape;
 
 export type SlideProps = {
-  children?:
-    | React.ReactElement<VisualProps>
-    | React.ReactElement<VisualProps>[];
+  children?: ChildElement<VisualProps>;
   hidden?: boolean;
   style?: {
     backgroundColor?: string;
@@ -69,7 +69,7 @@ export type SlideProps = {
 export const Slide: React.FC<SlideProps> = ("slide" as unknown) as React.FC;
 
 export type PresentationProps = {
-  children?: React.ReactElement<SlideProps> | React.ReactElement<SlideProps>[];
+  children?: ChildElement<SlideProps>;
   layout?: InternalPresentation["layout"];
 };
 export const Presentation: React.FC<PresentationProps> = ("presentation" as unknown) as React.FC;

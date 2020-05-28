@@ -59,6 +59,12 @@ import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
 import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
 
 // @ts-ignore
+import coreDefs from "!!raw-loader!../node_modules/typescript/lib/lib.es5.d.ts";
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
+  coreDefs as any,
+  "file:///node_modules/@types/deflib/index.d.ts"
+);
+// @ts-ignore
 import reactTypes from "!!raw-loader!../node_modules/@types/react/index.d.ts";
 monaco.languages.typescript.typescriptDefaults.addExtraLib(
   reactTypes as any,
@@ -127,6 +133,7 @@ const editor = monaco.editor.create(
 
 const Previewer = () => {
   const [doc, setDoc] = React.useState(null);
+  const [disableDownload, setDisableDownload] = React.useState(false);
   const [showInternal, setShowInternal] = React.useState(false);
   React.useEffect(() => {
     const run = () => {
@@ -160,6 +167,7 @@ const Previewer = () => {
       {doc && (
         <button
           onClick={() => {
+            setDisableDownload(true);
             ReactPPTX.render(doc, { outputType: "blob" }).then(
               (blob) => {
                 const a = document.createElement("a");
@@ -168,12 +176,17 @@ const Previewer = () => {
                 a.download = "presentation.pptx";
                 a.click();
                 URL.revokeObjectURL(url);
+                setDisableDownload(false);
               },
-              (err) => console.warn(err)
+              (err) => {
+                console.warn(err);
+                setDisableDownload(false);
+              }
             );
           }}
+          disabled={disableDownload}
         >
-          download
+          download as .pptx
         </button>
       )}
       <label>
@@ -195,9 +208,7 @@ const Previewer = () => {
               zIndex: 1,
             }}
           >
-            {normalizedDoc
-              ? JSON.stringify(normalizedDoc, undefined, 2)
-              : ""}
+            {normalizedDoc ? JSON.stringify(normalizedDoc, undefined, 2) : ""}
           </div>
         )}
         <Preview slideStyle={{ border: "1px solid black" }}>{doc}</Preview>
