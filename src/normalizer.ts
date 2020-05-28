@@ -142,16 +142,18 @@ const normalizeSlideObject = (
         ),
       },
     };
+  } else {
+    throw new Error("unknown slide object");
   }
 };
 const normalizeSlide = ({
   props,
 }: React.ReactElement<SlideProps>): InternalSlide => {
-  const slide = {
+  const slide: InternalSlide = {
     hidden: props.hidden ?? false,
     backgroundColor: props?.style?.backgroundColor
       ? normalizeHexColor(props.style.backgroundColor)
-      : null,
+      : undefined,
     objects: [],
   };
   if (props.children) {
@@ -165,7 +167,7 @@ const normalizeSlide = ({
 export const normalizeJsx = ({
   props,
 }: React.ReactElement<PresentationProps>): InternalPresentation => {
-  const pres = {
+  const pres: InternalPresentation = {
     layout: props.layout ?? "16x9",
     slides: [],
   };

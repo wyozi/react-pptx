@@ -64,7 +64,7 @@ const SlideObjectPreview = ({
               slideWidth,
             color: object.style.color
               ? normalizedColorToCSS(object.style.color)
-              : null,
+              : undefined,
             fontFamily: object.style.fontFace,
             display: "flex",
             alignItems: object.style.verticalAlign,
@@ -78,7 +78,7 @@ const SlideObjectPreview = ({
           style={{
             width: "100%",
             height: "100%",
-            objectFit: object.style.backgroundSize,
+            objectFit: object.style.backgroundSize ?? undefined,
           }}
         />
       ) : (
@@ -88,7 +88,7 @@ const SlideObjectPreview = ({
             height: "100%",
             backgroundColor: object.style.backgroundColor
               ? normalizedColorToCSS(object.style.backgroundColor)
-              : null,
+              : undefined,
           }}
         ></div>
       )}
@@ -96,7 +96,7 @@ const SlideObjectPreview = ({
   );
 };
 
-const useResize = (myRef) => {
+const useResize = (myRef: any) => {
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
 
@@ -125,7 +125,7 @@ const SlidePreview = ({
   dimensions: [number, number];
   slideStyle?: React.CSSProperties;
 }) => {
-  const ref = React.useRef();
+  const ref = React.useRef<HTMLDivElement>(null);
   const { width } = useResize(ref);
   return (
     <div
