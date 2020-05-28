@@ -105,9 +105,14 @@ const Previewer = () => {
       {doc && (
         <button
           onClick={() => {
-            ReactPPTX.render(doc, { outputType: "blob" }).then((blob) =>
-              console.log(blob)
-            );
+            ReactPPTX.render(doc, { outputType: "blob" }).then((blob) => {
+              const a = document.createElement("a");
+              const url = URL.createObjectURL(blob);
+              a.href = url;
+              a.download = "presentation.pptx";
+              a.click();
+              URL.revokeObjectURL(url);
+            });
           }}
         >
           download
