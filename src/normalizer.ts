@@ -8,6 +8,7 @@ import {
   isImage,
   isShape,
 } from "./nodes";
+import React from "react";
 
 export type HexColor = string; // 6-Character hex (without prefix hash)
 export type ComplexColor = {
@@ -74,7 +75,9 @@ const normalizeHexColor = (colorString: string): HexColor => {
 
   return clr.hex().substring(1).toUpperCase();
 };
-const normalizeHexOrComplexColor = (colorString: string): HexColor | ComplexColor => {
+const normalizeHexOrComplexColor = (
+  colorString: string
+): HexColor | ComplexColor => {
   const clr = Color(colorString);
   if (!clr) {
     throw new TypeError(`Failed to parse '${colorString}' into a color`);
@@ -157,10 +160,7 @@ const normalizeSlide = ({
     objects: [],
   };
   if (props.children) {
-    const arr = Array.isArray(props.children)
-      ? props.children
-      : [props.children];
-    slide.objects = arr.map(normalizeSlideObject);
+    slide.objects = React.Children.map(props.children, normalizeSlideObject);
   }
   return slide;
 };
@@ -172,10 +172,7 @@ export const normalizeJsx = ({
     slides: [],
   };
   if (props.children) {
-    const arr = Array.isArray(props.children)
-      ? props.children
-      : [props.children];
-    pres.slides = arr.map(normalizeSlide);
+    pres.slides = React.Children.map(props.children, normalizeSlide);
   }
   return pres;
 };

@@ -160,18 +160,10 @@ const Preview = (props: {
     return null;
   }
 
-  const arr = Array.isArray(props.children) ? props.children : [props.children];
-  if (arr.length === 0) {
-    return null;
-  } else if (arr.length > 1) {
-    console.warn(
-      "attempted to render more than one presentation in a single Preview node"
-    );
-    return null;
-  }
+  const presentationNode = React.Children.only(props.children);
 
   try {
-    const normalized = normalizeJsx(arr[0]);
+    const normalized = normalizeJsx(presentationNode);
 
     return (
       <div
