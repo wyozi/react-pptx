@@ -3073,6 +3073,11 @@ stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
 
+stretch-layout@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/stretch-layout/-/stretch-layout-0.3.2.tgz#981b96edde17a0b037fc75d5c9edb64d10a31dc8"
+  integrity sha512-2qqb2mEB6mgDPeyZDWV0RBhhvI9Aq2voALc50mdFwq1/4d/hzzK7DfPzKtSQaVCoIu9dC84/BmPv0EDrjzkiBw==
+
 string-length@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/string-length/-/string-length-2.0.0.tgz#d40dbb686a3ace960c1cffca562bf2c45f8363ed"

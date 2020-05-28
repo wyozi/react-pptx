@@ -43,4 +43,15 @@ export default [
     external,
     plugins,
   },
+  {
+    input: "src/layout/Flex.tsx",
+    output: [
+      {
+        format: "cjs",
+        file: "flex/index.js",
+      },
+    ],
+    external,
+    plugins,
+  },
 ];

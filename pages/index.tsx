@@ -2,10 +2,11 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as ReactPPTX from "react-pptx";
 import { Presentation, Slide, Image, Text, Shape } from "react-pptx";
+import Flex from "react-pptx/flex";
 import Preview from "react-pptx/preview";
 import { transform } from "buble";
 
-const primitives = { Presentation, Slide, Image, Text, Shape };
+const primitives = { Presentation, Slide, Image, Text, Shape, Flex };
 
 const transpile = (code, callback, onError) => {
   try {
