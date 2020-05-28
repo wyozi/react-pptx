@@ -51,8 +51,6 @@ import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
 import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
 
-console.log(monaco);
-
 // @ts-ignore
 import reactTypes from "!!raw-loader!../node_modules/@types/react/index.d.ts";
 monaco.languages.typescript.typescriptDefaults.addExtraLib(
@@ -146,7 +144,7 @@ const Previewer = () => {
               a.download = "presentation.pptx";
               a.click();
               URL.revokeObjectURL(url);
-            });
+            }, err => console.warn(err));
           }}
         >
           download

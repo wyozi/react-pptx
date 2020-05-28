@@ -152,23 +152,36 @@ const Preview = (props: {
     return null;
   }
 
-  const normalized = normalizeJsx(arr[0]);
+  try {
+    const normalized = normalizeJsx(arr[0]);
 
-  return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
-      {normalized.slides.map((slide, i) => (
-        <SlidePreview
-          key={i}
-          slide={slide}
-          dimensions={layoutToInches(normalized.layout)}
-          slideStyle={props.slideStyle}
-        />
-      ))}
-    </div>
-  );
+    return (
+      <div
+        style={{
+          width: "100%",
+        }}
+      >
+        {normalized.slides.map((slide, i) => (
+          <SlidePreview
+            key={i}
+            slide={slide}
+            dimensions={layoutToInches(normalized.layout)}
+            slideStyle={props.slideStyle}
+          />
+        ))}
+      </div>
+    );
+  } catch (e) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          color: "orange"
+        }}
+      >
+        invalid JSX: {e.toString()}
+      </div>
+    )
+  }
 };
 export default Preview;
