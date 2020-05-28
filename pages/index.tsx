@@ -61,7 +61,7 @@ const code = `ReactPPTX.render(
     </Slide>
     <Slide>
       <Image
-        url="http://www.fillmurray.com/460/300"
+        url="https://source.unsplash.com/random/800x600"
         style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
       />
     </Slide>
