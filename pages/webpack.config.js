@@ -18,6 +18,10 @@ module.exports = {
         use: ["file-loader"],
       },
       {
+        test: /\.d\.ts$/i,
+        use: 'raw-loader',
+      },
+      {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,

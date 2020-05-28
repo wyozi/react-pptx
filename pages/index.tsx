@@ -45,8 +45,42 @@ const transpile = (code, callback, onError) => {
   },
 };
 
+import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
+import "monaco-editor/esm/vs/editor/contrib/hover/hover.js";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
 import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
+
+console.log(monaco);
+
+// @ts-ignore
+import reactTypes from "!!raw-loader!../node_modules/@types/react/index.d.ts";
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
+  reactTypes as any,
+  "file:///node_modules/@types/react/index.d.ts"
+);
+// @ts-ignore
+import nodesTypes from "!!raw-loader!../dist/nodes.d.ts";
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
+  `export declare function fdsfsdfs(a: number, b: number): number
+  declare global {
+    ${(nodesTypes as any).replace(/export declare/, "declare")}
+  }`,
+  "file:///node_modules/@types/react-pptx-nodes/index.d.ts"
+);
+monaco.languages.typescript.typescriptDefaults.addExtraLib(
+  `export declare function add(a: number, b: number): number
+  declare global {
+    namespace ReactPPTX {
+      declare function render(node: React.ReactElement<PresentationProps>):
+    }
+  }`,
+  "file:///node_modules/@types/react-pptx/index.d.ts"
+);
+monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+  jsx: monaco.languages.typescript.JsxEmit.Preserve,
+  noLib: true
+});
 
 const code = `ReactPPTX.render(
   <Presentation>
