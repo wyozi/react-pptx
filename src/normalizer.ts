@@ -9,8 +9,8 @@ import {
   isShape,
 } from "./nodes";
 
-type HexColor = string; // 6-Character hex (without prefix hash)
-type ComplexColor = {
+export type HexColor = string; // 6-Character hex (without prefix hash)
+export type ComplexColor = {
   type: "solid";
   color: HexColor;
   alpha: number; // [0, 100]
@@ -30,7 +30,7 @@ export type InternalText = ObjectBase & {
   kind: "text";
   text: string;
   style: {
-    color: HexColor | ComplexColor | null;
+    color: HexColor | null;
     fontFace: string;
     fontSize: number; // In points
     align: "left" | "right" | "center";
@@ -88,7 +88,8 @@ const normalizeHexOrComplexColor = (colorString: string): HexColor | ComplexColo
     return {
       type: "solid",
       color: hexColor,
-      alpha: Math.round(clr.opacity * 100),
+      // Alpha is actually transparency (ie. 0=opaque, 1=fully transparent)
+      alpha: 100 - Math.round(clr.opacity * 100),
     };
   }
 };
@@ -107,7 +108,7 @@ const normalizeSlideObject = (
         y,
         w,
         h,
-        color: style.color ? normalizeHexOrComplexColor(style.color) : null,
+        color: style.color ? normalizeHexColor(style.color) : null,
         fontFace: style.fontFace ?? "Arial",
         fontSize: style.fontSize ?? 18,
         align: style.align ?? "left",
