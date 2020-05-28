@@ -4,8 +4,22 @@ import {
   normalizeJsx,
   InternalSlide,
   InternalSlideObject,
+  HexColor,
+  ComplexColor,
 } from "../normalizer";
 import { layoutToInches, POINTS_TO_INCHES } from "../util";
+
+const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
+  if (typeof color === "string") {
+    return `#${color}`;
+  } else {
+    const r = parseInt(color.color.substring(0, 2), 16);
+    const g = parseInt(color.color.substring(2, 4), 16);
+    const b = parseInt(color.color.substring(4, 6), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${1 - (color.alpha / 100)})`;
+  }
+};
 
 const SlideObjectPreview = ({
   object,
@@ -48,7 +62,9 @@ const SlideObjectPreview = ({
             fontSize:
               ((object.style.fontSize * POINTS_TO_INCHES) / dimensions[0]) *
               slideWidth,
-            color: `#${object.style.color}`,
+            color: object.style.color
+              ? normalizedColorToCSS(object.style.color)
+              : null,
             fontFamily: object.style.fontFace,
             display: "flex",
             alignItems: object.style.verticalAlign,
@@ -70,7 +86,9 @@ const SlideObjectPreview = ({
           style={{
             width: "100%",
             height: "100%",
-            backgroundColor: `#${object.style.backgroundColor}`,
+            backgroundColor: object.style.backgroundColor
+              ? normalizedColorToCSS(object.style.backgroundColor)
+              : null,
           }}
         ></div>
       )}
@@ -152,23 +170,36 @@ const Preview = (props: {
     return null;
   }
 
-  const normalized = normalizeJsx(arr[0]);
+  try {
+    const normalized = normalizeJsx(arr[0]);
 
-  return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
-      {normalized.slides.map((slide, i) => (
-        <SlidePreview
-          key={i}
-          slide={slide}
-          dimensions={layoutToInches(normalized.layout)}
-          slideStyle={props.slideStyle}
-        />
-      ))}
-    </div>
-  );
+    return (
+      <div
+        style={{
+          width: "100%",
+        }}
+      >
+        {normalized.slides.map((slide, i) => (
+          <SlidePreview
+            key={i}
+            slide={slide}
+            dimensions={layoutToInches(normalized.layout)}
+            slideStyle={props.slideStyle}
+          />
+        ))}
+      </div>
+    );
+  } catch (e) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          color: "orange",
+        }}
+      >
+        invalid JSX: {e.toString()}
+      </div>
+    );
+  }
 };
 export default Preview;

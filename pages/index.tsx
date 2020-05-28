@@ -51,8 +51,6 @@ import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
 import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
 
-console.log(monaco);
-
 // @ts-ignore
 import reactTypes from "!!raw-loader!../node_modules/@types/react/index.d.ts";
 monaco.languages.typescript.typescriptDefaults.addExtraLib(
@@ -85,12 +83,17 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
 const code = `ReactPPTX.render(
   <Presentation>
     <Slide>
-      <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
+      <Text style={{
+        x: 3, y: 1, w: 3, h: 0.5, fontSize: 32
+      }}>
         Hello there!
       </Text>
       <Shape
         type="rect"
-        style={{ x: 3, y: 1.55, w: 3, h: 0.1, backgroundColor: "#FF0000" }}
+        style={{
+          x: 3, y: 1.55, w: 3, h: 0.1,
+          backgroundColor: "#FF0000"
+        }}
       />
     </Slide>
     <Slide>
@@ -146,7 +149,7 @@ const Previewer = () => {
               a.download = "presentation.pptx";
               a.click();
               URL.revokeObjectURL(url);
-            });
+            }, err => console.warn(err));
           }}
         >
           download
