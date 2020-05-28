@@ -102,6 +102,7 @@ const code = `ReactPPTX.render(
         style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
       />
     </Slide>
+    {[1, 2, 3].map(n => <Slide />)}
   </Presentation>
 )`;
 const model = monaco.editor.createModel(
@@ -125,6 +126,7 @@ const Previewer = () => {
       transpile(
         code,
         function (doc) {
+          console.log("parsed presentation node: ", doc);
           setDoc(doc);
         },
         function (err) {
