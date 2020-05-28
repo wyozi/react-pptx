@@ -1,7 +1,14 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as ReactPPTX from "react-pptx";
-import { Presentation, Slide, Image, Text, Shape } from "react-pptx";
+import {
+  Presentation,
+  Slide,
+  Image,
+  Text,
+  Shape,
+  normalizeJsx,
+} from "react-pptx";
 import Preview from "react-pptx/preview";
 import { transform } from "buble";
 
@@ -77,7 +84,7 @@ monaco.languages.typescript.typescriptDefaults.addExtraLib(
 );
 monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   jsx: monaco.languages.typescript.JsxEmit.Preserve,
-  noLib: true
+  noLib: true,
 });
 
 const code = `ReactPPTX.render(
@@ -120,6 +127,7 @@ const editor = monaco.editor.create(
 
 const Previewer = () => {
   const [doc, setDoc] = React.useState(null);
+  const [showInternal, setShowInternal] = React.useState(false);
   React.useEffect(() => {
     const run = () => {
       const code = editor.getValue();
@@ -139,25 +147,61 @@ const Previewer = () => {
       run();
     });
   }, []);
+
+  let normalizedDoc;
+  try {
+    normalizedDoc = normalizeJsx(doc);
+  } catch (e) {
+    console.warn("normalization failed ", normalizedDoc);
+  }
+
   return (
     <div>
       {doc && (
         <button
           onClick={() => {
-            ReactPPTX.render(doc, { outputType: "blob" }).then((blob) => {
-              const a = document.createElement("a");
-              const url = URL.createObjectURL(blob);
-              a.href = url;
-              a.download = "presentation.pptx";
-              a.click();
-              URL.revokeObjectURL(url);
-            }, err => console.warn(err));
+            ReactPPTX.render(doc, { outputType: "blob" }).then(
+              (blob) => {
+                const a = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                a.href = url;
+                a.download = "presentation.pptx";
+                a.click();
+                URL.revokeObjectURL(url);
+              },
+              (err) => console.warn(err)
+            );
           }}
         >
           download
         </button>
       )}
-      <Preview slideStyle={{ border: "1px solid black" }}>{doc}</Preview>
+      <label>
+        <input
+          type="checkbox"
+          checked={showInternal}
+          onChange={(e) => setShowInternal(e.target.checked)}
+        />
+        show internal structure (debug)
+      </label>
+      <div style={{ position: "relative" }}>
+        {showInternal && (
+          <div
+            style={{
+              position: "absolute",
+              backgroundColor: "white",
+              right: 0,
+              whiteSpace: "pre",
+              zIndex: 1,
+            }}
+          >
+            {normalizedDoc
+              ? JSON.stringify(normalizedDoc, undefined, 2)
+              : ""}
+          </div>
+        )}
+        <Preview slideStyle={{ border: "1px solid black" }}>{doc}</Preview>
+      </div>
     </div>
   );
 };
