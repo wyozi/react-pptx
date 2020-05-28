@@ -190,6 +190,7 @@ const Preview = (props: {
       </div>
     );
   } catch (e) {
+    console.warn(e);
     return (
       <div
         style={{
