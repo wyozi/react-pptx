@@ -86,7 +86,7 @@ Text layer
 | `style.y` | number (inches) or string (percentage) |  | Absolute `y` coordinate |
 | `style.w` | number (inches) or string (percentage) |  | Absolute width |
 | `style.h` | number (inches) or string (percentage) |  | Absolute height |
-| `style.color` | color in hex format | | Text color |
+| `style.color` | color | | Text color |
 | `style.fontFace` | string | Arial | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
 | `style.fontSize` | size in **points** | 18 | Font size. Defined in points (96 dpi by default) |
 | `style.align` | "left" or "center" or "right" | left | Horizontal text alignment within the text box |
@@ -121,7 +121,7 @@ Shape layer.
 | `style.y` | number (inches) or string (percentage) | | Absolute `y` coordinate |
 | `style.w` | number (inches) or string (percentage) | | Absolute width |
 | `style.h` | number (inches) or string (percentage) | | Absolute height |
-| `style.backgroundColor` | color in hex format | `#FF0000` | Shape background color |
+| `style.backgroundColor` | complex color |  | Shape background color |
 
 
 <details>
@@ -307,4 +307,12 @@ Shape layer.
 - wedgeEllipseCallout
 - wedgeRectCallout
 - wedgeRoundRectCallout
+</details>
+
+<details>
+  <summary><b>Complex colors</b></summary>
+
+  Shapes support complex colors for the backgroundColor property.
+  These are the currently supported complex color types:
+  - Translucent colors (e.g. `rgba(255, 127, 0, 0.5)` for orange at 50% opacity)
 </details>
