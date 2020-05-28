@@ -2,7 +2,7 @@ import type PptxGenJs from "pptxgenjs";
 import { InternalPresentation, InternalText } from "./normalizer";
 
 type VisualBaseProps = {
-  style: {
+  style?: {
     x: number | string;
     y: number | string;
     w: number | string;
@@ -12,7 +12,7 @@ type VisualBaseProps = {
 
 export type TextProps = VisualBaseProps & {
   children?: string;
-  style: {
+  style?: {
     color?: string;
     fontFace?: string;
     fontSize?: number;
@@ -29,7 +29,7 @@ export const isText = (
 
 export type ImageProps = VisualBaseProps & {
   url: string;
-  style: {
+  style?: {
     backgroundSize?: "contain" | "cover";
   };
 };
@@ -43,7 +43,7 @@ export const isImage = (
 export type ShapeProps = VisualBaseProps & {
   type: keyof typeof PptxGenJs.ShapeType;
   children?: string;
-  style: {
+  style?: {
     backgroundColor: string;
   };
 };

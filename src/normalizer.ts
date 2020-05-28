@@ -99,7 +99,11 @@ const normalizeHexOrComplexColor = (
 
 const normalizeSlideObject = (
   node: React.ReactElement<VisualProps>
-): InternalSlideObject => {
+): InternalSlideObject | null => {
+  if (!node.props.style) {
+    return null;
+  }
+
   const { x, y, w, h } = node.props.style;
   if (isText(node)) {
     const style = node.props.style;
@@ -160,7 +164,10 @@ const normalizeSlide = ({
     objects: [],
   };
   if (props.children) {
-    slide.objects = React.Children.map(props.children, normalizeSlideObject);
+    slide.objects = React.Children.map(
+      props.children,
+      normalizeSlideObject
+    ).filter(obj => obj !== null);
   }
   return slide;
 };
