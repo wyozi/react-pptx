@@ -44,10 +44,6 @@ render(
 });
 ```
 
-## Typescript
-
-`react-pptx` includes type declarations, so all the JSX you pass to `render` will be typechecked. Make sure `@types/react` is installed.
-
 ## Api
 
 ### `ReactPPTX.render(<presentation>): Promise<Buffer>`
@@ -316,3 +312,9 @@ Shape layer.
   These are the currently supported complex color types:
   - Translucent colors (e.g. `rgba(255, 127, 0, 0.5)` for orange at 50% opacity)
 </details>
+
+## Credits / Shoutouts
+
+- All the hard work is done in [pptxgenjs](https://github.com/gitbrent/PptxGenJS) by Brent Ely 
+- [react-pdf](https://react-pdf.org/) for REPL code
+- [react-keyed-flatten-children](https://github.com/grrowl/react-keyed-flatten-children)
