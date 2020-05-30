@@ -69,21 +69,13 @@ export type InternalPresentation = {
   layout: "16x9" | "16x10" | "4x3" | "wide";
 };
 
-const normalizeHexColor = (colorString: string): HexColor => {
-  const clr = Color(colorString);
-  if (!clr) {
-    throw new TypeError(`Failed to parse '${colorString}' into a color`);
-  }
-
-  return clr.hex().substring(1).toUpperCase();
+export const normalizeHexColor = (colorString: string): HexColor => {
+  return Color(colorString).hex().substring(1).toUpperCase();
 };
-const normalizeHexOrComplexColor = (
+export const normalizeHexOrComplexColor = (
   colorString: string
 ): HexColor | ComplexColor => {
   const clr = Color(colorString);
-  if (!clr) {
-    throw new TypeError(`Failed to parse '${colorString}' into a color`);
-  }
 
   const hexColor = clr.hex().substring(1).toUpperCase();
 
@@ -99,7 +91,7 @@ const normalizeHexOrComplexColor = (
   }
 };
 
-const normalizeText = (t: TextChild): string => {
+export const normalizeText = (t: TextChild): string => {
   if (Array.isArray(t)) {
     return t.map(normalizeText).join("");
   } else if (typeof t === "number") {
@@ -114,7 +106,7 @@ const normalizeText = (t: TextChild): string => {
 };
 
 const PERCENTAGE_REGEXP = /^\d+%$/;
-const normalizeCoordinate = (
+export const normalizeCoordinate = (
   x: string | number | null,
   _default: number
 ): string | number => {
