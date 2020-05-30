@@ -143,6 +143,7 @@ const editor = monaco.editor.create(
   document.getElementById("code-input-container"),
   {
     model,
+    automaticLayout: true
   }
 );
 
