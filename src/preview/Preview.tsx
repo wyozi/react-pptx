@@ -6,6 +6,7 @@ import {
   InternalSlideObject,
   HexColor,
   ComplexColor,
+  InternalShape,
 } from "../normalizer";
 import { layoutToInches, POINTS_TO_INCHES } from "../util";
 
@@ -18,6 +19,46 @@ const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
     const b = parseInt(color.color.substring(4, 6), 16);
 
     return `rgba(${r}, ${g}, ${b}, ${1 - color.alpha / 100})`;
+  }
+};
+
+const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
+  const baseStyle = {
+    width: "100%",
+    height: "100%",
+    backgroundColor: shape.style.backgroundColor
+      ? normalizedColorToCSS(shape.style.backgroundColor)
+      : undefined,
+  };
+
+  if (shape.type === "rect") {
+    return <div style={baseStyle} />;
+  } else if (shape.type === "ellipse") {
+    return <div style={{ ...baseStyle, borderRadius: "100%" }} />;
+  } else {
+    return (
+      <div
+        style={{
+          ...baseStyle,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            background: `rgba(0, 0, 0, 0) repeating-linear-gradient(45deg, yellow,  yellow 10px, black 10px, black 20px) repeat scroll 0% 0%`,
+            padding: 5,
+            textAlign: "center",
+          }}
+        >
+          <span style={{ backgroundColor: "white", padding: 2 }}>
+            no preview for "{shape.type}"
+          </span>
+        </div>
+      </div>
+    );
   }
 };
 
@@ -57,7 +98,7 @@ const SlideObjectPreview = ({
         width: `${wPercentage}%`,
         height: `${hPercentage}%`,
         border: drawBoundingBoxes ? "1px solid red" : undefined,
-        boxSizing: "border-box"
+        boxSizing: "border-box",
       }}
     >
       {object.kind === "text" ? (
@@ -86,15 +127,7 @@ const SlideObjectPreview = ({
           }}
         />
       ) : (
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            backgroundColor: object.style.backgroundColor
-              ? normalizedColorToCSS(object.style.backgroundColor)
-              : undefined,
-          }}
-        ></div>
+        <SlideObjectShape shape={object} />
       )}
     </div>
   );
