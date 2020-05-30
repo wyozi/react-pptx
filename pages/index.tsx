@@ -116,6 +116,9 @@ const code = `ReactPPTX.render(
       />
     </Slide>
     {[1, 2, 3].map(n => <Slide />)}
+    <>
+      {[1, 2, 3].map(n => <Slide />)}
+    </>
   </Presentation>
 )`;
 const model = monaco.editor.createModel(

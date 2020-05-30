@@ -1,5 +1,6 @@
 import type PptxGenJs from "pptxgenjs";
 import Color from "color";
+import flattenChildren from "react-keyed-flatten-children";
 import {
   PresentationProps,
   SlideProps,
@@ -153,6 +154,10 @@ const normalizeSlideObject = (
     throw new Error("unknown slide object");
   }
 };
+
+const isPresent = <T>(x: T | null): x is T => {
+  return x !== null;
+};
 const normalizeSlide = ({
   props,
 }: React.ReactElement<SlideProps>): InternalSlide => {
@@ -164,10 +169,9 @@ const normalizeSlide = ({
     objects: [],
   };
   if (props.children) {
-    slide.objects = React.Children.map(
-      props.children,
-      normalizeSlideObject
-    ).filter(obj => obj !== null);
+    slide.objects = flattenChildren(props.children)
+      .map(normalizeSlideObject)
+      .filter(isPresent);
   }
   return slide;
 };
@@ -179,7 +183,7 @@ export const normalizeJsx = ({
     slides: [],
   };
   if (props.children) {
-    pres.slides = React.Children.map(props.children, normalizeSlide);
+    pres.slides = flattenChildren(props.children).map(normalizeSlide);
   }
   return pres;
 };
