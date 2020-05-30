@@ -11,9 +11,10 @@ type VisualBaseProps = {
 };
 
 type ChildElement<P> = React.ReactElement<P> | ChildElement<P>[];
+export type TextChild = string | number | TextChild[];
 
 export type TextProps = VisualBaseProps & {
-  children?: string;
+  children?: TextChild;
   style?: {
     color?: string;
     fontFace?: string;
@@ -44,7 +45,7 @@ export const isImage = (
 
 export type ShapeProps = VisualBaseProps & {
   type: keyof typeof PptxGenJs.ShapeType;
-  children?: string;
+  children?: TextChild;
   style?: {
     backgroundColor: string;
   };

@@ -8,6 +8,7 @@ import {
   isText,
   isImage,
   isShape,
+  TextChild,
 } from "./nodes";
 import React from "react";
 
@@ -98,6 +99,20 @@ const normalizeHexOrComplexColor = (
   }
 };
 
+const normalizeText = (t: TextChild): string => {
+  if (Array.isArray(t)) {
+    return t.map(normalizeText).join("");
+  } else if (typeof t === "number") {
+    return t.toString();
+  } else if (typeof t === "string") {
+    return t;
+  } else {
+    throw new TypeError(
+      "Invalid TextChild found; only strings/numbers/arrays of them are accepted"
+    );
+  }
+};
+
 const normalizeSlideObject = (
   node: React.ReactElement<VisualProps>
 ): InternalSlideObject | null => {
@@ -110,7 +125,10 @@ const normalizeSlideObject = (
     const style = node.props.style;
     return {
       kind: "text",
-      text: node.props.children ?? "",
+      text:
+        node.props.children !== undefined
+          ? normalizeText(node.props.children)
+          : "",
       style: {
         x,
         y,
@@ -139,7 +157,10 @@ const normalizeSlideObject = (
     return {
       kind: "shape",
       type: node.props.type,
-      text: node.props.children ?? null,
+      text:
+        node.props.children !== undefined
+          ? normalizeText(node.props.children)
+          : "",
       style: {
         x,
         y,

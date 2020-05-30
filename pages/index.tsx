@@ -115,9 +115,21 @@ const code = `ReactPPTX.render(
         style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
       />
     </Slide>
-    {[1, 2, 3].map(n => <Slide />)}
+    {[1, 2, 3].map(n => (
+      <Slide key={n}>
+        <Text style={{x: "50%", y: "50%", w: "1", h: "0.2"}}>
+          slide {n}
+        </Text> 
+      </Slide>
+    ))}
     <>
-      {[1, 2, 3].map(n => <Slide />)}
+      {[1, 2, 3].map(n => (
+        <Slide key={n}>
+          <Text style={{x: "50%", y: "50%", w: "1", h: "0.2"}}>
+            fragment slide {n}
+          </Text> 
+        </Slide>
+      ))}
     </>
   </Presentation>
 )`;
@@ -162,7 +174,7 @@ const Previewer = () => {
   try {
     normalizedDoc = normalizeJsx(doc);
   } catch (e) {
-    console.warn("normalization failed ", normalizedDoc);
+    console.warn("normalization failed ", e);
   }
 
   return (
