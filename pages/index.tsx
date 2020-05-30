@@ -143,7 +143,7 @@ const editor = monaco.editor.create(
   document.getElementById("code-input-container"),
   {
     model,
-    automaticLayout: true
+    automaticLayout: true,
   }
 );
 
@@ -151,6 +151,7 @@ const Previewer = () => {
   const [doc, setDoc] = React.useState(null);
   const [disableDownload, setDisableDownload] = React.useState(false);
   const [showInternal, setShowInternal] = React.useState(false);
+  const [showBoundingBoxes, setShowBoundingBoxes] = React.useState(false);
   React.useEffect(() => {
     const run = () => {
       const code = editor.getValue();
@@ -211,7 +212,15 @@ const Previewer = () => {
           checked={showInternal}
           onChange={(e) => setShowInternal(e.target.checked)}
         />
-        show internal structure (debug)
+        debug internal structure
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={showBoundingBoxes}
+          onChange={(e) => setShowBoundingBoxes(e.target.checked)}
+        />
+        bounding boxes
       </label>
       <div style={{ position: "relative" }}>
         {showInternal && (
@@ -227,7 +236,12 @@ const Previewer = () => {
             {normalizedDoc ? JSON.stringify(normalizedDoc, undefined, 2) : ""}
           </div>
         )}
-        <Preview slideStyle={{ border: "1px solid black" }}>{doc}</Preview>
+        <Preview
+          slideStyle={{ border: "1px solid black" }}
+          drawBoundingBoxes={showBoundingBoxes}
+        >
+          {doc}
+        </Preview>
       </div>
     </div>
   );

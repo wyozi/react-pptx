@@ -17,7 +17,7 @@ const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
     const g = parseInt(color.color.substring(2, 4), 16);
     const b = parseInt(color.color.substring(4, 6), 16);
 
-    return `rgba(${r}, ${g}, ${b}, ${1 - (color.alpha / 100)})`;
+    return `rgba(${r}, ${g}, ${b}, ${1 - color.alpha / 100})`;
   }
 };
 
@@ -25,10 +25,12 @@ const SlideObjectPreview = ({
   object,
   dimensions,
   slideWidth,
+  drawBoundingBoxes,
 }: {
   object: InternalSlideObject;
   dimensions: [number, number];
   slideWidth: number;
+  drawBoundingBoxes: boolean;
 }) => {
   const xPercentage =
     typeof object.style.x === "number"
@@ -54,6 +56,8 @@ const SlideObjectPreview = ({
         top: `${yPercentage}%`,
         width: `${wPercentage}%`,
         height: `${hPercentage}%`,
+        border: drawBoundingBoxes ? "1px solid red" : undefined,
+        boxSizing: "border-box"
       }}
     >
       {object.kind === "text" ? (
@@ -120,10 +124,12 @@ const SlidePreview = ({
   slide,
   dimensions,
   slideStyle,
+  drawBoundingBoxes,
 }: {
   slide: InternalSlide;
   dimensions: [number, number];
   slideStyle?: React.CSSProperties;
+  drawBoundingBoxes: boolean;
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const { width } = useResize(ref);
@@ -146,6 +152,7 @@ const SlidePreview = ({
           object={o}
           dimensions={dimensions}
           slideWidth={width}
+          drawBoundingBoxes={drawBoundingBoxes}
         />
       ))}
     </div>
@@ -155,6 +162,7 @@ const SlidePreview = ({
 const Preview = (props: {
   children: React.ReactElement<PresentationProps>;
   slideStyle?: React.CSSProperties;
+  drawBoundingBoxes?: boolean;
 }) => {
   if (!props.children) {
     return null;
@@ -177,6 +185,7 @@ const Preview = (props: {
             slide={slide}
             dimensions={layoutToInches(normalized.layout)}
             slideStyle={props.slideStyle}
+            drawBoundingBoxes={!!props.drawBoundingBoxes}
           />
         ))}
       </div>
