@@ -113,14 +113,37 @@ const normalizeText = (t: TextChild): string => {
   }
 };
 
+const PERCENTAGE_REGEXP = /^\d+%$/;
+const normalizeCoordinate = (
+  x: string | number | null,
+  _default: number
+): string | number => {
+  if (typeof x === "string") {
+    if (!PERCENTAGE_REGEXP.test(x)) {
+      throw new TypeError(
+        `"${x}" is invalid position; string positions must be of format '[0-9]+%'`
+      );
+    }
+    return x;
+  } else if (typeof x === "number") {
+    return x;
+  }
+  return _default;
+};
+
 const normalizeSlideObject = (
   node: React.ReactElement<VisualProps>
 ): InternalSlideObject | null => {
   if (!node.props.style) {
-    return null;
+    throw new TypeError(`A ${node.type} object is missing style attribute`);
   }
 
-  const { x, y, w, h } = node.props.style;
+  let { x, y, w, h } = node.props.style;
+  x = normalizeCoordinate(x, 0);
+  y = normalizeCoordinate(y, 0);
+  w = normalizeCoordinate(w, 1);
+  h = normalizeCoordinate(h, 1);
+
   if (isText(node)) {
     const style = node.props.style;
     return {

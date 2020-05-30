@@ -117,7 +117,7 @@ const code = `ReactPPTX.render(
     </Slide>
     {[1, 2, 3].map(n => (
       <Slide key={n}>
-        <Text style={{x: "50%", y: "50%", w: "1", h: "0.2"}}>
+        <Text style={{x: "50%", y: "50%", w: 1, h: 0.2}}>
           slide {n}
         </Text> 
       </Slide>
@@ -125,7 +125,7 @@ const code = `ReactPPTX.render(
     <>
       {[1, 2, 3].map(n => (
         <Slide key={n}>
-          <Text style={{x: "50%", y: "50%", w: "1", h: "0.2"}}>
+          <Text style={{x: "50%", y: "50%", w: 1, h: 0.2}}>
             fragment slide {n}
           </Text> 
         </Slide>
