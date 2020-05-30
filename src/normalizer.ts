@@ -1,6 +1,6 @@
 import type PptxGenJs from "pptxgenjs";
 import Color from "color";
-import flattenChildren from "react-keyed-flatten-children";
+import { flattenChildren } from "./util";
 import {
   PresentationProps,
   SlideProps,

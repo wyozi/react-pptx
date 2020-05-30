@@ -1,4 +1,6 @@
 import { InternalPresentation } from "./normalizer";
+import React from "react";
+import ReactIs from "react-is";
 
 export const POINTS_TO_INCHES = 1 / 72;
 
@@ -16,3 +18,40 @@ export const layoutToInches = (
       return [13.3, 7.5];
   }
 };
+
+// Credits: https://github.com/grrowl/react-keyed-flatten-children
+type PotentialChildren = Array<
+  Exclude<React.ReactNode, boolean | null | undefined>
+>;
+export function flattenChildren(
+  children: React.ReactNode,
+  depth: number = 0,
+  keys: (string | number)[] = []
+): PotentialChildren {
+  return React.Children.toArray(children).reduce(
+    (acc: PotentialChildren, node: React.ReactNode, nodeIndex) => {
+      if (ReactIs.isFragment(node)) {
+        acc.push.apply(
+          acc,
+          flattenChildren(
+            node.props.children,
+            depth + 1,
+            keys.concat(node.key || nodeIndex)
+          )
+        );
+      } else {
+        if (React.isValidElement(node)) {
+          acc.push(
+            React.cloneElement(node, {
+              key: keys.concat(String(node.key)).join("."),
+            })
+          );
+        } else if (typeof node === "string" || typeof node === "number") {
+          acc.push(node);
+        }
+      }
+      return acc;
+    },
+    []
+  ) as PotentialChildren;
+}
