@@ -172,7 +172,7 @@ const Previewer = () => {
 
   let normalizedDoc;
   try {
-    normalizedDoc = normalizeJsx(doc);
+    normalizedDoc = doc ? normalizeJsx(doc) : null;
   } catch (e) {
     console.warn("normalization failed ", e);
   }
