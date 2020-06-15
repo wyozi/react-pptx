@@ -34,7 +34,7 @@
   "dependencies": {
     "@rollup/plugin-node-resolve": "^8.0.1",
     "color": "^3.1.2",
-    "cross-fetch": "^3.0.4",
+    "cross-fetch": "^3.0.5",
     "pptxgenjs": "^3.2.1",
     "react-is": "^16.13.1",
     "react-keyed-flatten-children": "^1.2.0"
