@@ -32,7 +32,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^8.0.1",
+    "@rollup/plugin-node-resolve": "^8.4.0",
     "color": "^3.1.2",
     "cross-fetch": "^3.0.5",
     "pptxgenjs": "^3.2.1",
