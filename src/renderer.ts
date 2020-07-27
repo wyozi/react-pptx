@@ -2,7 +2,16 @@ import pptxgen from "pptxgenjs";
 import fetch from "cross-fetch";
 import type PptxGenJs from "pptxgenjs";
 import { PresentationProps } from "./nodes";
-import { normalizeJsx, InternalSlide, InternalSlideObject } from "./normalizer";
+import { normalizeJsx, InternalSlide, InternalSlideObject, InternalTextPart } from "./normalizer";
+
+const renderTextParts = (parts: InternalTextPart[]) => {
+  return parts.map(part => {
+    return {
+      text: part.text,
+      options: { hyperlink: part.link }
+    }
+  });
+};
 
 const renderSlideObject = async (
   pres: PptxGenJs,
@@ -12,7 +21,7 @@ const renderSlideObject = async (
   const { x, y, w, h } = object.style;
   if (object.kind === "text") {
     const style = object.style;
-    slide.addText(object.text, {
+    slide.addText(renderTextParts(object.text), {
       x,
       y,
       w,
@@ -56,7 +65,7 @@ const renderSlideObject = async (
     const style = object.style;
     const shapeType = pres.ShapeType[object.type];
     if (object.text) {
-      slide.addText(object.text, {
+      slide.addText(renderTextParts(object.text), {
         shape: shapeType,
         x,
         y,

@@ -19,6 +19,14 @@ export const layoutToInches = (
   }
 };
 
+export type ChildElement<P> = React.ReactElement<P> | ChildElement<P>[];
+
+export function isReactElementOrElementArray<T>(
+  arr: any
+): arr is ChildElement<T> {
+  return React.isValidElement(arr);
+}
+
 // Credits: https://github.com/grrowl/react-keyed-flatten-children
 type PotentialChildren = Array<
   Exclude<React.ReactNode, boolean | null | undefined>

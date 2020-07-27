@@ -88,6 +88,18 @@ Text layer
 | `style.align` | "left" or "center" or "right" | left | Horizontal text alignment within the text box |
 | `style.verticalAlign` | "top" or "middle" or "bottom" | middle | Vertical text alignment within the text box |
 
+### `<Text.Link>`
+
+Link to somewhere. Only usable inside `<Text>`. You must specify either `url` or `slide`.
+
+#### Props
+
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `url` | string |  | URL to open |
+| `slide` | number |  | Slide to open |
+| `tooltip` | string |  | Tooltip on hover |
+
 ### `<Image>`
 
 Image layer. Images are automatically fetched and embedded into the .pptx files during the rendering phase.

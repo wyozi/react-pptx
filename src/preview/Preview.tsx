@@ -7,6 +7,7 @@ import {
   HexColor,
   ComplexColor,
   InternalShape,
+  InternalTextPart,
 } from "../normalizer";
 import { layoutToInches, POINTS_TO_INCHES } from "../util";
 
@@ -62,6 +63,33 @@ const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
   }
 };
 
+const TextPreview = ({ parts }: { parts: InternalTextPart[] }) => {
+  return (
+    <>
+      {parts.map((part) => {
+        if (part.link) {
+          if ((part.link as any).url) {
+            return (
+              <a title={part.link.tooltip} href={(part as any).url}>
+                {part.text}
+              </a>
+            );
+          } else if ((part.link as any).slide) {
+            // Not supported yet
+            return (
+              <a title={part.link.tooltip} style={{ cursor: "not-allowed" }}>
+                {part.text}
+              </a>
+            );
+          }
+        } else {
+          return part.text;
+        }
+      })}
+    </>
+  );
+};
+
 const SlideObjectPreview = ({
   object,
   dimensions,
@@ -115,7 +143,7 @@ const SlideObjectPreview = ({
             alignItems: object.style.verticalAlign,
           }}
         >
-          {object.text}
+          <TextPreview parts={object.text} />
         </div>
       ) : object.kind === "image" ? (
         <img

@@ -10,6 +10,8 @@ describe("test render", () => {
         <Slide style={{ backgroundColor: "#DDDDDD" }}>
           <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
             Hello there!
+            <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">I am a link</Text.Link>
+            <Text.Link slide={2} tooltip="and I'm a tooltip!">also for hopping to second slide</Text.Link>
           </Text>
           <Shape
             type="rect"

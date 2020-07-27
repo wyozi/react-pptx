@@ -57,10 +57,25 @@ describe("normalizeHexOrComplexColor", () => {
 
 describe("normalizeText", () => {
   it("handles all kinds of inputs", () => {
-    expect(normalizeText(["a", "b", "c"])).toBe("abc");
-    expect(normalizeText(["a", 1, "2"])).toBe("a12");
-    expect(normalizeText(["a", ["nested", [42, 12], "arrays"], "yep"])).toBe(
-      "anested4212arraysyep"
+    expect(normalizeText(["a", "b", "c"])).toStrictEqual([
+      { text: "a" },
+      { text: "b" },
+      { text: "c" },
+    ]);
+    expect(normalizeText(["a", 1, "2"])).toStrictEqual([
+      { text: "a" },
+      { text: "1" },
+      { text: "2" },
+    ]);
+    expect(normalizeText(["a", ["nested", [42, 12], "arrays"], "yep"])).toStrictEqual(
+      [
+        { text: "a" },
+        { text: "nested" },
+        { text: "42" },
+        { text: "12" },
+        { text: "arrays" },
+        { text: "yep" },
+      ]
     );
   });
 });

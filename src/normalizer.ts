@@ -1,6 +1,6 @@
 import type PptxGenJs from "pptxgenjs";
 import Color from "color";
-import { flattenChildren } from "./util";
+import { flattenChildren, isReactElementOrElementArray } from "./util";
 import {
   PresentationProps,
   SlideProps,
@@ -9,8 +9,9 @@ import {
   isImage,
   isShape,
   TextChild,
+  TextLinkProps,
 } from "./nodes";
-import React from "react";
+import React, { ReactElement } from "react";
 
 export type HexColor = string; // 6-Character hex (without prefix hash)
 export type ComplexColor = {
@@ -29,9 +30,20 @@ type ObjectBase = {
   };
 };
 
+export type InternalTextPart = {
+  text: string;
+  link?: { tooltip?: string } & (
+    | {
+        url: string;
+      }
+    | {
+        slide: number;
+      }
+  );
+};
 export type InternalText = ObjectBase & {
   kind: "text";
-  text: string;
+  text: InternalTextPart[];
   style: {
     color: HexColor | null;
     fontFace: string;
@@ -50,7 +62,7 @@ export type InternalImage = ObjectBase & {
 export type InternalShape = ObjectBase & {
   kind: "shape";
   type: keyof typeof PptxGenJs.ShapeType;
-  text: string | null;
+  text: InternalTextPart[] | null;
   style: {
     backgroundColor: HexColor | ComplexColor;
   };
@@ -91,13 +103,38 @@ export const normalizeHexOrComplexColor = (
   }
 };
 
-export const normalizeText = (t: TextChild): string => {
-  if (Array.isArray(t)) {
-    return t.map(normalizeText).join("");
+export const normalizeText = (t: TextChild): InternalTextPart[] => {
+  if (isReactElementOrElementArray(t)) {
+    return flattenChildren(t).map(
+      (el: string | number | ReactElement<TextLinkProps>) => {
+        if (React.isValidElement(el)) {
+          const { props } = el;
+          let link;
+          if ((props as any).url) {
+            link = { url: (props as any).url, tooltip: props.tooltip };
+          } else if ((props as any).slide) {
+            link = { slide: (props as any).slide, tooltip: props.tooltip };
+          }
+          return {
+            text: props.children,
+            link: link,
+          };
+        } else {
+          return {
+            text: el.toString(),
+          };
+        }
+      }
+    );
+  } else if (Array.isArray(t)) {
+    return t.reduce(
+      (prev: InternalTextPart[], cur) => prev.concat(normalizeText(cur)),
+      [] as InternalTextPart[]
+    );
   } else if (typeof t === "number") {
-    return t.toString();
+    return [{ text: t.toString() }];
   } else if (typeof t === "string") {
-    return t;
+    return [{ text: t }];
   } else {
     throw new TypeError(
       "Invalid TextChild found; only strings/numbers/arrays of them are accepted"
@@ -143,7 +180,7 @@ const normalizeSlideObject = (
       text:
         node.props.children !== undefined
           ? normalizeText(node.props.children)
-          : "",
+          : [],
       style: {
         x,
         y,
@@ -175,7 +212,7 @@ const normalizeSlideObject = (
       text:
         node.props.children !== undefined
           ? normalizeText(node.props.children)
-          : "",
+          : null,
       style: {
         x,
         y,

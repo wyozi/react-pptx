@@ -1,5 +1,7 @@
 import type PptxGenJs from "pptxgenjs";
+import React from "react";
 import { InternalPresentation, InternalText } from "./normalizer";
+import { ChildElement } from "./util";
 
 type VisualBaseProps = {
   style?: {
@@ -10,8 +12,26 @@ type VisualBaseProps = {
   };
 };
 
-type ChildElement<P> = React.ReactElement<P> | ChildElement<P>[];
-export type TextChild = string | number | TextChild[];
+export type TextLinkProps = { children: string; tooltip?: string } & (
+  | {
+      url: string;
+    }
+  | {
+      slide: number;
+    }
+);
+const TextLink: React.FC<TextLinkProps> = ("text-link" as unknown) as React.FC;
+export const isTextLink = (
+  el: React.ReactElement
+): el is React.FunctionComponentElement<TextLinkProps> => {
+  return el.type === "text-link";
+};
+
+export type TextChild =
+  | string
+  | number
+  | ChildElement<TextLinkProps>
+  | TextChild[];
 
 export type TextProps = VisualBaseProps & {
   children?: TextChild;
@@ -23,11 +43,13 @@ export type TextProps = VisualBaseProps & {
     verticalAlign?: InternalText["style"]["verticalAlign"];
   };
 };
-export const Text: React.FC<TextProps> = ("text" as unknown) as React.FC;
+export class Text extends React.Component<TextProps> {
+  static Link = TextLink;
+}
 export const isText = (
   el: React.ReactElement
-): el is React.FunctionComponentElement<TextProps> => {
-  return el.type === "text";
+): el is React.ComponentElement<TextProps, Text> => {
+  return el.type === Text;
 };
 
 export type ImageProps = VisualBaseProps & {
