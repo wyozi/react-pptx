@@ -141,6 +141,8 @@ const SlideObjectPreview = ({
             fontFamily: object.style.fontFace,
             display: "flex",
             alignItems: object.style.verticalAlign,
+            textAlign: object.style.align,
+            justifyContent: object.style.align
           }}
         >
           <TextPreview parts={object.text} />
