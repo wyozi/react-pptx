@@ -108,6 +108,12 @@ const code = `ReactPPTX.render(
           backgroundColor: "#FF0000"
         }}
       />
+      <Text style={{
+        x: 2, y: 2.8, w: 6, h: 0.5, fontSize: 16
+      }}>
+        <Text.Link url="https://github.com/wyozi/react-pptx">here's a link</Text.Link> to the repository
+        or a <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">video</Text.Link>, if you'd like.
+      </Text>
     </Slide>
     <Slide>
       <Image
@@ -119,7 +125,7 @@ const code = `ReactPPTX.render(
       <Slide key={n}>
         <Text style={{x: "50%", y: "50%", w: 1, h: 0.2}}>
           slide {n}
-        </Text> 
+        </Text>
       </Slide>
     ))}
     <>
@@ -127,7 +133,7 @@ const code = `ReactPPTX.render(
         <Slide key={n}>
           <Text style={{x: "50%", y: "50%", w: 1, h: 0.2}}>
             fragment slide {n}
-          </Text> 
+          </Text>
         </Slide>
       ))}
     </>
