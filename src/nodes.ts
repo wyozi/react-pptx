@@ -43,19 +43,19 @@ export type TextProps = VisualBaseProps & {
     verticalAlign?: InternalText["style"]["verticalAlign"];
   };
 };
-export class Text extends React.Component<TextProps> {
-  static Link = TextLink;
-}
+const TextFn: React.FC<TextProps> = () => null;
+TextFn.prototype.isPptxTextElement = true;
+TextFn.prototype.Link = TextLink;
+export const Text = Object.assign(TextFn, { Link: TextLink });
+
 // We add a random symbol-ish to the prototype for use in isText
 // For some reason a normal el.type == Text doesn't work here when
 // the result is bundled
 (Text.prototype as any).isPptxTextElement = true;
 export const isText = (
   el: React.ReactElement
-): el is React.ComponentElement<TextProps, Text> => {
-  return (
-    el.type instanceof Object && (el.type as any).prototype.isPptxTextElement
-  );
+): el is React.FunctionComponentElement<TextProps> => {
+  return el.type instanceof Function && el.type.prototype.isPptxTextElement;
 };
 
 export type ImageProps = VisualBaseProps & {
