@@ -8,6 +8,7 @@ import {
   ComplexColor,
   InternalShape,
   InternalTextPart,
+  InternalImage,
 } from "../normalizer";
 import { layoutToInches, POINTS_TO_INCHES } from "../util";
 
@@ -90,6 +91,17 @@ const TextPreview = ({ parts }: { parts: InternalTextPart[] }) => {
   );
 };
 
+const constrainObjectFit = (
+  sizing: InternalImage["style"]["sizing"]
+): "contain" | "cover" | undefined => {
+  const fit = sizing?.fit;
+  if (fit === "contain" || fit === "cover") {
+    return fit;
+  } else {
+    return undefined;
+  }
+};
+
 const SlideObjectPreview = ({
   object,
   dimensions,
@@ -142,7 +154,7 @@ const SlideObjectPreview = ({
             display: "flex",
             alignItems: object.style.verticalAlign,
             textAlign: object.style.align,
-            justifyContent: object.style.align
+            justifyContent: object.style.align,
           }}
         >
           <TextPreview parts={object.text} />
@@ -153,7 +165,7 @@ const SlideObjectPreview = ({
           style={{
             width: "100%",
             height: "100%",
-            objectFit: object.style.backgroundSize ?? undefined,
+            objectFit: constrainObjectFit(object.style.sizing),
           }}
         />
       ) : (

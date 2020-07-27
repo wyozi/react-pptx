@@ -61,7 +61,16 @@ export const isText = (
 export type ImageProps = VisualBaseProps & {
   url: string;
   style?: {
+    /**
+     * @deprecated no longer has any effect and will be removed soon! Use imageFit instead
+     */
     backgroundSize?: "contain" | "cover";
+
+    sizing?: {
+      fit: "contain" | "cover" | "crop";
+      imageWidth?: number;
+      imageHeight?: number;
+    };
   };
 };
 export const Image: React.FC<ImageProps> = ("image" as unknown) as React.FC;
@@ -75,7 +84,9 @@ export type ShapeProps = VisualBaseProps & {
   type: keyof typeof PptxGenJs.ShapeType;
   children?: TextChild;
   style?: {
-    backgroundColor: string;
+    backgroundColor?: string;
+    borderWidth?: number;
+    borderColor?: string;
   };
 };
 export const Shape: React.FC<ShapeProps> = ("shape" as unknown) as React.FC;
@@ -93,6 +104,7 @@ export type SlideProps = {
   hidden?: boolean;
   style?: {
     backgroundColor?: string;
+    backgroundImage?: string;
   };
 };
 export const Slide: React.FC<SlideProps> = ("slide" as unknown) as React.FC;

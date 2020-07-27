@@ -56,7 +56,11 @@ export type InternalImage = ObjectBase & {
   kind: "image";
   url: string;
   style: {
-    backgroundSize: "contain" | "cover" | null;
+    sizing: {
+      fit: "contain" | "cover" | "crop";
+      imageWidth?: number;
+      imageHeight?: number;
+    } | null;
   };
 };
 export type InternalShape = ObjectBase & {
@@ -64,7 +68,9 @@ export type InternalShape = ObjectBase & {
   type: keyof typeof PptxGenJs.ShapeType;
   text: InternalTextPart[] | null;
   style: {
-    backgroundColor: HexColor | ComplexColor;
+    backgroundColor: HexColor | ComplexColor | null;
+    borderColor: HexColor | null;
+    borderWidth: number | null;
   };
 };
 
@@ -72,7 +78,8 @@ export type InternalSlideObject = InternalText | InternalImage | InternalShape;
 
 export type InternalSlide = {
   objects: InternalSlideObject[];
-  backgroundColor?: HexColor;
+  backgroundColor: HexColor | null;
+  backgroundImage: string | null;
   hidden: boolean;
 };
 
@@ -202,7 +209,7 @@ const normalizeSlideObject = (
         y,
         w,
         h,
-        backgroundSize: node.props.style.backgroundSize ?? null,
+        sizing: node.props.style.sizing ?? null,
       },
     };
   } else if (isShape(node)) {
@@ -218,9 +225,13 @@ const normalizeSlideObject = (
         y,
         w,
         h,
-        backgroundColor: normalizeHexOrComplexColor(
-          node.props.style.backgroundColor ?? "#FFFFFF"
-        ),
+        backgroundColor: node.props.style.backgroundColor
+          ? normalizeHexOrComplexColor(node.props.style.backgroundColor)
+          : null,
+        borderColor: node.props.style.borderColor
+          ? normalizeHexColor(node.props.style.borderColor)
+          : null,
+        borderWidth: node.props.style.borderWidth ?? null,
       },
     };
   } else {
@@ -238,7 +249,8 @@ const normalizeSlide = ({
     hidden: props.hidden ?? false,
     backgroundColor: props?.style?.backgroundColor
       ? normalizeHexColor(props.style.backgroundColor)
-      : undefined,
+      : null,
+    backgroundImage: props?.style?.backgroundImage ?? null,
     objects: [],
   };
   if (props.children) {

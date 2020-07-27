@@ -2,20 +2,25 @@ import pptxgen from "pptxgenjs";
 import fetch from "cross-fetch";
 import type PptxGenJs from "pptxgenjs";
 import { PresentationProps } from "./nodes";
-import { normalizeJsx, InternalSlide, InternalSlideObject, InternalTextPart } from "./normalizer";
+import {
+  normalizeJsx,
+  InternalSlide,
+  InternalSlideObject,
+  InternalTextPart,
+} from "./normalizer";
 
 const renderTextParts = (parts: InternalTextPart[]) => {
-  return parts.map(part => {
+  return parts.map((part) => {
     return {
       text: part.text,
-      options: { hyperlink: part.link }
-    }
+      options: { hyperlink: part.link },
+    };
   });
 };
 
 const renderSlideObject = async (
   pres: PptxGenJs,
-  slide: PptxGenJs.ISlide,
+  slide: PptxGenJs.Slide,
   object: InternalSlideObject
 ) => {
   const { x, y, w, h } = object.style;
@@ -26,7 +31,7 @@ const renderSlideObject = async (
       y,
       w,
       h,
-      color: style.color,
+      color: style.color ?? undefined,
       fontFace: style.fontFace,
       fontSize: style.fontSize,
       align: style.align,
@@ -36,10 +41,12 @@ const renderSlideObject = async (
     const req = await fetch(object.url);
 
     let data: string;
+    let size: { width: number, height: number};
     if ("buffer" in req) {
       // node-fetch
       const contentType = (req as any).headers.raw()["content-type"][0];
       const buffer: Buffer = await (req as any).buffer();
+
       data = `data:${contentType};base64,${buffer.toString("base64")}`;
     } else {
       const blob = await req.blob();
@@ -53,17 +60,35 @@ const renderSlideObject = async (
       });
     }
 
+    let sizing;
+    if (object.style.sizing && object.style.sizing.fit) {
+      const imageWidth = object.style.sizing.imageWidth ?? (typeof w === "number" ? w : parseInt(w, 10));
+      const imageHeight = object.style.sizing.imageHeight ?? (typeof h === "number" ? h : parseInt(h, 10));
+      if (isNaN(imageWidth) || isNaN(imageHeight)) {
+        throw new TypeError("when using sizing.fit, width and height must be specified numerically, either in style itself or in sizing.width/height!");
+      }
+      sizing = { type: object.style.sizing.fit, w: imageWidth, h: imageHeight };
+    }
+
     slide.addImage({
       data,
       x,
       y,
       w,
       h,
-      type: object.style.backgroundSize
+      sizing: object.style.sizing ? sizing : undefined,
     });
   } else if (object.kind === "shape") {
     const style = object.style;
     const shapeType = pres.ShapeType[object.type];
+
+    // react-pptx deprecated string-only bgcolor, but we still
+    // support it because it makes sense in our use-contexts
+    const backgroundColor =
+      typeof style.backgroundColor === "string"
+        ? { color: style.backgroundColor }
+        : style.backgroundColor ?? undefined;
+
     if (object.text) {
       slide.addText(renderTextParts(object.text), {
         shape: shapeType,
@@ -71,7 +96,11 @@ const renderSlideObject = async (
         y,
         w,
         h,
-        fill: style.backgroundColor,
+        fill: backgroundColor,
+        line: {
+          size: style.borderWidth ?? undefined,
+          color: style.borderColor ?? undefined
+        }
       });
     } else {
       slide.addShape(shapeType, {
@@ -79,7 +108,11 @@ const renderSlideObject = async (
         y,
         w,
         h,
-        fill: style.backgroundColor,
+        fill: backgroundColor,
+        line: {
+          size: style.borderWidth ?? undefined,
+          color: style.borderColor ?? undefined
+        }
       });
     }
   }
@@ -87,11 +120,12 @@ const renderSlideObject = async (
 
 const renderSlide = async (
   pres: PptxGenJs,
-  slide: PptxGenJs.ISlide,
+  slide: PptxGenJs.Slide,
   node: InternalSlide
 ) => {
   slide.hidden = node.hidden;
-  if (node.backgroundColor) slide.bkgd = node.backgroundColor;
+  if (node.backgroundColor) slide.background = { fill: node.backgroundColor };
+  if (node.backgroundImage) slide.background = { path: node.backgroundImage };
 
   return Promise.all(
     node.objects.map((object) => renderSlideObject(pres, slide, object))
@@ -113,7 +147,7 @@ export const render = async (
   opts?: RenderOptions
 ): Promise<string | Blob | ArrayBuffer | Buffer | Uint8Array> => {
   const normalized = normalizeJsx(node);
-  const pres: PptxGenJs = new pptxgen();
+  const pres = new pptxgen();
 
   let layout = "LAYOUT_16x9";
   if (normalized.layout === "16x10") {
