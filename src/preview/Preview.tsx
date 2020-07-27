@@ -125,7 +125,7 @@ const SlideObjectPreview = ({
         top: `${yPercentage}%`,
         width: `${wPercentage}%`,
         height: `${hPercentage}%`,
-        border: drawBoundingBoxes ? "1px solid red" : undefined,
+        outline: drawBoundingBoxes ? "1px solid red" : undefined,
         boxSizing: "border-box",
       }}
     >
