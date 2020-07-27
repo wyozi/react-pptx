@@ -46,10 +46,16 @@ export type TextProps = VisualBaseProps & {
 export class Text extends React.Component<TextProps> {
   static Link = TextLink;
 }
+// We add a random symbol-ish to the prototype for use in isText
+// For some reason a normal el.type == Text doesn't work here when
+// the result is bundled
+(Text.prototype as any).isPptxTextElement = true;
 export const isText = (
   el: React.ReactElement
 ): el is React.ComponentElement<TextProps, Text> => {
-  return el.type === Text;
+  return (
+    el.type instanceof Object && (el.type as any).prototype.isPptxTextElement
+  );
 };
 
 export type ImageProps = VisualBaseProps & {

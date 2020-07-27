@@ -851,7 +851,7 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@rollup/plugin-node-resolve@^8.0.1":
+"@rollup/plugin-node-resolve@^8.4.0":
   version "8.4.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.4.0.tgz#261d79a680e9dc3d86761c14462f24126ba83575"
   integrity sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==
@@ -5200,7 +5200,7 @@ react-keyed-flatten-children@^1.2.0:
 "react-pptx@file:..":
   version "0.0.0-development"
   dependencies:
-    "@rollup/plugin-node-resolve" "^8.0.1"
+    "@rollup/plugin-node-resolve" "^8.4.0"
     color "^3.1.2"
     cross-fetch "^3.0.5"
     pptxgenjs "^3.2.1"
