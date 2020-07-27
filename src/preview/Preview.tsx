@@ -65,12 +65,12 @@ const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
 
 const TextPreview = ({ parts }: { parts: InternalTextPart[] }) => {
   return (
-    <>
+    <div>
       {parts.map((part) => {
         if (part.link) {
           if ((part.link as any).url) {
             return (
-              <a title={part.link.tooltip} href={(part as any).url}>
+              <a title={part.link.tooltip} href={(part.link as any).url}>
                 {part.text}
               </a>
             );
@@ -83,10 +83,10 @@ const TextPreview = ({ parts }: { parts: InternalTextPart[] }) => {
             );
           }
         } else {
-          return part.text;
+          return <span>{part.text}</span>;
         }
       })}
-    </>
+    </div>
   );
 };
 
