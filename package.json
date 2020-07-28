@@ -4,6 +4,12 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "license": "MIT",
+  "keywords": [
+    "pptx",
+    "powerpoint",
+    "office",
+    "react"
+  ],
   "files": [
     "dist",
     "preview"
