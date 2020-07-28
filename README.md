@@ -1,6 +1,6 @@
 # react-pptx
 
-![npm](https://img.shields.io/npm/v/react-pptx?label=%22react-pptx%22%20%40%20npm)
+[![npm](https://img.shields.io/npm/v/react-pptx?label=%22react-pptx%22%20%40%20npm)](https://www.npmjs.com/package/react-pptx)
 
 React wrapper for [PptxGenJS](https://gitbrent.github.io/PptxGenJS/). Try at https://wyozi.github.io/react-pptx/
 
