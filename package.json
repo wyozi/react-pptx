@@ -34,7 +34,7 @@
     "react": "^16.13.1",
     "rollup": "^2.23.0",
     "ts-jest": "^24.3.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.0.1",
     "typescript": "^3.9.7"
   },
   "dependencies": {
