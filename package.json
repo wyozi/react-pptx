@@ -23,7 +23,7 @@
     "react": "^16.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-typescript": "^6",
     "@types/color": "^3.0.1",
     "@types/jest": "^26.0.15",
