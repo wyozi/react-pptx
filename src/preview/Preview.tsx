@@ -161,7 +161,7 @@ const SlideObjectPreview = ({
         </div>
       ) : object.kind === "image" ? (
         <img
-          src={object.url}
+          src={object.url || object.data}
           style={{
             width: "100%",
             height: "100%",

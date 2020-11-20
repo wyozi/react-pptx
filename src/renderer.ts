@@ -38,26 +38,30 @@ const renderSlideObject = async (
       valign: style.verticalAlign,
     });
   } else if (object.kind === "image") {
-    const req = await fetch(object.url);
+    let data: string = '';
+    if(object.data) {
+      data = `${object.data}`
+    } else if (object.url) {
+      const req = await fetch(object.url);
 
-    let data: string;
-    let size: { width: number, height: number};
-    if ("buffer" in req) {
-      // node-fetch
-      const contentType = (req as any).headers.raw()["content-type"][0];
-      const buffer: Buffer = await (req as any).buffer();
+      let size: { width: number, height: number };
+      if ("buffer" in req) {
+        // node-fetch
+        const contentType = (req as any).headers.raw()["content-type"][0];
+        const buffer: Buffer = await (req as any).buffer();
 
-      data = `data:${contentType};base64,${buffer.toString("base64")}`;
-    } else {
-      const blob = await req.blob();
+        data = `data:${contentType};base64,${buffer.toString("base64")}`;
+      } else {
+        const blob = await req.blob();
 
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      data = await new Promise<string>((resolve) => {
-        reader.onloadend = function () {
-          resolve(reader.result as string);
-        };
-      });
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        data = await new Promise<string>((resolve) => {
+          reader.onloadend = function () {
+            resolve(reader.result as string);
+          };
+        });
+      }
     }
 
     let sizing;

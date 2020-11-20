@@ -59,7 +59,8 @@ export const isText = (
 };
 
 export type ImageProps = VisualBaseProps & {
-  url: string;
+  url?: string;
+  data?: string;
   style?: {
     /**
      * @deprecated no longer has any effect and will be removed soon! Use imageFit instead

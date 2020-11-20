@@ -59,6 +59,16 @@ describe("test render", () => {
               sizing: { fit: "contain", imageWidth: 3, imageHeight: 1.54 },
             }}
           />
+            <Image
+                data="image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+                style={{
+                    x: 6.4,
+                    y: 2,
+                    w: 3,
+                    h: 2,
+                    sizing: { fit: "contain", imageWidth: 3, imageHeight: 2 },
+                }}
+            />
           <Shape
             type="rect"
             style={{

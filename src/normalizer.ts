@@ -54,7 +54,8 @@ export type InternalText = ObjectBase & {
 };
 export type InternalImage = ObjectBase & {
   kind: "image";
-  url: string;
+  url?: string;
+  data?: string;
   style: {
     sizing: {
       fit: "contain" | "cover" | "crop";
@@ -204,6 +205,7 @@ const normalizeSlideObject = (
     return {
       kind: "image",
       url: node.props.url,
+      data: node.props.data,
       style: {
         x,
         y,
