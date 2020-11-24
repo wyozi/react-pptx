@@ -39,10 +39,10 @@ const renderSlideObject = async (
     });
   } else if (object.kind === "image") {
     let data: string = '';
-    if(object.src && object.src.kind === "data") {
-      data = `data:${object.src.data}`
-    } else if ((object.src && object.src.kind === "path")) {
-      const req = await fetch(object.src?.data || '');
+    if(object.src.kind === "data") {
+      data = `data:${object.src[object.src.kind]}`
+    } else {
+      const req = await fetch(object.src[object.src.kind]);
 
       let size: { width: number, height: number };
       if ("buffer" in req) {
@@ -130,11 +130,7 @@ const renderSlide = async (
   slide.hidden = node.hidden;
   if (node.backgroundColor) slide.background = { fill: node.backgroundColor };
   if (node.backgroundImage) {
-    if (typeof node.backgroundImage === 'string') {
-      slide.background = { path: node.backgroundImage };
-    } else {
-      slide.background = { [node.backgroundImage.kind]: node.backgroundImage.data };
-    }
+      slide.background = { [node.backgroundImage.kind]: node.backgroundImage[node.backgroundImage.kind] };
   }
 
   return Promise.all(

@@ -54,8 +54,7 @@ export type InternalText = ObjectBase & {
 };
 export type InternalImage = ObjectBase & {
   kind: "image";
-  url?: string;
-  src?: InternalImageSrc;
+  src: InternalImageSrc;
   style: {
     sizing: {
       fit: "contain" | "cover" | "crop";
@@ -77,9 +76,16 @@ export type InternalShape = ObjectBase & {
 
 export type InternalSlideObject = InternalText | InternalImage | InternalShape;
 
-export type InternalImageSrc = {
-  kind: "data" | "path";
+export type InternalPathSrc = {
+  path: string;
+}
+
+export type InternalDataSrc = {
   data: string;
+}
+
+export type InternalImageSrc = (InternalPathSrc | InternalDataSrc ) & {
+  kind: "data" | "path";
 }
 
 export type InternalSlide = {

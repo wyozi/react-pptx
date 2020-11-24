@@ -162,9 +162,9 @@ const SlideObjectPreview = ({
         </div>
       ) : object.kind === "image" ? (
         <img
-          src={object.src && object.src.kind === 'data'
-              ? `data:${object.src && object.src.data}`
-              :  (object.src && object.src.data) || ''}
+          src={object.src.kind === 'data'
+              ? `data:${object.src[object.src.kind]}`
+              :  object.src[object.src.kind]}
           style={{
             width: "100%",
             height: "100%",

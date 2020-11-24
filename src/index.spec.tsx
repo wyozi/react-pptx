@@ -30,7 +30,7 @@ describe("test render", () => {
         </Slide>
         <Slide>
           <Image
-            src={{kind: "path", data: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg"}}
+            src={{kind: "path", path: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg"}}
             style={{
               x: 0.2,
               y: 0.2,
@@ -50,7 +50,7 @@ describe("test render", () => {
             }}
           />
           <Image
-            src={{kind: "path", data: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg"}}
+            src={{kind: "path", path: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg"}}
             style={{
               x: 0.2,
               y: 2,
@@ -81,7 +81,7 @@ describe("test render", () => {
             }}
           />
           <Image
-            src={{kind: "path", data: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg"}}
+            src={{kind: "path", path: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg"}}
             style={{
               x: 3.3,
               y: 2,
@@ -93,11 +93,11 @@ describe("test render", () => {
         </Slide>
         <Slide
           style={{
-            backgroundImage: {kind: "path", data: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/starlabs_bkgd.jpg"}
+            backgroundImage: {kind: "path", path: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/starlabs_bkgd.jpg"}
           }}
         >
           <Image
-            src={{kind: "path", data: "http://www.fillmurray.com/460/300"}}
+            src={{kind: "path", path: "http://www.fillmurray.com/460/300"}}
             style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
           />
         </Slide>
