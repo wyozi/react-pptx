@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "test": "jest",
+    "lint": "eslint 'src/**/*.ts' --quiet",
     "generate-types": "tsc --d --declarationDir dist --emitDeclarationOnly",
     "build": "rollup -c && yarn generate-types"
   },
@@ -30,7 +31,13 @@
     "@types/node": "^14.14.9",
     "@types/react": "^17.0.0",
     "@types/react-is": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "jest": "^24.9.0",
+    "prettier": "^2.2.0",
     "react": "^17.0.1",
     "rollup": "^2.33.3",
     "ts-jest": "^24.3.0",

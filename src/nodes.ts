@@ -1,6 +1,10 @@
 import type PptxGenJs from "pptxgenjs";
 import React from "react";
-import {InternalImageSrc, InternalPresentation, InternalText} from "./normalizer";
+import {
+  InternalImageSrc,
+  InternalPresentation,
+  InternalText,
+} from "./normalizer";
 import { ChildElement } from "./util";
 
 type VisualBaseProps = {

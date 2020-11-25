@@ -38,13 +38,12 @@ const renderSlideObject = async (
       valign: style.verticalAlign,
     });
   } else if (object.kind === "image") {
-    let data: string = '';
-    if(object.src.kind === "data") {
-      data = `data:${object.src[object.src.kind]}`
+    let data = "";
+    if (object.src.kind === "data") {
+      data = `data:${object.src[object.src.kind]}`;
     } else {
       const req = await fetch(object.src[object.src.kind]);
 
-      let size: { width: number, height: number };
       if ("buffer" in req) {
         // node-fetch
         const contentType = (req as any).headers.raw()["content-type"][0];
@@ -66,10 +65,16 @@ const renderSlideObject = async (
 
     let sizing;
     if (object.style.sizing && object.style.sizing.fit) {
-      const imageWidth = object.style.sizing.imageWidth ?? (typeof w === "number" ? w : parseInt(w, 10));
-      const imageHeight = object.style.sizing.imageHeight ?? (typeof h === "number" ? h : parseInt(h, 10));
+      const imageWidth =
+        object.style.sizing.imageWidth ??
+        (typeof w === "number" ? w : parseInt(w, 10));
+      const imageHeight =
+        object.style.sizing.imageHeight ??
+        (typeof h === "number" ? h : parseInt(h, 10));
       if (isNaN(imageWidth) || isNaN(imageHeight)) {
-        throw new TypeError("when using sizing.fit, width and height must be specified numerically, either in style itself or in sizing.width/height!");
+        throw new TypeError(
+          "when using sizing.fit, width and height must be specified numerically, either in style itself or in sizing.width/height!"
+        );
       }
       sizing = { type: object.style.sizing.fit, w: imageWidth, h: imageHeight };
     }
@@ -103,8 +108,8 @@ const renderSlideObject = async (
         fill: backgroundColor,
         line: {
           size: style.borderWidth ?? undefined,
-          color: style.borderColor ?? undefined
-        }
+          color: style.borderColor ?? undefined,
+        },
       });
     } else {
       slide.addShape(shapeType, {
@@ -115,8 +120,8 @@ const renderSlideObject = async (
         fill: backgroundColor,
         line: {
           size: style.borderWidth ?? undefined,
-          color: style.borderColor ?? undefined
-        }
+          color: style.borderColor ?? undefined,
+        },
       });
     }
   }
@@ -130,7 +135,10 @@ const renderSlide = async (
   slide.hidden = node.hidden;
   if (node.backgroundColor) slide.background = { fill: node.backgroundColor };
   if (node.backgroundImage) {
-      slide.background = { [node.backgroundImage.kind]: node.backgroundImage[node.backgroundImage.kind] };
+    slide.background = {
+      [node.backgroundImage.kind]:
+        node.backgroundImage[node.backgroundImage.kind],
+    };
   }
 
   return Promise.all(

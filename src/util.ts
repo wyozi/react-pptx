@@ -33,15 +33,14 @@ type PotentialChildren = Array<
 >;
 export function flattenChildren(
   children: React.ReactNode,
-  depth: number = 0,
+  depth = 0,
   keys: (string | number)[] = []
 ): PotentialChildren {
   return React.Children.toArray(children).reduce(
     (acc: PotentialChildren, node: React.ReactNode, nodeIndex) => {
       if (ReactIs.isFragment(node)) {
-        acc.push.apply(
-          acc,
-          flattenChildren(
+        acc.push(
+          ...flattenChildren(
             node.props.children,
             depth + 1,
             keys.concat(node.key || nodeIndex)
