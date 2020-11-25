@@ -32,7 +32,7 @@ render(
     </Slide>
     <Slide>
       <Image
-        url="http://www.fillmurray.com/460/300"
+        src={{kind: "path", path: "http://www.fillmurray.com/460/300"}}
         style={{
           x: "10%", y: "10%", w: "80%", h: "80%"
         }}
@@ -69,6 +69,8 @@ Represents each slide in the presentation.
 | name | type | default value | description |
 | -- | -- | -- | -- |
 | `hidden` | boolean | false | Whether this slide is hidden during presenting |
+| `style.backgroundColor` | color |  | Slide background color |
+| `style.backgroundImage` | `{kind: "path", path: ""} | {kind: "data", data: ""}` |  | Background image url |
 
 ### `<Text>`
 
@@ -110,7 +112,7 @@ Supports png, jpg, svg, gif and animated gif.
 
 | name | type | default value | description |
 | -- | -- | -- | -- |
-| `url` | absolute URL (`http://`) | | Image URL |
+| `src` | `{kind: "path", path: ""} | {kind: "data", data: ""}` |  | Image URL |
 | `style.x` | number (inches) or string (percentage) | | Absolute `x` coordinate |
 | `style.y` | number (inches) or string (percentage) | | Absolute `y` coordinate |
 | `style.w` | number (inches) or string (percentage) | | Absolute width |
