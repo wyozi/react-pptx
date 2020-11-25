@@ -22,7 +22,8 @@ export const layoutToInches = (
 export type ChildElement<P> = React.ReactElement<P> | ChildElement<P>[];
 
 export function isReactElementOrElementArray<T>(
-  arr: any
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  arr: {} | null | undefined
 ): arr is ChildElement<T> {
   return React.isValidElement(arr);
 }
