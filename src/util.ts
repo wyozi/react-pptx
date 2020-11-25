@@ -2,6 +2,7 @@ import { InternalPresentation } from "./normalizer";
 import React from "react";
 import ReactIs from "react-is";
 
+
 export const POINTS_TO_INCHES = 1 / 72;
 
 export const layoutToInches = (
