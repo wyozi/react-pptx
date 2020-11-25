@@ -1,6 +1,6 @@
 import type PptxGenJs from "pptxgenjs";
 import React from "react";
-import { InternalPresentation, InternalText } from "./normalizer";
+import {InternalImageSrc, InternalPresentation, InternalText} from "./normalizer";
 import { ChildElement } from "./util";
 
 type VisualBaseProps = {
@@ -59,7 +59,7 @@ export const isText = (
 };
 
 export type ImageProps = VisualBaseProps & {
-  url: string;
+  src: InternalImageSrc;
   style?: {
     /**
      * @deprecated no longer has any effect and will be removed soon! Use imageFit instead
@@ -104,7 +104,7 @@ export type SlideProps = {
   hidden?: boolean;
   style?: {
     backgroundColor?: string;
-    backgroundImage?: string;
+    backgroundImage?: InternalImageSrc;
   };
 };
 export const Slide: React.FC<SlideProps> = ("slide" as unknown) as React.FC;

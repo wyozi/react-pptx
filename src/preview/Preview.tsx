@@ -129,6 +129,7 @@ const SlideObjectPreview = ({
     typeof object.style.h === "number"
       ? (object.style.h / dimensions[1]) * 100
       : parseInt(object.style.h, 10);
+
   return (
     <div
       style={{
@@ -161,7 +162,9 @@ const SlideObjectPreview = ({
         </div>
       ) : object.kind === "image" ? (
         <img
-          src={object.url}
+          src={object.src.kind === 'data'
+              ? `data:${object.src[object.src.kind]}`
+              :  object.src[object.src.kind]}
           style={{
             width: "100%",
             height: "100%",

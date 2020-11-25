@@ -38,26 +38,30 @@ const renderSlideObject = async (
       valign: style.verticalAlign,
     });
   } else if (object.kind === "image") {
-    const req = await fetch(object.url);
-
-    let data: string;
-    let size: { width: number, height: number};
-    if ("buffer" in req) {
-      // node-fetch
-      const contentType = (req as any).headers.raw()["content-type"][0];
-      const buffer: Buffer = await (req as any).buffer();
-
-      data = `data:${contentType};base64,${buffer.toString("base64")}`;
+    let data: string = '';
+    if(object.src.kind === "data") {
+      data = `data:${object.src[object.src.kind]}`
     } else {
-      const blob = await req.blob();
+      const req = await fetch(object.src[object.src.kind]);
 
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      data = await new Promise<string>((resolve) => {
-        reader.onloadend = function () {
-          resolve(reader.result as string);
-        };
-      });
+      let size: { width: number, height: number };
+      if ("buffer" in req) {
+        // node-fetch
+        const contentType = (req as any).headers.raw()["content-type"][0];
+        const buffer: Buffer = await (req as any).buffer();
+
+        data = `data:${contentType};base64,${buffer.toString("base64")}`;
+      } else {
+        const blob = await req.blob();
+
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        data = await new Promise<string>((resolve) => {
+          reader.onloadend = function () {
+            resolve(reader.result as string);
+          };
+        });
+      }
     }
 
     let sizing;
@@ -125,7 +129,9 @@ const renderSlide = async (
 ) => {
   slide.hidden = node.hidden;
   if (node.backgroundColor) slide.background = { fill: node.backgroundColor };
-  if (node.backgroundImage) slide.background = { path: node.backgroundImage };
+  if (node.backgroundImage) {
+      slide.background = { [node.backgroundImage.kind]: node.backgroundImage[node.backgroundImage.kind] };
+  }
 
   return Promise.all(
     node.objects.map((object) => renderSlideObject(pres, slide, object))

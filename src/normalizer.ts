@@ -54,7 +54,7 @@ export type InternalText = ObjectBase & {
 };
 export type InternalImage = ObjectBase & {
   kind: "image";
-  url: string;
+  src: InternalImageSrc;
   style: {
     sizing: {
       fit: "contain" | "cover" | "crop";
@@ -76,10 +76,12 @@ export type InternalShape = ObjectBase & {
 
 export type InternalSlideObject = InternalText | InternalImage | InternalShape;
 
+export type InternalImageSrc = {kind: "data", data: string} | {kind: "path", path: string}
+
 export type InternalSlide = {
   objects: InternalSlideObject[];
   backgroundColor: HexColor | null;
-  backgroundImage: string | null;
+  backgroundImage: InternalImageSrc | null;
   hidden: boolean;
 };
 
@@ -203,7 +205,7 @@ const normalizeSlideObject = (
   } else if (isImage(node)) {
     return {
       kind: "image",
-      url: node.props.url,
+      src: node.props.src,
       style: {
         x,
         y,
