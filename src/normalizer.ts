@@ -1,3 +1,6 @@
+// Normalizer converts and normalizes JSX Presentation trees into internal nodes
+// that roughly match what pptxgenjs will want to ingest
+
 import type PptxGenJs from "pptxgenjs";
 import Color from "color";
 import { flattenChildren, isReactElementOrElementArray } from "./util";
