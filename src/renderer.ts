@@ -1,3 +1,5 @@
+// Renderer renders normalized nodes into pptxgenjs presentations
+
 import pptxgen from "pptxgenjs";
 import fetch from "cross-fetch";
 import type PptxGenJs from "pptxgenjs";
