@@ -73,7 +73,7 @@ Represents each slide in the presentation.
 | -- | -- | -- | -- |
 | `hidden` | boolean | false | Whether this slide is hidden during presenting |
 | `style.backgroundColor` | color |  | Slide background color |
-| `style.backgroundImage` | `{kind: "path", path: ""} | {kind: "data", data: ""}` |  | Background image url |
+| `style.backgroundImage` | `{kind: "path", path: ""} \| {kind: "data", data: ""}` |  | Background image url |
 
 ### `<Text>`
 
@@ -115,7 +115,7 @@ Supports png, jpg, svg, gif and animated gif.
 
 | name | type | default value | description |
 | -- | -- | -- | -- |
-| `src` | `{kind: "path", path: ""} | {kind: "data", data: ""}` |  | Image URL |
+| `src` | `{kind: "path", path: ""} \| {kind: "data", data: ""}` |  | Image URL |
 | `style.x` | number (inches) or string (percentage) | | Absolute `x` coordinate |
 | `style.y` | number (inches) or string (percentage) | | Absolute `y` coordinate |
 | `style.w` | number (inches) or string (percentage) | | Absolute width |
