@@ -76,7 +76,9 @@ export type InternalShape = ObjectBase & {
 
 export type InternalSlideObject = InternalText | InternalImage | InternalShape;
 
-export type InternalImageSrc = {kind: "data", data: string} | {kind: "path", path: string}
+export type InternalImageSrc =
+  | { kind: "data"; data: string }
+  | { kind: "path"; path: string };
 
 export type InternalSlide = {
   objects: InternalSlideObject[];
