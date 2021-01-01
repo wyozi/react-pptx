@@ -19,8 +19,13 @@ jobs:
       - name: Install dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install
+      - name: Save start timestamp
+        id: timestamp-store
+        run: echo "::set-output name=start_timestamp::$(($(date +%s%N)/1000000))"
       - name: Run tests
         run: yarn test
+      - name: Send elapsed time
+        run: curl https://thisgraph.com/api/timings/c35faae6-b3d3-4088-96d0-8c02a0a301b4/basic -X POST -d "$(($(date +%s%N)/1000000-${{ steps.timestamp-store.outputs.start_timestamp }}))"
   lint:
     name: Linting
     runs-on: ubuntu-16.04
