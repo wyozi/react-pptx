@@ -25,7 +25,9 @@ jobs:
       - name: Run tests
         run: yarn test
       - name: Send elapsed time
-        run: curl https://thisgraph.com/api/timings/a9355bb7-bac4-4270-be7c-5fd5b2ab95fc/basic -X POST -d "$(($(date +%s%N)/1000000-${{ steps.timestamp-store.outputs.start_timestamp }}))"
+        run: curl https://thisgraph.com/api/timings/$THISGRAPH_BUCKET_ID/basic -X POST -d "$(($(date +%s%N)/1000000-${{ steps.timestamp-store.outputs.start_timestamp }}))"
+        env:
+          THISGRAPH_BUCKET_ID: ${{ secrets.THISGRAPH_BUCKET_ID }}
   lint:
     name: Linting
     runs-on: ubuntu-16.04
