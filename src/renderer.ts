@@ -15,7 +15,12 @@ const renderTextParts = (parts: InternalTextPart[]) => {
   return parts.map((part) => {
     return {
       text: part.text,
-      options: { hyperlink: part.link },
+      options: {
+        hyperlink: part.link,
+        color: part?.style?.color ?? undefined,
+        fontFace: part?.style?.fontFace,
+        fontSize: part?.style?.fontSize,
+      },
     };
   });
 };

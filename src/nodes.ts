@@ -16,7 +16,17 @@ type VisualBaseProps = {
   };
 };
 
-export type TextLinkProps = { children: string; tooltip?: string } & (
+interface TextNodeBaseStyle {
+  color?: string;
+  fontFace?: string;
+  fontSize?: number;
+}
+
+export type TextLinkProps = {
+  children: string;
+  tooltip?: string;
+  style?: TextNodeBaseStyle;
+} & (
   | {
       url: string;
     }
@@ -39,10 +49,7 @@ export type TextChild =
 
 export type TextProps = VisualBaseProps & {
   children?: TextChild;
-  style?: {
-    color?: string;
-    fontFace?: string;
-    fontSize?: number;
+  style?: TextNodeBaseStyle & {
     align?: InternalText["style"]["align"];
     verticalAlign?: InternalText["style"]["verticalAlign"];
   };

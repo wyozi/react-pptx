@@ -64,27 +64,52 @@ const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
   }
 };
 
-const TextPreview = ({ parts }: { parts: InternalTextPart[] }) => {
+const TextPreview = ({
+  parts,
+  dimensions,
+  slideWidth,
+}: {
+  parts: InternalTextPart[];
+  dimensions: [number, number];
+  slideWidth: number;
+}) => {
   return (
     <div>
       {parts.map((part) => {
+        const style = {
+          fontSize: part?.style?.fontSize
+            ? ((part.style.fontSize * POINTS_TO_INCHES) / dimensions[0]) *
+              slideWidth
+            : undefined,
+          color: part?.style?.color
+            ? normalizedColorToCSS(part.style.color)
+            : undefined,
+          fontFamily: part?.style?.fontFace ?? undefined,
+        };
         if (part.link) {
           if ((part.link as any).url) {
             return (
-              <a title={part.link.tooltip} href={(part.link as any).url}>
+              <a
+                title={part.link.tooltip}
+                href={(part.link as any).url}
+                style={style}
+              >
                 {part.text}
               </a>
             );
           } else if ((part.link as any).slide) {
             // Not supported yet
             return (
-              <a title={part.link.tooltip} style={{ cursor: "not-allowed" }}>
+              <a
+                title={part.link.tooltip}
+                style={{ ...style, cursor: "not-allowed" }}
+              >
                 {part.text}
               </a>
             );
           }
         } else {
-          return <span>{part.text}</span>;
+          return <span style={style}>{part.text}</span>;
         }
       })}
     </div>
@@ -158,7 +183,11 @@ const SlideObjectPreview = ({
             justifyContent: object.style.align,
           }}
         >
-          <TextPreview parts={object.text} />
+          <TextPreview
+            parts={object.text}
+            dimensions={dimensions}
+            slideWidth={slideWidth}
+          />
         </div>
       ) : object.kind === "image" ? (
         <img

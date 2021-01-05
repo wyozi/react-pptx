@@ -33,8 +33,19 @@ type ObjectBase = {
   };
 };
 
+const DEFAULT_FONT_SIZE = 18;
+const DEFAULT_FONT_FACE = "Arial";
+
+export interface InternalTextPartBaseStyle {
+  color: HexColor | null;
+  fontFace: string;
+  fontSize: number; // In points
+}
+
 export type InternalTextPart = {
   text: string;
+  // Must be partial, because parent node should override non-specified properties
+  style: Partial<InternalTextPartBaseStyle>;
   link?: { tooltip?: string } & (
     | {
         url: string;
@@ -47,10 +58,7 @@ export type InternalTextPart = {
 export type InternalText = ObjectBase & {
   kind: "text";
   text: InternalTextPart[];
-  style: {
-    color: HexColor | null;
-    fontFace: string;
-    fontSize: number; // In points
+  style: InternalTextPartBaseStyle & {
     align: "left" | "right" | "center";
     verticalAlign: "top" | "bottom" | "middle";
   };
@@ -129,13 +137,21 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
           } else if ((props as any).slide) {
             link = { slide: (props as any).slide, tooltip: props.tooltip };
           }
+
+          const { children, style } = props;
           return {
-            text: props.children,
+            text: children,
             link: link,
+            style: {
+              color: style?.color ? normalizeHexColor(style.color) : undefined,
+              fontFace: style?.fontFace,
+              fontSize: style?.fontSize,
+            },
           };
         } else {
           return {
             text: el.toString(),
+            style: {},
           };
         }
       }
@@ -146,9 +162,14 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
       [] as InternalTextPart[]
     );
   } else if (typeof t === "number") {
-    return [{ text: t.toString() }];
+    return [
+      {
+        text: t.toString(),
+        style: {},
+      },
+    ];
   } else if (typeof t === "string") {
-    return [{ text: t }];
+    return [{ text: t, style: {} }];
   } else {
     throw new TypeError(
       "Invalid TextChild found; only strings/numbers/arrays of them are accepted"
@@ -201,8 +222,8 @@ const normalizeSlideObject = (
         w,
         h,
         color: style.color ? normalizeHexColor(style.color) : null,
-        fontFace: style.fontFace ?? "Arial",
-        fontSize: style.fontSize ?? 18,
+        fontFace: style.fontFace ?? DEFAULT_FONT_FACE,
+        fontSize: style.fontSize ?? DEFAULT_FONT_SIZE,
         align: style.align ?? "left",
         verticalAlign: style.verticalAlign ?? "middle",
       },
