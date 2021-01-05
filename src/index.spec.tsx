@@ -13,7 +13,13 @@ describe("test render", () => {
             <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">
               I am a link
             </Text.Link>
-            <Text.Link slide={2} tooltip="and I'm a tooltip!">
+            <Text.Link
+              slide={2}
+              tooltip="and I'm a tooltip!"
+              style={{
+                color: "orange",
+              }}
+            >
               also for hopping to second slide
             </Text.Link>
           </Text>
