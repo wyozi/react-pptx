@@ -446,7 +446,7 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
   integrity sha512-3c+yGKvVP5Y9TYBEibGNR+kLtijnj7mYrXRg+WpFb2X9xm04g/DXYkfg4hmzJQosc9snFNUPkbYIhu+KAm6jJw==
 
-"@types/node@*", "@types/node@^14.0.5", "@types/node@^14.14.20":
+"@types/node@*", "@types/node@^14.14.10", "@types/node@^14.14.20":
   version "14.14.20"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.20.tgz#f7974863edd21d1f8a494a73e8e2b3658615c340"
   integrity sha512-Y93R97Ouif9JEOWPIUyU+eyIdyRqQR0I8Ez1dzku4hDx34NWh4HbtIc3WNzwB1Y9ULvNGeu5B8h8bVL5cAk4/A==
@@ -1829,10 +1829,10 @@ ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-image-size@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.8.3.tgz#f0b568857e034f29baffd37013587f2c0cad8b46"
-  integrity sha512-SMtq1AJ+aqHB45c3FsB4ERK0UCiA2d3H1uq8s+8T0Pf8A3W4teyBQyaFaktH6xvZqh+npwlKU7i4fJo0r7TYTg==
+image-size@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.9.3.tgz#f7efce6b0a1649b44b9bc43b9d9a5acf272264b6"
+  integrity sha512-5SakFa79uhUVSjKeQE30GVzzLJ0QNzB53+I+/VD1vIesD6GP6uatWIlgU0uisFNLt1u0d6kBydp7yfk+lLJhLQ==
   dependencies:
     queue "6.0.1"
 
@@ -2543,10 +2543,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jszip@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.4.0.tgz#1a69421fa5f0bb9bc222a46bca88182fba075350"
-  integrity sha512-gZAOYuPl4EhPTXT0GjhI3o+ZAz3su6EhLrKUoAivcKqyqC7laS5JEv4XWZND9BgcDcF83vI85yGbDmDR6UhrIg==
+jszip@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.5.0.tgz#b4fd1f368245346658e781fec9675802489e15f6"
+  integrity sha512-WRtu7TPCmYePR1nazfrtuF216cIVon/3GWOvHS9QR5bIwSbnxtdpma6un3jyGGNhHsKCSzn5Ypk+EkDRvTGiFA==
   dependencies:
     lie "~3.3.0"
     pako "~1.0.2"
@@ -3116,15 +3116,15 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
-pptxgenjs@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.3.1.tgz#ef6b6a6bebcbb64797e45b47d5eab8bdfc56216a"
-  integrity sha512-4cWtKh+TNNoycjfNOGqwDWkBKapb4a8rEWYAQm9CSsT8TbCJbYVGYrpBsPA+mVf7ab+8mFem/lSE8iqo47xaKg==
+pptxgenjs@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.4.0.tgz#5b597fc64abc4d09e73556cc1a93c233bcc325d5"
+  integrity sha512-3vzborXFDXsgVn0JJDKQ2gBy9CaHRo3Fv+og0BfGGWX4TbUZKQuo20OwMi7ZRa2MsJzUpSBd3yulv7kx2ckiIg==
   dependencies:
-    "@types/node" "^14.0.5"
+    "@types/node" "^14.14.10"
     https "^1.0.0"
-    image-size "^0.8.3"
-    jszip "^3.4.0"
+    image-size "^0.9.3"
+    jszip "^3.5.0"
 
 prelude-ls@^1.2.1:
   version "1.2.1"
