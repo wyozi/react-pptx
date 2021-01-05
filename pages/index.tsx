@@ -12,6 +12,9 @@ import {
 import Preview from "react-pptx/preview";
 import { transform } from "buble";
 
+declare var __LATEST_GIT_TAG__: string;
+declare var __LATEST_GIT_COMMIT_HASH__: string;
+
 const primitives = { Presentation, Slide, Image, Text, Shape };
 
 const transpile = (code, callback, onError) => {
@@ -197,6 +200,7 @@ const Previewer = () => {
 
   return (
     <div>
+      <span title={__LATEST_GIT_COMMIT_HASH__}>react-pptx {__LATEST_GIT_TAG__}</span>
       {doc && (
         <button
           onClick={() => {

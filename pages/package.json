@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build-dev": "yarn webpack --mode=development",
-    "build": "yarn webpack && cp index.html dist/index.html"
+    "build": "yarn webpack --mode=production && cp index.html dist/index.html"
   },
   "dependencies": {
     "buble": "^0.20.0",

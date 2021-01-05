@@ -1,5 +1,14 @@
+const webpack = require("webpack");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const path = require("path");
+
+let latestTag = require("child_process")
+  .execSync("git describe --tags --abbrev=0")
+  .toString();
+
+let commitHash = require('child_process')
+  .execSync('git rev-parse --short HEAD')
+  .toString();
 
 module.exports = {
   entry: "./index.tsx",
@@ -29,6 +38,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      __LATEST_GIT_TAG__: JSON.stringify(latestTag),
+      __LATEST_GIT_COMMIT_HASH__: JSON.stringify(commitHash)
+    }),
     new MonacoWebpackPlugin({
       languages: ["typescript"],
     }),
