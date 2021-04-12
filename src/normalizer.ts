@@ -153,7 +153,7 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
           } else if (isTextBullet(el)) {
             // We know the intention is for a bullet, so pass on true if no customisation required
             const { children, style, ...bulletProps } = el.props;
-            bullet = bulletProps || true;
+            bullet = Object.keys(bulletProps).length ? bulletProps : true;
           }
 
           const { children, style } = el.props;
@@ -317,5 +317,6 @@ export const normalizeJsx = ({
   if (props.children) {
     pres.slides = flattenChildren(props.children).map(normalizeSlide);
   }
+  console.log(pres);
   return pres;
 };
