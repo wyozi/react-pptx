@@ -317,6 +317,5 @@ export const normalizeJsx = ({
   if (props.children) {
     pres.slides = flattenChildren(props.children).map(normalizeSlide);
   }
-  console.log(pres);
   return pres;
 };
