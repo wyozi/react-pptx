@@ -128,6 +128,16 @@ const code = `ReactPPTX.render(
         </Text.Link>, if you'd like.
       </Text>
     </Slide>
+    <Slide style={{ backgroundColor: "#DDDDDD" }}>
+      <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
+        <Text.Bullet>Adding bullet 1</Text.Bullet>
+        <Text.Bullet>Adding bullet 2</Text.Bullet>
+      </Text>
+      <Text style={{ x: 3, y: 3.5, w: 3, h: 0.5, fontSize: 32 }}>
+        <Text.Bullet type="number">Adding bullet</Text.Bullet>
+        <Text.Bullet type="number">Adding bullet</Text.Bullet>
+      </Text>
+    </Slide>
     <Slide>
       <Image
         src={{ kind: "path", path: "https://source.unsplash.com/random/800x600" }}
@@ -200,7 +210,9 @@ const Previewer = () => {
 
   return (
     <div>
-      <span title={__LATEST_GIT_COMMIT_HASH__}>react-pptx {__LATEST_GIT_TAG__}</span>
+      <span title={__LATEST_GIT_COMMIT_HASH__}>
+        react-pptx {__LATEST_GIT_TAG__}
+      </span>
       {doc && (
         <button
           onClick={() => {

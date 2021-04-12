@@ -17,6 +17,7 @@ const renderTextParts = (parts: InternalTextPart[]) => {
       text: part.text,
       options: {
         hyperlink: part.link,
+        bullet: part.bullet,
         color: part?.style?.color ?? undefined,
         fontFace: part?.style?.fontFace,
         fontSize: part?.style?.fontSize,
