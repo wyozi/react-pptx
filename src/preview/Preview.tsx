@@ -64,6 +64,23 @@ const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
   }
 };
 
+interface ListParts {
+  listType?: Exclude<InternalTextPart["bullet"], undefined>["type"];
+  parts: InternalTextPart[];
+}
+
+const getTextStyleForPart = (
+  part: InternalTextPart,
+  dimensions: [number, number],
+  slideWidth: number
+) => ({
+  fontSize: part.style?.fontSize
+    ? ((part.style.fontSize * POINTS_TO_INCHES) / dimensions[0]) * slideWidth
+    : undefined,
+  color: part.style?.color ? normalizedColorToCSS(part.style.color) : undefined,
+  fontFamily: part?.style?.fontFace ?? undefined,
+});
+
 const TextPreview = ({
   parts,
   dimensions,
@@ -73,45 +90,81 @@ const TextPreview = ({
   dimensions: [number, number];
   slideWidth: number;
 }) => {
+  // Perform a first pass to collect any consecutive bullet points into the same
+  // <ul> or <ol>
+  const listsOfParts: ListParts[] = parts.reduce(
+    (collectedSoFar: ListParts[], part) => {
+      if (!part.bullet) {
+        return [...collectedSoFar, { parts: [part] }];
+      }
+      const previousItem = collectedSoFar[collectedSoFar.length - 1];
+      const bulletType = part.bullet === true ? "bullet" : part.bullet.type;
+      if (previousItem && previousItem.listType === bulletType) {
+        previousItem.parts.push(part);
+        return collectedSoFar;
+      } else {
+        return [...collectedSoFar, { listType: bulletType, parts: [part] }];
+      }
+    },
+    []
+  );
   return (
     <div>
-      {parts.map((part) => {
-        const style = {
-          fontSize: part?.style?.fontSize
-            ? ((part.style.fontSize * POINTS_TO_INCHES) / dimensions[0]) *
-              slideWidth
-            : undefined,
-          color: part?.style?.color
-            ? normalizedColorToCSS(part.style.color)
-            : undefined,
-          fontFamily: part?.style?.fontFace ?? undefined,
-        };
-        if (part.link) {
-          if ((part.link as any).url) {
-            return (
-              <a
-                title={part.link.tooltip}
-                href={(part.link as any).url}
-                style={style}
-              >
-                {part.text}
-              </a>
-            );
-          } else if ((part.link as any).slide) {
-            // Not supported yet
-            return (
-              <a
-                title={part.link.tooltip}
-                style={{ ...style, cursor: "not-allowed" }}
-              >
-                {part.text}
-              </a>
-            );
-          }
+      {listsOfParts.reduce((elements, { listType, parts }, index) => {
+        if (!listType) {
+          const nonListParts = parts.map((part, partIndex) => {
+            const style = getTextStyleForPart(part, dimensions, slideWidth);
+            if (part.link) {
+              if ((part.link as any).url) {
+                return (
+                  <a
+                    key={`${index}-${partIndex}`}
+                    title={part.link.tooltip}
+                    href={(part.link as any).url}
+                    style={style}
+                  >
+                    {part.text}
+                  </a>
+                );
+              } else if ((part.link as any).slide) {
+                // Not supported yet
+                return (
+                  <a
+                    key={`${index}-${partIndex}`}
+                    title={part.link.tooltip}
+                    style={{ ...style, cursor: "not-allowed" }}
+                  >
+                    {part.text}
+                  </a>
+                );
+              }
+            } else {
+              return (
+                <span key={`${index}-${partIndex}`} style={style}>
+                  {part.text}
+                </span>
+              );
+            }
+          });
+          return [...elements, ...nonListParts];
         } else {
-          return <span style={style}>{part.text}</span>;
+          const listParts = parts.map((part, partIndex) => {
+            const style = getTextStyleForPart(part, dimensions, slideWidth);
+            return (
+              <li key={partIndex} style={style}>
+                {part.text}
+              </li>
+            );
+          });
+          const listElement =
+            listType === "number" ? (
+              <ol key={index}>{listParts}</ol>
+            ) : (
+              <ul key={index}>{listParts}</ul>
+            );
+          return [...elements, listElement];
         }
-      })}
+      }, [])}
     </div>
   );
 };
