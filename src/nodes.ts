@@ -41,10 +41,22 @@ export const isTextLink = (
   return el.type === "text-link";
 };
 
+export type TextBulletProps = {
+  children: string;
+  style?: TextNodeBaseStyle;
+} & Exclude<PptxGenJs.TextBaseProps["bullet"], boolean>;
+const TextBullet: React.FC<TextBulletProps> = ("text-bullet" as unknown) as React.FC;
+export const isTextBullet = (
+  el: React.ReactElement
+): el is React.FunctionComponentElement<TextBulletProps> => {
+  return el.type === "text-bullet";
+};
+
 export type TextChild =
   | string
   | number
   | ChildElement<TextLinkProps>
+  | ChildElement<TextBulletProps>
   | TextChild[];
 
 export type TextProps = VisualBaseProps & {
@@ -57,7 +69,11 @@ export type TextProps = VisualBaseProps & {
 const TextFn: React.FC<TextProps> = () => null;
 TextFn.prototype.isPptxTextElement = true;
 TextFn.prototype.Link = TextLink;
-export const Text = Object.assign(TextFn, { Link: TextLink });
+TextFn.prototype.Bullet = TextBullet;
+export const Text = Object.assign(TextFn, {
+  Link: TextLink,
+  Bullet: TextBullet,
+});
 
 // We add a random symbol-ish to the prototype for use in isText
 // For some reason a normal el.type == Text doesn't work here when

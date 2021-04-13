@@ -34,6 +34,18 @@ describe("test render", () => {
             }}
           />
         </Slide>
+        <Slide style={{ backgroundColor: "#DDDDDD" }}>
+          <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 16 }}>
+            Text before bullet
+            <Text.Bullet>Adding bullet 1</Text.Bullet>
+            <Text.Bullet>Adding bullet 2</Text.Bullet>
+            Text after bullet
+          </Text>
+          <Text style={{ x: 3, y: 2.5, w: 3, h: 0.5, fontSize: 16 }}>
+            <Text.Bullet type="number">Adding bullet</Text.Bullet>
+            <Text.Bullet type="number">Adding bullet</Text.Bullet>
+          </Text>
+        </Slide>
         <Slide>
           <Image
             src={{

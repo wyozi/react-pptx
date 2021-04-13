@@ -11,16 +11,24 @@ import {
   InternalTextPart,
 } from "./normalizer";
 
-const renderTextParts = (parts: InternalTextPart[]) => {
-  return parts.map((part) => {
+const renderTextParts = (parts: InternalTextPart[]): PptxGenJs.TextProps[] => {
+  const containsBullet = parts.some(({ bullet }) => !!bullet);
+  return parts.map((part, index) => {
+    const options: PptxGenJs.TextPropsOptions = {
+      hyperlink: part.link,
+      bullet: part.bullet,
+      color: part?.style?.color ?? undefined,
+      fontFace: part?.style?.fontFace,
+      fontSize: part?.style?.fontSize,
+    };
+    // For a mix of bullet points and non-bullet points, we have to add
+    // breakLine to all items for pptxgenjs to recognise it.
+    if (containsBullet && (!part.link || index === 0)) {
+      options.breakLine = true;
+    }
     return {
       text: part.text,
-      options: {
-        hyperlink: part.link,
-        color: part?.style?.color ?? undefined,
-        fontFace: part?.style?.fontFace,
-        fontSize: part?.style?.fontSize,
-      },
+      options,
     };
   });
 };

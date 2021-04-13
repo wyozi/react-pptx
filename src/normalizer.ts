@@ -13,6 +13,9 @@ import {
   isShape,
   TextChild,
   TextLinkProps,
+  TextBulletProps,
+  isTextLink,
+  isTextBullet,
 } from "./nodes";
 import React, { ReactElement } from "react";
 
@@ -54,13 +57,14 @@ export type InternalTextPart = {
         slide: number;
       }
   );
+  bullet?: Exclude<PptxGenJs.TextBaseProps["bullet"], boolean>;
 };
 export type InternalText = ObjectBase & {
   kind: "text";
   text: InternalTextPart[];
   style: InternalTextPartBaseStyle & {
-    align: "left" | "right" | "center";
-    verticalAlign: "top" | "bottom" | "middle";
+    align?: "left" | "right" | "center";
+    verticalAlign?: "top" | "bottom" | "middle";
   };
 };
 export type InternalImage = ObjectBase & {
@@ -128,20 +132,35 @@ export const normalizeHexOrComplexColor = (
 export const normalizeText = (t: TextChild): InternalTextPart[] => {
   if (isReactElementOrElementArray(t)) {
     return flattenChildren(t).map(
-      (el: string | number | ReactElement<TextLinkProps>) => {
+      (
+        el:
+          | string
+          | number
+          | ReactElement<TextLinkProps>
+          | ReactElement<TextBulletProps>
+      ) => {
         if (React.isValidElement(el)) {
-          const { props } = el;
           let link;
-          if ((props as any).url) {
-            link = { url: (props as any).url, tooltip: props.tooltip };
-          } else if ((props as any).slide) {
-            link = { slide: (props as any).slide, tooltip: props.tooltip };
+          let bullet;
+          if (isTextLink(el)) {
+            // props extracted here again so that ts can infer them as TextLinkProps
+            const { props } = el;
+            if ("url" in props) {
+              link = { url: props.url, tooltip: props.tooltip };
+            } else if (props.slide) {
+              link = { slide: props.slide, tooltip: props.tooltip };
+            }
+          } else if (isTextBullet(el)) {
+            // We know the intention is for a bullet, so pass on true if no customisation required
+            const { children, style, ...bulletProps } = el.props;
+            bullet = Object.keys(bulletProps).length ? bulletProps : true;
           }
 
-          const { children, style } = props;
+          const { children, style } = el.props;
           return {
             text: children,
-            link: link,
+            link,
+            bullet,
             style: {
               color: style?.color ? normalizeHexColor(style.color) : undefined,
               fontFace: style?.fontFace,
@@ -224,8 +243,8 @@ const normalizeSlideObject = (
         color: style.color ? normalizeHexColor(style.color) : null,
         fontFace: style.fontFace ?? DEFAULT_FONT_FACE,
         fontSize: style.fontSize ?? DEFAULT_FONT_SIZE,
-        align: style.align ?? "left",
-        verticalAlign: style.verticalAlign ?? "middle",
+        align: style.align,
+        verticalAlign: style.verticalAlign,
       },
     };
   } else if (isImage(node)) {

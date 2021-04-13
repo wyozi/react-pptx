@@ -90,12 +90,47 @@ Text layer
 | `style.color` | color | | Text color |
 | `style.fontFace` | string | Arial | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
 | `style.fontSize` | size in **points** | 18 | Font size. Defined in points (96 dpi by default) |
-| `style.align` | "left" or "center" or "right" | left | Horizontal text alignment within the text box |
-| `style.verticalAlign` | "top" or "middle" or "bottom" | middle | Vertical text alignment within the text box |
+| `style.align` | "left" or "center" or "right" | undefined | Horizontal text alignment within the text box |
+| `style.verticalAlign` | "top" or "middle" or "bottom" | undefined | Vertical text alignment within the text box |
 
 ### `<Text.Link>`
 
 Link to somewhere. Only usable inside `<Text>`. You must specify either `url` or `slide`.
+
+### `<Text.Bullet>`
+
+Bullet or numbered list item. Only usable inside `<Text>`.
+
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `type` | "bullet" or "number" | "bullet" | Whether to use a bulleted list or numbered list |
+| `characterCode` | string | undefined | Bullet character code (unicode) |
+| `indent` | number | 27 | Indentation (space between bullet and text) (points) |
+| `numberType` | string | undefined | The numbering type to use (Number type, see below) |
+| `numberStartAt` | number | undefined | Number bullets start at |
+
+<details>
+  <summary><b>Number types</b></summary>
+
+  To find out how these look, easiest to just Google .
+
+ - 'alphaLcParenBoth'
+ - 'alphaLcParenR'
+ - 'alphaLcPeriod'
+ - 'alphaUcParenBoth'
+ - 'alphaUcParenR'
+ - 'alphaUcPeriod'
+ - 'arabicParenBoth'
+ - 'arabicParenR'
+ - 'arabicPeriod'
+ - 'arabicPlain'
+ - 'romanLcParenBoth'
+ - 'romanLcParenR'
+ - 'romanLcPeriod'
+ - 'romanUcParenBoth'
+ - 'romanUcParenR'
+ - 'romanUcPeriod'
+</details>
 
 #### Props
 
