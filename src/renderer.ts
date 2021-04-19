@@ -13,17 +13,17 @@ import {
 
 const renderTextParts = (parts: InternalTextPart[]): PptxGenJs.TextProps[] => {
   const containsBullet = parts.some(({ bullet }) => !!bullet);
-  return parts.map((part, index) => {
+  return parts.map(({ style, link, ...part }, index) => {
     const options: PptxGenJs.TextPropsOptions = {
-      hyperlink: part.link,
+      ...part,
+      ...style,
+      hyperlink: link,
       bullet: part.bullet,
-      color: part?.style?.color ?? undefined,
-      fontFace: part?.style?.fontFace,
-      fontSize: part?.style?.fontSize,
+      color: style?.color ?? undefined,
     };
     // For a mix of bullet points and non-bullet points, we have to add
     // breakLine to all items for pptxgenjs to recognise it.
-    if (containsBullet && (!part.link || index === 0)) {
+    if (containsBullet && (!link || index === 0)) {
       options.breakLine = true;
     }
     return {
@@ -40,17 +40,11 @@ const renderSlideObject = async (
 ) => {
   const { x, y, w, h } = object.style;
   if (object.kind === "text") {
-    const style = object.style;
+    const { color, verticalAlign, ...style } = object.style;
     slide.addText(renderTextParts(object.text), {
-      x,
-      y,
-      w,
-      h,
-      color: style.color ?? undefined,
-      fontFace: style.fontFace,
-      fontSize: style.fontSize,
-      align: style.align,
-      valign: style.verticalAlign,
+      ...style,
+      color: color ?? undefined,
+      valign: verticalAlign,
     });
   } else if (object.kind === "image") {
     let data = "";

@@ -18,6 +18,7 @@ describe("test render", () => {
               tooltip="and I'm a tooltip!"
               style={{
                 color: "orange",
+                bold: true,
               }}
             >
               also for hopping to second slide
@@ -38,12 +39,26 @@ describe("test render", () => {
           <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 16 }}>
             Text before bullet
             <Text.Bullet>Adding bullet 1</Text.Bullet>
-            <Text.Bullet>Adding bullet 2</Text.Bullet>
+            <Text.Bullet style={{ italic: true }}>
+              Adding italic bullet 2
+            </Text.Bullet>
             Text after bullet
           </Text>
           <Text style={{ x: 3, y: 2.5, w: 3, h: 0.5, fontSize: 16 }}>
             <Text.Bullet type="number">Adding bullet</Text.Bullet>
-            <Text.Bullet type="number">Adding bullet</Text.Bullet>
+            <Text.Bullet type="number" style={{ bold: true }}>
+              Adding bold bullet
+            </Text.Bullet>
+          </Text>
+          <Text
+            style={{ x: 3, y: 3.5, w: 3, h: 0.5, fontSize: 16, bold: true }}
+          >
+            Some bold text
+          </Text>
+          <Text
+            style={{ x: 3, y: 4, w: 3, h: 0.5, fontSize: 16, italic: true }}
+          >
+            Some italic text
           </Text>
         </Slide>
         <Slide>

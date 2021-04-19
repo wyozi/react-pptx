@@ -40,9 +40,11 @@ const DEFAULT_FONT_SIZE = 18;
 const DEFAULT_FONT_FACE = "Arial";
 
 export interface InternalTextPartBaseStyle {
+  bold?: PptxGenJs.TextPropsOptions["bold"];
   color: HexColor | null;
-  fontFace: string;
-  fontSize: number; // In points
+  fontFace?: string;
+  fontSize?: number; // In points
+  italic?: PptxGenJs.TextPropsOptions["italic"];
 }
 
 export type InternalTextPart = {
@@ -162,9 +164,8 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
             link,
             bullet,
             style: {
+              ...(style || {}),
               color: style?.color ? normalizeHexColor(style.color) : undefined,
-              fontFace: style?.fontFace,
-              fontSize: style?.fontSize,
             },
           };
         } else {
@@ -226,6 +227,7 @@ const normalizeSlideObject = (
   y = normalizeCoordinate(y, 0);
   w = normalizeCoordinate(w, 1);
   h = normalizeCoordinate(h, 1);
+  const normalizedCoordinates = { x, y, w, h };
 
   if (isText(node)) {
     const style = node.props.style;
@@ -236,15 +238,11 @@ const normalizeSlideObject = (
           ? normalizeText(node.props.children)
           : [],
       style: {
-        x,
-        y,
-        w,
-        h,
+        ...style,
+        ...normalizedCoordinates,
         color: style.color ? normalizeHexColor(style.color) : null,
         fontFace: style.fontFace ?? DEFAULT_FONT_FACE,
         fontSize: style.fontSize ?? DEFAULT_FONT_SIZE,
-        align: style.align,
-        verticalAlign: style.verticalAlign,
       },
     };
   } else if (isImage(node)) {
@@ -252,10 +250,7 @@ const normalizeSlideObject = (
       kind: "image",
       src: node.props.src,
       style: {
-        x,
-        y,
-        w,
-        h,
+        ...normalizedCoordinates,
         sizing: node.props.style.sizing ?? null,
       },
     };
@@ -268,10 +263,7 @@ const normalizeSlideObject = (
           ? normalizeText(node.props.children)
           : null,
       style: {
-        x,
-        y,
-        w,
-        h,
+        ...normalizedCoordinates,
         backgroundColor: node.props.style.backgroundColor
           ? normalizeHexOrComplexColor(node.props.style.backgroundColor)
           : null,
