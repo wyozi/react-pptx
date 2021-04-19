@@ -100,7 +100,7 @@ const code = `ReactPPTX.render(
   <Presentation>
     <Slide>
       <Text style={{
-        x: 3, y: 1, w: 3, h: 0.5, fontSize: 32
+        x: 3, y: 1, w: 3, h: 0.5, fontSize: 32, bold: true
       }}>
         Hello there!
       </Text>

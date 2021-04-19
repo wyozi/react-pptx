@@ -9,6 +9,7 @@ import {
   InternalShape,
   InternalTextPart,
   InternalImage,
+  InternalTextPartBaseStyle,
 } from "../normalizer";
 import { layoutToInches, POINTS_TO_INCHES } from "../util";
 
@@ -70,15 +71,17 @@ interface ListParts {
 }
 
 const getTextStyleForPart = (
-  part: InternalTextPart,
+  style: Partial<InternalTextPartBaseStyle>,
   dimensions: [number, number],
   slideWidth: number
-) => ({
-  fontSize: part.style?.fontSize
-    ? ((part.style.fontSize * POINTS_TO_INCHES) / dimensions[0]) * slideWidth
+): React.CSSProperties => ({
+  fontSize: style.fontSize
+    ? ((style.fontSize * POINTS_TO_INCHES) / dimensions[0]) * slideWidth
     : undefined,
-  color: part.style?.color ? normalizedColorToCSS(part.style.color) : undefined,
-  fontFamily: part?.style?.fontFace ?? undefined,
+  color: style.color ? normalizedColorToCSS(style.color) : undefined,
+  fontFamily: style.fontFace ?? undefined,
+  fontWeight: style.bold ? "bold" : undefined,
+  fontStyle: style.italic ? "italic" : undefined,
 });
 
 const TextPreview = ({
@@ -113,7 +116,11 @@ const TextPreview = ({
       {listsOfParts.reduce((elements, { listType, parts }, index) => {
         if (!listType) {
           const nonListParts = parts.map((part, partIndex) => {
-            const style = getTextStyleForPart(part, dimensions, slideWidth);
+            const style = getTextStyleForPart(
+              part.style,
+              dimensions,
+              slideWidth
+            );
             if (part.link) {
               if ((part.link as any).url) {
                 return (
@@ -149,7 +156,11 @@ const TextPreview = ({
           return [...elements, ...nonListParts];
         } else {
           const listParts = parts.map((part, partIndex) => {
-            const style = getTextStyleForPart(part, dimensions, slideWidth);
+            const style = getTextStyleForPart(
+              part.style,
+              dimensions,
+              slideWidth
+            );
             return (
               <li key={partIndex} style={style}>
                 {part.text}
@@ -223,13 +234,7 @@ const SlideObjectPreview = ({
       {object.kind === "text" ? (
         <div
           style={{
-            fontSize:
-              ((object.style.fontSize * POINTS_TO_INCHES) / dimensions[0]) *
-              slideWidth,
-            color: object.style.color
-              ? normalizedColorToCSS(object.style.color)
-              : undefined,
-            fontFamily: object.style.fontFace,
+            ...getTextStyleForPart(object.style, dimensions, slideWidth),
             display: "flex",
             alignItems: object.style.verticalAlign,
             textAlign: object.style.align,
@@ -325,7 +330,7 @@ const Preview = (props: {
   children: React.ReactElement<PresentationProps>;
   slideStyle?: React.CSSProperties;
   drawBoundingBoxes?: boolean;
-}) => {
+}): JSX.Element | null => {
   if (!props.children) {
     return null;
   }

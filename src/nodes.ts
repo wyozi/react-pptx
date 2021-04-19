@@ -4,6 +4,7 @@ import {
   InternalImageSrc,
   InternalPresentation,
   InternalText,
+  InternalTextPartBaseStyle,
 } from "./normalizer";
 import { ChildElement } from "./util";
 
@@ -17,9 +18,11 @@ type VisualBaseProps = {
 };
 
 interface TextNodeBaseStyle {
+  bold?: InternalTextPartBaseStyle["bold"];
   color?: string;
   fontFace?: string;
   fontSize?: number;
+  italic?: InternalTextPartBaseStyle["italic"];
 }
 
 export type TextLinkProps = {
@@ -44,7 +47,10 @@ export const isTextLink = (
 export type TextBulletProps = {
   children: string;
   style?: TextNodeBaseStyle;
-} & Exclude<PptxGenJs.TextBaseProps["bullet"], boolean>;
+} & Omit<
+  Exclude<PptxGenJs.TextBaseProps["bullet"], boolean | undefined>,
+  "style"
+>;
 const TextBullet: React.FC<TextBulletProps> = ("text-bullet" as unknown) as React.FC;
 export const isTextBullet = (
   el: React.ReactElement

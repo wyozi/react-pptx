@@ -90,6 +90,8 @@ Text layer
 | `style.color` | color | | Text color |
 | `style.fontFace` | string | Arial | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
 | `style.fontSize` | size in **points** | 18 | Font size. Defined in points (96 dpi by default) |
+| `style.bold` | boolean | false | Whether text is bold or not |
+| `style.italic` | boolean | false | Whether text is italic or not |
 | `style.align` | "left" or "center" or "right" | undefined | Horizontal text alignment within the text box |
 | `style.verticalAlign` | "top" or "middle" or "bottom" | undefined | Vertical text alignment within the text box |
 
