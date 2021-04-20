@@ -65,12 +65,13 @@ export type TextChild =
   | ChildElement<TextBulletProps>
   | TextChild[];
 
-export type TextProps = VisualBaseProps & {
+export type TextProps = {
   children?: TextChild;
-  style?: TextNodeBaseStyle & {
-    align?: InternalText["style"]["align"];
-    verticalAlign?: InternalText["style"]["verticalAlign"];
-  };
+  style?: Partial<Exclude<VisualBaseProps["style"], undefined>> &
+    TextNodeBaseStyle & {
+      align?: InternalText["style"]["align"];
+      verticalAlign?: InternalText["style"]["verticalAlign"];
+    };
 };
 const TextFn: React.FC<TextProps> = () => null;
 TextFn.prototype.isPptxTextElement = true;
