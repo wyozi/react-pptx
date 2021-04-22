@@ -3135,10 +3135,10 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
-pptxgenjs@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.4.0.tgz#5b597fc64abc4d09e73556cc1a93c233bcc325d5"
-  integrity sha512-3vzborXFDXsgVn0JJDKQ2gBy9CaHRo3Fv+og0BfGGWX4TbUZKQuo20OwMi7ZRa2MsJzUpSBd3yulv7kx2ckiIg==
+pptxgenjs@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.5.0.tgz#f10a38035552d32e0733e4d4bd7daa5a39f476bf"
+  integrity sha512-kFlY1t/cQiHiF+vjCf1Ar9IJ7/NEq8QwC9tkQ9QGSpxLbld052rjxWNanrIWlVW9Vakpe/ZWGXXFqUUP46hsBA==
   dependencies:
     "@types/node" "^14.14.10"
     https "^1.0.0"
