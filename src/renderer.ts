@@ -45,6 +45,7 @@ const renderSlideObject = async (
       ...style,
       color: color ?? undefined,
       valign: verticalAlign,
+      breakLine: true,
     });
   } else if (object.kind === "image") {
     let data = "";
@@ -119,6 +120,7 @@ const renderSlideObject = async (
           size: style.borderWidth ?? undefined,
           color: style.borderColor ?? undefined,
         },
+        breakLine: true,
       });
     } else {
       slide.addShape(shapeType, {

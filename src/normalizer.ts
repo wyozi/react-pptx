@@ -199,7 +199,7 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
 
 const PERCENTAGE_REGEXP = /^\d+%$/;
 export const normalizeCoordinate = (
-  x: string | number | null,
+  x: string | number | null | undefined,
   _default: number
 ): string | number => {
   if (typeof x === "string") {

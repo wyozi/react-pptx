@@ -8,6 +8,15 @@ import {
 } from "./normalizer";
 import { ChildElement } from "./util";
 
+export enum NodeTypes {
+  SHAPE = "shape",
+  TEXT_LINK = "text-link",
+  TEXT_BULLET = "text-bullet",
+  SLIDE = "slide",
+  IMAGE = "image",
+  PRESENTATION = "presentation",
+}
+
 type VisualBaseProps = {
   style?: {
     x: number | string;
@@ -37,11 +46,11 @@ export type TextLinkProps = {
       slide: number;
     }
 );
-const TextLink: React.FC<TextLinkProps> = ("text-link" as unknown) as React.FC;
+const TextLink: React.FC<TextLinkProps> = (NodeTypes.TEXT_LINK as unknown) as React.FC;
 export const isTextLink = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<TextLinkProps> => {
-  return el.type === "text-link";
+  return el.type === NodeTypes.TEXT_LINK;
 };
 
 export type TextBulletProps = {
@@ -51,11 +60,11 @@ export type TextBulletProps = {
   Exclude<PptxGenJs.TextBaseProps["bullet"], boolean | undefined>,
   "style"
 >;
-const TextBullet: React.FC<TextBulletProps> = ("text-bullet" as unknown) as React.FC;
+const TextBullet: React.FC<TextBulletProps> = (NodeTypes.TEXT_BULLET as unknown) as React.FC;
 export const isTextBullet = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<TextBulletProps> => {
-  return el.type === "text-bullet";
+  return el.type === NodeTypes.TEXT_BULLET;
 };
 
 export type TextChild =
@@ -65,12 +74,13 @@ export type TextChild =
   | ChildElement<TextBulletProps>
   | TextChild[];
 
-export type TextProps = VisualBaseProps & {
+export type TextProps = {
   children?: TextChild;
-  style?: TextNodeBaseStyle & {
-    align?: InternalText["style"]["align"];
-    verticalAlign?: InternalText["style"]["verticalAlign"];
-  };
+  style?: Partial<Exclude<VisualBaseProps["style"], undefined>> &
+    TextNodeBaseStyle & {
+      align?: InternalText["style"]["align"];
+      verticalAlign?: InternalText["style"]["verticalAlign"];
+    };
 };
 const TextFn: React.FC<TextProps> = () => null;
 TextFn.prototype.isPptxTextElement = true;
@@ -88,7 +98,7 @@ export const Text = Object.assign(TextFn, {
 export const isText = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<TextProps> => {
-  return el.type instanceof Function && el.type.prototype.isPptxTextElement;
+  return el.type instanceof Function && el.type.prototype?.isPptxTextElement;
 };
 
 export type ImageProps = VisualBaseProps & {
@@ -106,11 +116,11 @@ export type ImageProps = VisualBaseProps & {
     };
   };
 };
-export const Image: React.FC<ImageProps> = ("image" as unknown) as React.FC;
+export const Image: React.FC<ImageProps> = (NodeTypes.IMAGE as unknown) as React.FC;
 export const isImage = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<ImageProps> => {
-  return el.type === "image";
+  return el.type === NodeTypes.IMAGE;
 };
 
 export type ShapeProps = VisualBaseProps & {
@@ -122,11 +132,11 @@ export type ShapeProps = VisualBaseProps & {
     borderColor?: string;
   };
 };
-export const Shape: React.FC<ShapeProps> = ("shape" as unknown) as React.FC;
+export const Shape: React.FC<ShapeProps> = (NodeTypes.SHAPE as unknown) as React.FC;
 export const isShape = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<ShapeProps> => {
-  return el.type === "shape";
+  return el.type === NodeTypes.SHAPE;
 };
 
 export type VisualProps = TextProps | ImageProps | ShapeProps;
@@ -140,10 +150,13 @@ export type SlideProps = {
     backgroundImage?: InternalImageSrc;
   };
 };
-export const Slide: React.FC<SlideProps> = ("slide" as unknown) as React.FC;
+export const Slide: React.FC<SlideProps> = (NodeTypes.SLIDE as unknown) as React.FC;
 
 export type PresentationProps = {
   children?: ChildElement<SlideProps>;
   layout?: InternalPresentation["layout"];
 };
-export const Presentation: React.FC<PresentationProps> = ("presentation" as unknown) as React.FC;
+export const Presentation: React.FC<PresentationProps> = (NodeTypes.PRESENTATION as unknown) as React.FC;
+
+export const isReactPPTXComponent = (node: React.ReactElement): boolean =>
+  Object.values(NodeTypes).includes(node.type as NodeTypes) || isText(node);
