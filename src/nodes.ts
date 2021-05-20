@@ -45,7 +45,8 @@ export type TextLinkProps = TextNodeBaseProps & {
       }
   );
 
-const TextLink: React.FC<TextLinkProps> = (NodeTypes.TEXT_LINK as unknown) as React.FC;
+const TextLink: React.FC<TextLinkProps> =
+  NodeTypes.TEXT_LINK as unknown as React.FC;
 export const isTextLink = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<TextLinkProps> => {
@@ -59,7 +60,8 @@ export type TextBulletProps = TextNodeBaseProps & {
     Exclude<PptxGenJs.TextBaseProps["bullet"], boolean | undefined>,
     "style"
   >;
-const TextBullet: React.FC<TextBulletProps> = (NodeTypes.TEXT_BULLET as unknown) as React.FC;
+const TextBullet: React.FC<TextBulletProps> =
+  NodeTypes.TEXT_BULLET as unknown as React.FC;
 export const isTextBullet = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<TextBulletProps> => {
@@ -115,7 +117,8 @@ export type ImageProps = VisualBaseProps & {
     };
   };
 };
-export const Image: React.FC<ImageProps> = (NodeTypes.IMAGE as unknown) as React.FC;
+export const Image: React.FC<ImageProps> =
+  NodeTypes.IMAGE as unknown as React.FC;
 export const isImage = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<ImageProps> => {
@@ -131,7 +134,8 @@ export type ShapeProps = VisualBaseProps & {
     borderColor?: string;
   };
 };
-export const Shape: React.FC<ShapeProps> = (NodeTypes.SHAPE as unknown) as React.FC;
+export const Shape: React.FC<ShapeProps> =
+  NodeTypes.SHAPE as unknown as React.FC;
 export const isShape = (
   el: React.ReactElement
 ): el is React.FunctionComponentElement<ShapeProps> => {
@@ -149,13 +153,15 @@ export type SlideProps = {
     backgroundImage?: InternalImageSrc;
   };
 };
-export const Slide: React.FC<SlideProps> = (NodeTypes.SLIDE as unknown) as React.FC;
+export const Slide: React.FC<SlideProps> =
+  NodeTypes.SLIDE as unknown as React.FC;
 
 export type PresentationProps = {
   children?: ChildElement<SlideProps>;
   layout?: InternalPresentation["layout"];
 };
-export const Presentation: React.FC<PresentationProps> = (NodeTypes.PRESENTATION as unknown) as React.FC;
+export const Presentation: React.FC<PresentationProps> =
+  NodeTypes.PRESENTATION as unknown as React.FC;
 
 export const isReactPPTXComponent = (node: React.ReactElement): boolean =>
   Object.values(NodeTypes).includes(node.type as NodeTypes) || isText(node);
