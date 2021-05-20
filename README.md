@@ -89,11 +89,26 @@ Text layer
 | `style.h` | number (inches) or string (percentage) |  | Absolute height |
 | `style.color` | color | | Text color |
 | `style.fontFace` | string | Arial | Font family. Try to stick to [web-safe fonts](https://www.cssfontstack.com/) |
-| `style.fontSize` | size in **points** | 18 | Font size. Defined in points (96 dpi by default) |
+| `style.fontSize` | number (points) | 18 | Font size. Defined in points (96 dpi by default) |
 | `style.bold` | boolean | false | Whether text is bold or not |
 | `style.italic` | boolean | false | Whether text is italic or not |
+| `style.underline` | boolean | false | Whether text is underlined or not |
+| `style.subscript` | boolean | false | Whether text is subscript or not |
+| `style.superscript` | boolean | false | Whether text is superscript or not |
+| `style.strike` | boolean | false | Whether text has a strikeout or not |
+| `style.inset` | boolean | false | Whether text is inset or not |
 | `style.align` | "left" or "center" or "right" | undefined | Horizontal text alignment within the text box |
 | `style.verticalAlign` | "top" or "middle" or "bottom" | undefined | Vertical text alignment within the text box |
+| `style.paraSpaceAfter` | number (points) |  | Paragraph spacing after the text |
+| `style.paraSpaceBefore` | number (points) |  | Paragraph spacing before the text |
+| `style.charSpacing` | number (points) |  | The amount of spacing between characters, between 1-256 |
+| `style.lineSpacing` | number (points) |  | Space between each line |
+| `style.margin` | number (points) or \[number, number, number, number\] |  | Similar to CSS `padding`, 0-99 |
+| `style.rotate` | integer |  | Degrees of text rotation, between 0-360 |
+| `rtlMode` | boolean | false | Whether text is displayed in right-to-left or not |
+| `lang` | string | en-US | Setting for language, useful for non-English fonts |
+
+To see examples of the text formatting, see the underlying [PptxGenJS documentation](https://gitbrent.github.io/PptxGenJS/docs/api-text#text-formatting).
 
 ### `<Text.Link>`
 
@@ -110,6 +125,8 @@ Bullet or numbered list item. Only usable inside `<Text>`.
 | `indent` | number | 27 | Indentation (space between bullet and text) (points) |
 | `numberType` | string | undefined | The numbering type to use (Number type, see below) |
 | `numberStartAt` | number | undefined | Number bullets start at |
+| `rtlMode` | boolean | false | Whether text is displayed in right-to-left or not |
+| `lang` | string | en-US | Setting for language, useful for non-English fonts |
 
 <details>
   <summary><b>Number types</b></summary>
@@ -141,6 +158,8 @@ Bullet or numbered list item. Only usable inside `<Text>`.
 | `url` | string |  | URL to open |
 | `slide` | number |  | Slide to open |
 | `tooltip` | string |  | Tooltip on hover |
+| `rtlMode` | boolean | false | Whether text is displayed in right-to-left or not |
+| `lang` | string | en-US | Setting for language, useful for non-English fonts |
 
 ### `<Image>`
 
