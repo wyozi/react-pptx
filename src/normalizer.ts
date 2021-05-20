@@ -39,15 +39,33 @@ type ObjectBase = {
 const DEFAULT_FONT_SIZE = 18;
 const DEFAULT_FONT_FACE = "Arial";
 
-export interface InternalTextPartBaseStyle {
-  bold?: PptxGenJs.TextPropsOptions["bold"];
+type PptxGenJsTextStyles = Pick<
+  PptxGenJs.TextPropsOptions,
+  | "bold"
+  | "italic"
+  | "paraSpaceAfter"
+  | "paraSpaceBefore"
+  | "fontSize"
+  | "charSpacing"
+  | "fontFace"
+  | "margin"
+  | "lineSpacing"
+  | "underline"
+  | "subscript"
+  | "superscript"
+  | "strike"
+  | "rotate"
+>;
+export interface InternalTextPartBaseStyle extends PptxGenJsTextStyles {
   color: HexColor | null;
-  fontFace?: string;
-  fontSize?: number; // In points
-  italic?: PptxGenJs.TextPropsOptions["italic"];
 }
 
-export type InternalTextPart = {
+type PptxGenJsTextOptions = Pick<
+  PptxGenJs.TextPropsOptions,
+  "rtlMode" | "lang"
+>;
+
+export type InternalTextPart = PptxGenJsTextOptions & {
   text: string;
   // Must be partial, because parent node should override non-specified properties
   style: Partial<InternalTextPartBaseStyle>;
@@ -158,9 +176,11 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
             bullet = Object.keys(bulletProps).length ? bulletProps : true;
           }
 
-          const { children, style } = el.props;
+          const { children, style, rtlMode, lang } = el.props;
           return {
             text: children,
+            rtlMode,
+            lang,
             link,
             bullet,
             style: {
@@ -181,15 +201,13 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
       (prev: InternalTextPart[], cur) => prev.concat(normalizeText(cur)),
       [] as InternalTextPart[]
     );
-  } else if (typeof t === "number") {
+  } else if (["number", "string"].includes(typeof t)) {
     return [
       {
         text: t.toString(),
         style: {},
       },
     ];
-  } else if (typeof t === "string") {
-    return [{ text: t, style: {} }];
   } else {
     throw new TypeError(
       "Invalid TextChild found; only strings/numbers/arrays of them are accepted"

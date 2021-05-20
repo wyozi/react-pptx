@@ -4,6 +4,7 @@ import {
   InternalImageSrc,
   InternalPresentation,
   InternalText,
+  InternalTextPart,
   InternalTextPartBaseStyle,
 } from "./normalizer";
 import { ChildElement } from "./util";
@@ -26,26 +27,24 @@ type VisualBaseProps = {
   };
 };
 
-interface TextNodeBaseStyle {
-  bold?: InternalTextPartBaseStyle["bold"];
+interface TextNodeBaseStyle extends Omit<InternalTextPartBaseStyle, "color"> {
   color?: string;
-  fontFace?: string;
-  fontSize?: number;
-  italic?: InternalTextPartBaseStyle["italic"];
 }
+type TextNodeBaseProps = Pick<InternalTextPart, "rtlMode" | "lang">;
 
-export type TextLinkProps = {
+export type TextLinkProps = TextNodeBaseProps & {
   children: string;
   tooltip?: string;
   style?: TextNodeBaseStyle;
 } & (
-  | {
-      url: string;
-    }
-  | {
-      slide: number;
-    }
-);
+    | {
+        url: string;
+      }
+    | {
+        slide: number;
+      }
+  );
+
 const TextLink: React.FC<TextLinkProps> = (NodeTypes.TEXT_LINK as unknown) as React.FC;
 export const isTextLink = (
   el: React.ReactElement
@@ -53,13 +52,13 @@ export const isTextLink = (
   return el.type === NodeTypes.TEXT_LINK;
 };
 
-export type TextBulletProps = {
+export type TextBulletProps = TextNodeBaseProps & {
   children: string;
   style?: TextNodeBaseStyle;
 } & Omit<
-  Exclude<PptxGenJs.TextBaseProps["bullet"], boolean | undefined>,
-  "style"
->;
+    Exclude<PptxGenJs.TextBaseProps["bullet"], boolean | undefined>,
+    "style"
+  >;
 const TextBullet: React.FC<TextBulletProps> = (NodeTypes.TEXT_BULLET as unknown) as React.FC;
 export const isTextBullet = (
   el: React.ReactElement
@@ -74,7 +73,7 @@ export type TextChild =
   | ChildElement<TextBulletProps>
   | TextChild[];
 
-export type TextProps = {
+export type TextProps = TextNodeBaseProps & {
   children?: TextChild;
   style?: Partial<Exclude<VisualBaseProps["style"], undefined>> &
     TextNodeBaseStyle & {
