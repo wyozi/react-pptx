@@ -74,24 +74,68 @@ const getTextStyleForPart = (
   style: Partial<InternalTextPartBaseStyle>,
   dimensions: [number, number],
   slideWidth: number
-): React.CSSProperties => ({
-  fontSize: style.fontSize
-    ? ((style.fontSize * POINTS_TO_INCHES) / dimensions[0]) * slideWidth
-    : undefined,
-  color: style.color ? normalizedColorToCSS(style.color) : undefined,
-  fontFamily: style.fontFace ?? undefined,
-  fontWeight: style.bold ? "bold" : undefined,
-  fontStyle: style.italic ? "italic" : undefined,
-});
+): React.CSSProperties => {
+  const pointsToPx = (points: number) =>
+    ((points * POINTS_TO_INCHES) / dimensions[0]) * slideWidth;
+
+  let margin: string | undefined = undefined;
+  if (style.margin !== undefined) {
+    if (Array.isArray(style.margin)) {
+      margin = style.margin
+        .map((marginItem) => `${pointsToPx(marginItem)}px`)
+        .join(", ");
+    } else {
+      margin = `0 ${pointsToPx(style.margin)}px`;
+    }
+  }
+
+  const textDecorationParts: string[] = [];
+  if (style.underline) {
+    textDecorationParts.push("underline");
+  }
+  if (style.strike) {
+    textDecorationParts.push("line-through");
+  }
+  const textDecoration = textDecorationParts.length
+    ? textDecorationParts.join(" ")
+    : undefined;
+
+  return {
+    fontSize: style.fontSize ? pointsToPx(style.fontSize) : undefined,
+    color: style.color ? normalizedColorToCSS(style.color) : undefined,
+    fontFamily: style.fontFace ?? undefined,
+    fontWeight: style.bold ? "bold" : undefined,
+    fontStyle: style.italic ? "italic" : undefined,
+    padding: margin,
+    lineHeight: style.lineSpacing
+      ? `${pointsToPx(style.lineSpacing)}px`
+      : undefined,
+    letterSpacing: style.charSpacing
+      ? `${pointsToPx(style.charSpacing)}px`
+      : undefined,
+    textDecoration,
+    marginTop: style.paraSpaceBefore
+      ? `${pointsToPx(style.paraSpaceBefore)}px`
+      : undefined,
+    marginBottom: style.paraSpaceAfter
+      ? `${pointsToPx(style.paraSpaceAfter)}px`
+      : undefined,
+    transform: style.rotate ? `rotate(${style.rotate}deg)` : undefined,
+  };
+};
 
 const TextPreview = ({
   parts,
   dimensions,
   slideWidth,
+  subscript,
+  superscript,
 }: {
   parts: InternalTextPart[];
   dimensions: [number, number];
   slideWidth: number;
+  subscript: boolean | undefined;
+  superscript: boolean | undefined;
 }) => {
   // Perform a first pass to collect any consecutive bullet points into the same
   // <ul> or <ol>
@@ -111,8 +155,8 @@ const TextPreview = ({
     },
     []
   );
-  return (
-    <div>
+  let children = (
+    <>
       {listsOfParts.reduce((elements, { listType, parts }, index) => {
         if (!listType) {
           const nonListParts = parts.map((part, partIndex) => {
@@ -145,6 +189,18 @@ const TextPreview = ({
                   </a>
                 );
               }
+            } else if (part.style.subscript) {
+              return (
+                <sub key={`${index}-${partIndex}`} style={style}>
+                  {part.text}
+                </sub>
+              );
+            } else if (part.style.superscript) {
+              return (
+                <sup key={`${index}-${partIndex}`} style={style}>
+                  {part.text}
+                </sup>
+              );
             } else {
               return (
                 <span key={`${index}-${partIndex}`} style={style}>
@@ -176,8 +232,14 @@ const TextPreview = ({
           return [...elements, listElement];
         }
       }, [])}
-    </div>
+    </>
   );
+  if (superscript) {
+    children = <sup>{children}</sup>;
+  } else if (subscript) {
+    children = <sub>{children}</sub>;
+  }
+  return <div>{children}</div>;
 };
 
 const constrainObjectFit = (
@@ -243,6 +305,8 @@ const SlideObjectPreview = ({
         >
           <TextPreview
             parts={object.text}
+            subscript={object.style.subscript}
+            superscript={object.style.superscript}
             dimensions={dimensions}
             slideWidth={slideWidth}
           />

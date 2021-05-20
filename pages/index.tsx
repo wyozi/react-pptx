@@ -197,6 +197,7 @@ const Previewer = () => {
     };
     run();
     editor.onDidChangeModelContent((event) => {
+      console.log("Am I changing?");
       run();
     });
   }, []);
