@@ -191,5 +191,5 @@ export const render = async (
     })
   );
 
-  return pres.write(opts?.outputType ?? "nodebuffer");
+  return pres.write({ outputType: opts?.outputType ?? "nodebuffer" });
 };
