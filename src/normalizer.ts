@@ -167,38 +167,28 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
             const { children, style, rtlMode, lang, ...bulletProps } = el.props;
             bullet = Object.keys(bulletProps).length ? bulletProps : true;
 
-            // If the bullet has multiple TextChild components, then we make
-            // the first one take on `bullet` prop and collect the rest up.
-            let childParts: InternalTextPart[] = [];
-            if (Array.isArray(children)) {
-              childParts = children
-                .map((child) => normalizeText(child))
-                .reduce((prev, current) => prev.concat(current), []);
-            } else {
-              childParts = normalizeText(children);
-            }
+            const normalizedChildren = normalizeText(children);
+            const normalizedParentColor = style?.color
+              ? normalizeHexColor(style.color)
+              : undefined;
+            const parentStyle = {
+              ...(style || {}),
+              color: normalizedParentColor,
+            };
 
-            const color = childParts[0].style?.color ?? style?.color;
             // Make `breakLine = false` for all child components except the last one
             // (so every child will sit within the same bullet point)
-            const firstChild = {
+            const childParts = normalizedChildren.map((childPart, index) => ({
               rtlMode,
               lang,
-              ...childParts[0],
-              bullet,
-              breakLine: childParts.length <= 1,
+              ...childPart,
               style: {
-                ...(style || {}),
-                ...(childParts[0].style || {}),
-                color: color ? normalizeHexColor(color) : undefined,
+                ...parentStyle,
+                ...childPart.style,
               },
-            };
-            return textParts.concat(firstChild).concat(
-              childParts.slice(1).map((childPart, index) => ({
-                ...childPart,
-                breakLine: index + 2 >= childParts.length,
-              }))
-            );
+              breakLine: index + 1 >= normalizedChildren.length,
+            }));
+            return textParts.concat(childParts);
           }
 
           let link;
