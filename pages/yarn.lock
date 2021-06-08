@@ -851,10 +851,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@rollup/plugin-node-resolve@^11.2.1":
-  version "11.2.1"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-11.2.1.tgz#82aa59397a29cd4e13248b106e6a4a1880362a60"
-  integrity sha512-yc2n43jcqVyGE2sqV5/YCmocy9ArjVAP/BeXyTtADTBBX6V0e5UMqwO8CdQ0kzjb6zu5P1qMzsScCMRvE9OlVg==
+"@rollup/plugin-node-resolve@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-13.0.0.tgz#352f07e430ff377809ec8ec8a6fd636547162dc4"
+  integrity sha512-41X411HJ3oikIDivT5OKe9EZ6ud6DXudtfNrGbC4nniaxx2esiWjkLOzgnZsWq1IM8YIeL2rzRGLZLBjlhnZtQ==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     "@types/resolve" "1.17.1"
@@ -882,10 +882,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.5.tgz#3d03acd3b3414cf67faf999aed11682ed121f22b"
   integrity sha512-90hiq6/VqtQgX8Sp0EzeIsv3r+ellbGj4URKj5j30tLlZvRUpnAe9YbYnjl3pJM93GyXU0tghHhvXHq+5rnCKA==
 
-"@types/node@^14.14.10":
-  version "14.14.37"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.37.tgz#a3dd8da4eb84a996c36e331df98d82abd76b516e"
-  integrity sha512-XYmBiy+ohOR4Lh5jE379fV2IU+6Jn4g5qASinhitfyO71b/sCo6MKsMLF5tc7Zf2CE8hViVQyYSobJNke8OvUw==
+"@types/node@^14.14.37":
+  version "14.17.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.3.tgz#6d327abaa4be34a74e421ed6409a0ae2f47f4c3d"
+  integrity sha512-e6ZowgGJmTuXa3GyaPbTGxX17tnThl2aSSizrFthQ7m9uLGZBXiGhgE55cjRZTF5kjZvYn9EOPOMljdjwbflxw==
 
 "@types/q@^1.5.1":
   version "1.5.4"
@@ -3218,7 +3218,7 @@ iferr@^0.1.5:
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
   integrity sha1-xg7taebY/bazEEofy8ocGS3FtQE=
 
-image-size@^0.9.3:
+image-size@^0.9.7:
   version "0.9.7"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.9.7.tgz#43b4ead4b1310d5ae310a559d52935a347e47c09"
   integrity sha512-KRVgLNZkr00YGN0qn9MlIrmlxbRhsCcEb1Byq3WKGnIV4M48iD185cprRtaoK4t5iC+ym2Q5qlArxZ/V1yzDgA==
@@ -3684,7 +3684,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jszip@^3.5.0:
+jszip@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.6.0.tgz#839b72812e3f97819cc13ac4134ffced95dd6af9"
   integrity sha512-jgnQoG9LKnWO3mnVNBnfhkh0QknICd1FGSrXcgrl67zioyJ4wgx25o9ZqwNtrROSflGBCGYnJfjrIyRIby1OoQ==
@@ -5017,15 +5017,15 @@ posthtml@^0.12.0:
     posthtml-parser "^0.4.2"
     posthtml-render "^1.2.2"
 
-pptxgenjs@^3.4.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.5.0.tgz#f10a38035552d32e0733e4d4bd7daa5a39f476bf"
-  integrity sha512-kFlY1t/cQiHiF+vjCf1Ar9IJ7/NEq8QwC9tkQ9QGSpxLbld052rjxWNanrIWlVW9Vakpe/ZWGXXFqUUP46hsBA==
+pptxgenjs@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.6.0.tgz#4f7cb055392b1364353c5947903d961183ba7f9e"
+  integrity sha512-oh63CRVfD2+obLBANsLdcjoeOa8FjIKkR1cAc95/WWgPFc0DI8DJFExGMBqtDwuPgLntyUZHhPC2KFrJBvxR4A==
   dependencies:
-    "@types/node" "^14.14.10"
+    "@types/node" "^14.14.37"
     https "^1.0.0"
-    image-size "^0.9.3"
-    jszip "^3.5.0"
+    image-size "^0.9.7"
+    jszip "^3.6.0"
 
 prelude-ls@~1.1.2:
   version "1.1.2"
@@ -5227,10 +5227,10 @@ react-keyed-flatten-children@^1.3.0:
 "react-pptx@file:..":
   version "0.0.0-development"
   dependencies:
-    "@rollup/plugin-node-resolve" "^11.2.1"
+    "@rollup/plugin-node-resolve" "^13.0.0"
     color "^3.1.3"
     cross-fetch "^3.1.4"
-    pptxgenjs "^3.4.0"
+    pptxgenjs "^3.6.0"
     react-is "^17.0.2"
     react-keyed-flatten-children "^1.3.0"
 

@@ -49,12 +49,12 @@ const TextLink: React.FC<TextLinkProps> =
   NodeTypes.TEXT_LINK as unknown as React.FC;
 export const isTextLink = (
   el: React.ReactElement
-): el is React.FunctionComponentElement<TextLinkProps> => {
+): el is React.ReactElement<TextLinkProps> => {
   return el.type === NodeTypes.TEXT_LINK;
 };
 
 export type TextBulletProps = TextNodeBaseProps & {
-  children: string;
+  children: TextChild;
   style?: TextNodeBaseStyle;
 } & Omit<
     Exclude<PptxGenJs.TextBaseProps["bullet"], boolean | undefined>,
@@ -64,7 +64,7 @@ const TextBullet: React.FC<TextBulletProps> =
   NodeTypes.TEXT_BULLET as unknown as React.FC;
 export const isTextBullet = (
   el: React.ReactElement
-): el is React.FunctionComponentElement<TextBulletProps> => {
+): el is React.ReactElement<TextBulletProps> => {
   return el.type === NodeTypes.TEXT_BULLET;
 };
 
@@ -121,7 +121,7 @@ export const Image: React.FC<ImageProps> =
   NodeTypes.IMAGE as unknown as React.FC;
 export const isImage = (
   el: React.ReactElement
-): el is React.FunctionComponentElement<ImageProps> => {
+): el is React.ReactElement<ImageProps> => {
   return el.type === NodeTypes.IMAGE;
 };
 
@@ -138,7 +138,7 @@ export const Shape: React.FC<ShapeProps> =
   NodeTypes.SHAPE as unknown as React.FC;
 export const isShape = (
   el: React.ReactElement
-): el is React.FunctionComponentElement<ShapeProps> => {
+): el is React.ReactElement<ShapeProps> => {
   return el.type === NodeTypes.SHAPE;
 };
 
