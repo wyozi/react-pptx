@@ -62,7 +62,7 @@ export interface InternalTextPartBaseStyle extends PptxGenJsTextStyles {
 
 type PptxGenJsTextOptions = Pick<
   PptxGenJs.TextPropsOptions,
-  "rtlMode" | "lang"
+  "rtlMode" | "lang" | "breakLine"
 >;
 
 export type InternalTextPart = PptxGenJsTextOptions & {
@@ -151,8 +151,9 @@ export const normalizeHexOrComplexColor = (
 
 export const normalizeText = (t: TextChild): InternalTextPart[] => {
   if (isReactElementOrElementArray(t)) {
-    return flattenChildren(t).map(
+    return flattenChildren(t).reduce<InternalTextPart[]>(
       (
+        textParts,
         el:
           | string
           | number
@@ -160,8 +161,37 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
           | ReactElement<TextBulletProps>
       ) => {
         if (React.isValidElement(el)) {
-          let link;
           let bullet;
+          if (isTextBullet(el)) {
+            // We know the intention is for a bullet, so pass on true if no customisation required
+            const { children, style, rtlMode, lang, ...bulletProps } = el.props;
+            bullet = Object.keys(bulletProps).length ? bulletProps : true;
+
+            const normalizedChildren = normalizeText(children);
+            const normalizedParentColor = style?.color
+              ? normalizeHexColor(style.color)
+              : undefined;
+            const parentStyle = {
+              ...(style || {}),
+              color: normalizedParentColor,
+            };
+
+            // Make `breakLine = false` for all child components except the last one
+            // (so every child will sit within the same bullet point)
+            const childParts = normalizedChildren.map((childPart, index) => ({
+              rtlMode,
+              lang,
+              ...childPart,
+              style: {
+                ...parentStyle,
+                ...childPart.style,
+              },
+              breakLine: index + 1 >= normalizedChildren.length,
+            }));
+            return textParts.concat(childParts);
+          }
+
+          let link;
           if (isTextLink(el)) {
             // props extracted here again so that ts can infer them as TextLinkProps
             const { props } = el;
@@ -170,14 +200,9 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
             } else if (props.slide) {
               link = { slide: props.slide, tooltip: props.tooltip };
             }
-          } else if (isTextBullet(el)) {
-            // We know the intention is for a bullet, so pass on true if no customisation required
-            const { children, style, ...bulletProps } = el.props;
-            bullet = Object.keys(bulletProps).length ? bulletProps : true;
           }
-
           const { children, style, rtlMode, lang } = el.props;
-          return {
+          return textParts.concat({
             text: children,
             rtlMode,
             lang,
@@ -187,14 +212,15 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
               ...(style || {}),
               color: style?.color ? normalizeHexColor(style.color) : undefined,
             },
-          };
+          });
         } else {
-          return {
+          return textParts.concat({
             text: el.toString(),
             style: {},
-          };
+          });
         }
-      }
+      },
+      []
     );
   } else if (Array.isArray(t)) {
     return t.reduce(

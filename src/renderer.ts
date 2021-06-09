@@ -13,7 +13,7 @@ import {
 
 const renderTextParts = (parts: InternalTextPart[]): PptxGenJs.TextProps[] => {
   const containsBullet = parts.some(({ bullet }) => !!bullet);
-  return parts.map(({ style, link, ...part }, index) => {
+  return parts.map(({ style, link, ...part }) => {
     const options: PptxGenJs.TextPropsOptions = {
       ...part,
       ...style,
@@ -23,8 +23,8 @@ const renderTextParts = (parts: InternalTextPart[]): PptxGenJs.TextProps[] => {
     };
     // For a mix of bullet points and non-bullet points, we have to add
     // breakLine to all items for pptxgenjs to recognise it.
-    if (containsBullet && (!link || index === 0)) {
-      options.breakLine = true;
+    if (containsBullet && !link) {
+      options.breakLine = options.breakLine ?? true;
     }
     return {
       text: part.text,
