@@ -181,6 +181,7 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
             const childParts = normalizedChildren.map((childPart, index) => ({
               rtlMode,
               lang,
+              bullet: index === 0 ? bullet : undefined,
               ...childPart,
               style: {
                 ...parentStyle,
