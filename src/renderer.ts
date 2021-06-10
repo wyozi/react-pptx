@@ -184,6 +184,13 @@ export const render = async (
   }
   pres.layout = layout;
 
+  const fileProps = ["author", "company", "revision", "subject", "title"];
+  for (const propName in fileProps) {
+    if (normalized[propName]) {
+      pres[propName] = normalized[propName];
+    }
+  }
+
   await Promise.all(
     normalized.slides.map((slideNode) => {
       const slide = pres.addSlide();

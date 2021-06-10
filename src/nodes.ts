@@ -156,7 +156,10 @@ export type SlideProps = {
 export const Slide: React.FC<SlideProps> =
   NodeTypes.SLIDE as unknown as React.FC;
 
-export type PresentationProps = {
+export type PresentationProps = Omit<
+  InternalPresentation,
+  "slides" | "layout"
+> & {
   children?: ChildElement<SlideProps>;
   layout?: InternalPresentation["layout"];
 };

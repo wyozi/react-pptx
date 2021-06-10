@@ -125,6 +125,11 @@ export type InternalSlide = {
 export type InternalPresentation = {
   slides: InternalSlide[];
   layout: "16x9" | "16x10" | "4x3" | "wide";
+  author?: string;
+  company?: string;
+  revision?: string;
+  subject?: string;
+  title?: string;
 };
 
 export const normalizeHexColor = (colorString: string): HexColor => {
@@ -350,6 +355,11 @@ export const normalizeJsx = ({
   const pres: InternalPresentation = {
     layout: props.layout ?? "16x9",
     slides: [],
+    author: props.author,
+    company: props.company,
+    revision: props.revision,
+    subject: props.subject,
+    title: props.title,
   };
   if (props.children) {
     pres.slides = flattenChildren(props.children).map(normalizeSlide);
