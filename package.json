@@ -27,7 +27,7 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-typescript": "^8",
     "@types/color": "^3.0.2",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^26.0.24",
     "@types/node": "^16.0.0",
     "@types/react": "^17.0.13",
     "@types/react-is": "^17.0.1",
