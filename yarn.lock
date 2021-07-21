@@ -466,15 +466,10 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
   integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
 
-"@types/node@*", "@types/node@^16.4.0":
+"@types/node@*", "@types/node@^16.0.0", "@types/node@^16.4.0":
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.0.tgz#2c219eaa3b8d1e4d04f4dd6e40bc68c7467d5272"
   integrity sha512-HrJuE7Mlqcjj+00JqMWpZ3tY8w7EUd+S0U3L1+PQSWiXZbOgyQDvi+ogoUxaHApPJq5diKxYBQwA3iIlNcPqOg==
-
-"@types/node@^14.14.37":
-  version "14.14.43"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.43.tgz#26bcbb0595b305400e8ceaf9a127a7f905ae49c8"
-  integrity sha512-3pwDJjp1PWacPTpH0LcfhgjvurQvrZFBrC6xxjaUEZ7ifUtT32jtjPxEMMblpqd2Mvx+k8haqQJLQxolyGN/cQ==
 
 "@types/prop-types@*":
   version "15.7.3"
@@ -1881,10 +1876,10 @@ ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-image-size@^0.9.7:
-  version "0.9.7"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.9.7.tgz#43b4ead4b1310d5ae310a559d52935a347e47c09"
-  integrity sha512-KRVgLNZkr00YGN0qn9MlIrmlxbRhsCcEb1Byq3WKGnIV4M48iD185cprRtaoK4t5iC+ym2Q5qlArxZ/V1yzDgA==
+image-size@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-1.0.0.tgz#58b31fe4743b1cec0a0ac26f5c914d3c5b2f0750"
+  integrity sha512-JLJ6OwBfO1KcA+TvJT+v8gbE6iWbj24LyDNFgFEN0lzegn6cC6a/p3NIDaepMsJjQjlUWqIC7wJv8lBFxPNjcw==
   dependencies:
     queue "6.0.2"
 
@@ -3195,14 +3190,14 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
-pptxgenjs@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.6.0.tgz#4f7cb055392b1364353c5947903d961183ba7f9e"
-  integrity sha512-oh63CRVfD2+obLBANsLdcjoeOa8FjIKkR1cAc95/WWgPFc0DI8DJFExGMBqtDwuPgLntyUZHhPC2KFrJBvxR4A==
+pptxgenjs@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/pptxgenjs/-/pptxgenjs-3.7.0.tgz#445e3dbb4191218b30d480b24eb01e26af5b3772"
+  integrity sha512-ZtKT11DA3arRhyQ0AJoaa4iizHEghfreobQhbDq9EVtJhZ0JN3it/lREnvervuHinHi6sGBcSlHC6scfubEm7Q==
   dependencies:
-    "@types/node" "^14.14.37"
+    "@types/node" "^16.0.0"
     https "^1.0.0"
-    image-size "^0.9.7"
+    image-size "^1.0.0"
     jszip "^3.6.0"
 
 prelude-ls@^1.2.1:
