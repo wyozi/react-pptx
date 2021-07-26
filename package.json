@@ -29,7 +29,7 @@
     "@types/color": "^3.0.2",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.1",
-    "@types/react": "^17.0.14",
+    "@types/react": "^17.0.15",
     "@types/react-is": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
