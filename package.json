@@ -28,7 +28,7 @@
     "@rollup/plugin-typescript": "^8",
     "@types/color": "^3.0.2",
     "@types/jest": "^26.0.24",
-    "@types/node": "^16.4.4",
+    "@types/node": "^16.4.6",
     "@types/react": "^17.0.15",
     "@types/react-is": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
