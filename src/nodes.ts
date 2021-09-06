@@ -132,6 +132,8 @@ export type ShapeProps = VisualBaseProps & {
     backgroundColor?: string;
     borderWidth?: number;
     borderColor?: string;
+    line?: string;
+    lineSize?: number;
   };
 };
 export const Shape: React.FC<ShapeProps> =

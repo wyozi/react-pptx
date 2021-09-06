@@ -25,7 +25,7 @@ const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
   }
 };
 
-const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
+const SlideObjectShape = ({ shape, pointsToPixels }: { shape: InternalShape, pointsToPixels: (points:number)=>number})=> {
   const baseStyle = {
     width: "100%",
     height: "100%",
@@ -38,6 +38,8 @@ const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
     return <div style={baseStyle} />;
   } else if (shape.type === "ellipse") {
     return <div style={{ ...baseStyle, borderRadius: "100%" }} />;
+  } else if (shape.type === "line") {
+    return <div style={{ ...baseStyle, borderTop: `${pointsToPixels(shape.style.borderWidth ?? 0)}px solid #${shape.style.borderColor}`}} />;
   } else {
     return (
       <div
@@ -281,6 +283,8 @@ const SlideObjectPreview = ({
       ? (object.style.h / dimensions[1]) * 100
       : parseInt(object.style.h, 10);
 
+  const v_pointsToPx = (points: number) : number =>
+      ((points * POINTS_TO_INCHES) / dimensions[0]) * slideWidth;
   return (
     <div
       style={{
@@ -325,7 +329,7 @@ const SlideObjectPreview = ({
           }}
         />
       ) : (
-        <SlideObjectShape shape={object} />
+        <SlideObjectShape shape={object} pointsToPixels={v_pointsToPx} />
       )}
     </div>
   );

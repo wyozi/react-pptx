@@ -123,17 +123,31 @@ const renderSlideObject = async (
         breakLine: true,
       });
     } else {
-      slide.addShape(shapeType, {
-        x,
-        y,
-        w,
-        h,
-        fill: backgroundColor,
-        line: {
-          size: style.borderWidth ?? undefined,
-          color: style.borderColor ?? undefined,
-        },
-      });
+      if(shapeType === 'line'){
+        slide.addShape(shapeType, {
+          x,
+          y,
+          w,
+          h,
+          fill: backgroundColor,
+          line: {
+            color: style.borderColor ?? undefined,
+            width: style.borderWidth ?? undefined
+          },
+        });
+      }else{
+        slide.addShape(shapeType, {
+          x,
+          y,
+          w,
+          h,
+          fill: backgroundColor,
+          line: {
+            size: style.borderWidth ?? undefined,
+            color: style.borderColor ?? undefined,
+          },
+        });
+      }
     }
   }
 };
