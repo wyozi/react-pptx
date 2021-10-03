@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@rollup/plugin-commonjs': ^20.0.0
+  '@rollup/plugin-commonjs': ^21.0.0
   '@rollup/plugin-node-resolve': ^13.0.5
   '@rollup/plugin-typescript': ^8
   '@types/color': ^3.0.2
@@ -22,9 +22,9 @@ specifiers:
   react: ^17.0.2
   react-is: ^17.0.2
   react-keyed-flatten-children: ^1.3.0
-  rollup: ^2.55.1
+  rollup: ^2.58.0
   ts-jest: ^24.3.0
-  tslib: ^2.3.0
+  tslib: ^2.3.1
   typescript: ^4.3.5
 
 dependencies:
@@ -35,7 +35,7 @@ dependencies:
   react-keyed-flatten-children: 1.3.0_react@17.0.2
 
 devDependencies:
-  '@rollup/plugin-commonjs': 20.0.0_rollup@2.58.0
+  '@rollup/plugin-commonjs': 21.0.0_rollup@2.58.0
   '@rollup/plugin-node-resolve': 13.0.5_rollup@2.58.0
   '@rollup/plugin-typescript': 8.2.5_937b027edc6bd00c4da867df42fb955d
   '@types/color': 3.0.2
@@ -522,8 +522,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@rollup/plugin-commonjs/20.0.0_rollup@2.58.0:
-    resolution: {integrity: sha512-5K0g5W2Ol8hAcTHqcTBHiA7M58tfmYi1o9KxeJuuRNpGaTa5iLjcyemBitCBcKXaHamOBBEH2dGom6v6Unmqjg==}
+  /@rollup/plugin-commonjs/21.0.0_rollup@2.58.0:
+    resolution: {integrity: sha512-XDQimjHl0kNotAV5lLo34XoygaI0teqiKGJ100B3iCU8+15YscJPeqk2KqkqD3NIe1H8ZTUo5lYjUFZyEgASTw==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^2.38.3
