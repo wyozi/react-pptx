@@ -1,6 +1,7 @@
 {
   "name": "react-pptx",
   "version": "0.0.0-development",
+  "repository": "github:wyozi/react-pptx",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "license": "MIT",
