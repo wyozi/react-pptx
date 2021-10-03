@@ -19,7 +19,7 @@
     "test": "jest",
     "lint": "eslint 'src/**/*.ts' --quiet",
     "generate-types": "tsc --d --declarationDir dist --emitDeclarationOnly",
-    "build": "rollup -c && yarn generate-types"
+    "build": "rollup -c && pnpm run generate-types"
   },
   "peerDependencies": {
     "react": "^16.0.0"
