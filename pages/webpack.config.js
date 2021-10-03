@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 let latestTag = require("child_process")
@@ -45,6 +46,11 @@ module.exports = {
     new MonacoWebpackPlugin({
       languages: ["typescript"],
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'index.html' }
+      ]
+    })
   ],
   resolve: {
     alias: {
