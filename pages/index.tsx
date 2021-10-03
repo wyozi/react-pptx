@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   Shape,
+  Line,
   normalizeJsx,
 } from "react-pptx";
 import Preview from "react-pptx/preview";
@@ -15,7 +16,7 @@ import { transform } from "buble";
 declare var __LATEST_GIT_TAG__: string;
 declare var __LATEST_GIT_COMMIT_HASH__: string;
 
-const primitives = { Presentation, Slide, Image, Text, Shape };
+const primitives = { Presentation, Slide, Image, Text, Shape, Line };
 
 const transpile = (code, callback, onError) => {
   try {
@@ -127,6 +128,16 @@ const code = `ReactPPTX.render(
           video
         </Text.Link>, if you'd like.
       </Text>
+      <Line
+        x1={1}
+        x2={9}
+        y1={5}
+        y2={5}
+        style={{
+          color: 'blue',
+          width: 2
+        }}
+      />
     </Slide>
     <Slide style={{ backgroundColor: "#DDDDDD" }}>
       <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>

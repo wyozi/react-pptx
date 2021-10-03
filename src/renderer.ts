@@ -38,6 +38,48 @@ const renderSlideObject = async (
   slide: PptxGenJs.Slide,
   object: InternalSlideObject
 ) => {
+  if (object.kind === "line") {
+    const style = object.style;
+
+    // If x2 > x1, we need to swap the x values and enable flipH to achieve desired line
+    let x, w, flipH;
+    if (object.x1 < object.x2) {
+      x = object.x1;
+      w = object.x2 - x;
+      flipH = false;
+    } else {
+      x = object.x2;
+      w = object.x1 - x;
+      flipH = true;
+    }
+
+    // If y2 > y1, we need to swap the y values and enable flipV to achieve desired line
+    let y, h, flipV;
+    if (object.y1 < object.y2) {
+      y = object.y1;
+      h = object.y2 - y;
+      flipV = false;
+    } else {
+      y = object.y2;
+      h = object.y1 - y;
+      flipV = true;
+    }
+
+    slide.addShape("line", {
+      x,
+      y,
+      w,
+      h,
+      flipH,
+      flipV,
+      line: {
+        width: style.width ?? undefined,
+        color: style.color ?? undefined,
+      },
+    });
+    return;
+  }
+
   const { x, y, w, h } = object.style;
   if (object.kind === "text") {
     const { color, verticalAlign, ...style } = object.style;

@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-pptx?label=%22react-pptx%22%20%40%20npm)](https://www.npmjs.com/package/react-pptx)
 
-React wrapper for [PptxGenJS](https://gitbrent.github.io/PptxGenJS/). Try at https://wyozi.github.io/react-pptx/
+React wrapper for [PptxGenJS](https://gitbrent.github.io/PptxGenJS/). Works both in browser and node. Try at https://wyozi.github.io/react-pptx/
 
 <img align="right" width="400" height="450" src="./README_Slides.jpg">
 
@@ -385,6 +385,22 @@ Shape layer.
   These are the currently supported complex color types:
   - Translucent colors (e.g. `rgba(255, 127, 0, 0.5)` for orange at 50% opacity)
 </details>
+
+### `<Line>`
+
+Line layer. Internally uses `<Shape>` but is separate for convinience.
+
+#### Props
+
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `x1` | number (inches) or string (percentage) | | Line start `x` coordinate |
+| `y1` | number (inches) or string (percentage) | | Line start `y` coordinate |
+| `x2` | number (inches) or string (percentage) | | Line end `x` coordinate |
+| `y2` | number (inches) or string (percentage) | | Line end `y` coordinate |
+| `style.color` | hex color |  | Line color |
+| `style.width` | number (inches) or string (percentage) |  | Line width |
+
 
 ## Credits / Shoutouts
 

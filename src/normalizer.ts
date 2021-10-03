@@ -16,6 +16,7 @@ import {
   TextBulletProps,
   isTextLink,
   isTextBullet,
+  isLine,
 } from "./nodes";
 import React, { ReactElement } from "react";
 
@@ -108,8 +109,23 @@ export type InternalShape = ObjectBase & {
     borderWidth: number | null;
   };
 };
+export type InternalLine = {
+  kind: "line";
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  style: {
+    color: HexColor | null;
+    width: number | null;
+  };
+};
 
-export type InternalSlideObject = InternalText | InternalImage | InternalShape;
+export type InternalSlideObject =
+  | InternalText
+  | InternalImage
+  | InternalShape
+  | InternalLine;
 
 export type InternalImageSrc =
   | { kind: "data"; data: string }
@@ -270,6 +286,22 @@ const normalizeSlideObject = (
 ): InternalSlideObject | null => {
   if (!node.props.style) {
     throw new TypeError(`A ${node.type} object is missing style attribute`);
+  }
+
+  if (isLine(node)) {
+    return {
+      kind: "line",
+      x1: node.props.x1,
+      y1: node.props.y1,
+      x2: node.props.x2,
+      y2: node.props.y2,
+      style: {
+        color: node.props.style.color
+          ? normalizeHexColor(node.props.style.color)
+          : null,
+        width: node.props.style.width ?? null,
+      },
+    };
   }
 
   let { x, y, w, h } = node.props.style;

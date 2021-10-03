@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render } from "./index";
 import fs = require("fs");
-import { Presentation, Slide, Shape, Text, Image } from "./nodes";
+import { Presentation, Slide, Shape, Text, Image, Line } from "./nodes";
 
 describe("test render", () => {
   it("ok", async () => {
@@ -32,6 +32,36 @@ describe("test render", () => {
               w: 3,
               h: 0.1,
               backgroundColor: "rgba(255, 0, 0, 0.4)",
+            }}
+          />
+          <Line
+            x1={0}
+            y1={3}
+            x2={5}
+            y2={4.5}
+            style={{
+              color: 'red',
+              width: 2
+            }}
+          />
+          <Line
+            x1={5}
+            y1={4.5}
+            x2={10}
+            y2={3}
+            style={{
+              color: 'orange',
+              width: 2
+            }}
+          />
+          <Line
+            x1={10}
+            y1={4.5}
+            x2={0}
+            y2={3}
+            style={{
+              color: 'blue',
+              width: 5
             }}
           />
         </Slide>
