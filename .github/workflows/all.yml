@@ -7,23 +7,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
-      - name: Cache node_modules
-        id: cache-modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
+          cache: 'pnpm'
       - name: Install dependencies
-        if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: pnpm install
       - name: Save start timestamp
         id: timestamp-store
         run: echo "::set-output name=start_timestamp::$(($(date +%s%N)/1000000))"
       - name: Run tests
-        run: yarn test
+        run: pnpm run test
       - name: Send elapsed time
         run: curl https://thisgraph.com/api/timings/$THISGRAPH_BUCKET_ID/basic -X POST -d "$(($(date +%s%N)/1000000-${{ steps.timestamp-store.outputs.start_timestamp }}))"
         env:
@@ -34,20 +28,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
-      - name: Cache node_modules
-        id: cache-modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
+          cache: 'pnpm'
       - name: Install dependencies
-        if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: pnpm install
       - name: Run linter
-        run: yarn lint
+        run: pnpm run lint
   publish:
     needs: [unit-tests, lint]
     name: Build and Publish
@@ -55,22 +43,16 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
     - uses: actions/checkout@master
-    - name: Cache node_modules
-      id: cache-modules
-      uses: actions/cache@v1
-      with:
-        path: node_modules
-        key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
         node-version: '14.x'
+        cache: 'pnpm'
     - name: Install dependencies
-      if: steps.cache-modules.outputs.cache-hit != 'true'
-      run: yarn install
+      run: pnpm install
     - name: Test
-      run: yarn test
+      run: pnpm run test
     - name: Build
-      run: yarn build
+      run: pnpm run build
     - name: Publish
       if: github.ref == 'refs/heads/master'
       run: npx semantic-release

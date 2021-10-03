@@ -1,4 +1,4 @@
-name: Dploy pages
+name: Deploy pages
 on:
   push:
     branches:
@@ -12,12 +12,12 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: "12"
-          registry-url: 'https://npm.pkg.github.com'
+          node-version: "14"
+          cache: 'pnpm'
       - name: Build package
-        run: yarn && yarn build
+        run: pnpm install && pnpm run build
       - name: Build pages
-        run: cd pages && yarn && yarn build
+        run: cd pages && pnpm install && pnpm run build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
