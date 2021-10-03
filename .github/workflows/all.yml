@@ -24,10 +24,10 @@ jobs:
         run: echo "::set-output name=start_timestamp::$(($(date +%s%N)/1000000))"
       - name: Run tests
         run: yarn test
-      # - name: Send elapsed time
-      #   run: curl https://thisgraph.com/api/timings/$THISGRAPH_BUCKET_ID/basic -X POST -d "$(($(date +%s%N)/1000000-${{ steps.timestamp-store.outputs.start_timestamp }}))"
-      #   env:
-      #     THISGRAPH_BUCKET_ID: ${{ secrets.THISGRAPH_BUCKET_ID }}
+      - name: Send elapsed time
+        run: curl https://thisgraph.com/api/timings/$THISGRAPH_BUCKET_ID/basic -X POST -d "$(($(date +%s%N)/1000000-${{ steps.timestamp-store.outputs.start_timestamp }}))"
+        env:
+          THISGRAPH_BUCKET_ID: ${{ secrets.THISGRAPH_BUCKET_ID }}
   lint:
     name: Linting
     runs-on: ubuntu-16.04
