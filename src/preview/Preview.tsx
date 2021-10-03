@@ -253,6 +253,11 @@ const constrainObjectFit = (
   }
 };
 
+const calculatePercentage = (value: any, total: number) =>
+  typeof value === "number"
+    ? (value / total) * 100
+    : parseInt(value, 10);
+
 const SlideObjectPreview = ({
   object,
   dimensions,
@@ -264,23 +269,35 @@ const SlideObjectPreview = ({
   slideWidth: number;
   drawBoundingBoxes: boolean;
 }) => {
-  const xPercentage =
-    typeof object.style.x === "number"
-      ? (object.style.x / dimensions[0]) * 100
-      : parseInt(object.style.x, 10);
-  const yPercentage =
-    typeof object.style.y === "number"
-      ? (object.style.y / dimensions[1]) * 100
-      : parseInt(object.style.y, 10);
-  const wPercentage =
-    typeof object.style.w === "number"
-      ? (object.style.w / dimensions[0]) * 100
-      : parseInt(object.style.w, 10);
-  const hPercentage =
-    typeof object.style.h === "number"
-      ? (object.style.h / dimensions[1]) * 100
-      : parseInt(object.style.h, 10);
+  if (object.kind === 'line') {
+    const { x1, x2, y1, y2 } = object;
+    const thickness = object.style.width ?? 1;
 
+    // from https://stackoverflow.com/a/8673281/13065068
+    const length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+    const centerX = ((x1 + x2) / 2) - (length / 2);
+    const centerY = ((y1 + y2) / 2);
+    const angle = Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI);
+
+    return (
+      <div
+        style={{
+          position: "absolute",
+          left: `${calculatePercentage(centerX, dimensions[0])}%`,
+          top: `${calculatePercentage(centerY, dimensions[1])}%`,
+          width: `${calculatePercentage(length, dimensions[0])}%`,
+          transform: `rotate(${angle}deg) translateY(${thickness / 2}px)`,
+          height: thickness,
+          backgroundColor: object.style.color ? normalizedColorToCSS(object.style.color) : undefined
+        }}
+      >
+      </div>
+    )
+  }
+  const xPercentage = calculatePercentage(object.style.x, dimensions[0]);
+  const yPercentage = calculatePercentage(object.style.y, dimensions[1]);
+  const wPercentage = calculatePercentage(object.style.w, dimensions[0]);
+  const hPercentage = calculatePercentage(object.style.h, dimensions[1]);
   return (
     <div
       style={{

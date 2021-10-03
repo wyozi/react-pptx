@@ -11,6 +11,7 @@ import { ChildElement } from "./util";
 
 export enum NodeTypes {
   SHAPE = "shape",
+  LINE = "line",
   TEXT_LINK = "text-link",
   TEXT_BULLET = "text-bullet",
   SLIDE = "slide",
@@ -140,6 +141,24 @@ export const isShape = (
   el: React.ReactElement
 ): el is React.ReactElement<ShapeProps> => {
   return el.type === NodeTypes.SHAPE;
+};
+
+export type LineProps = {
+  x1: number;
+  x2: number;
+  y1: number;
+  y2: number;
+  style?: {
+    color?: string;
+    width?: number;
+  };
+};
+export const Line: React.FC<LineProps> =
+  NodeTypes.LINE as unknown as React.FC;
+export const isLine = (
+  el: React.ReactElement
+): el is React.ReactElement<LineProps> => {
+  return el.type === NodeTypes.LINE;
 };
 
 export type VisualProps = TextProps | ImageProps | ShapeProps;
