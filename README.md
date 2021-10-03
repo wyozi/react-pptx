@@ -386,6 +386,22 @@ Shape layer.
   - Translucent colors (e.g. `rgba(255, 127, 0, 0.5)` for orange at 50% opacity)
 </details>
 
+### `<Line>`
+
+Line layer. Internally uses `<Shape>` but is separate for convinience.
+
+#### Props
+
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `x1` | number (inches) or string (percentage) | | Line start `x` coordinate |
+| `y1` | number (inches) or string (percentage) | | Line start `y` coordinate |
+| `x2` | number (inches) or string (percentage) | | Line end `x` coordinate |
+| `y2` | number (inches) or string (percentage) | | Line end `y` coordinate |
+| `style.color` | hex color |  | Line color |
+| `style.width` | number (inches) or string (percentage) |  | Line width |
+
+
 ## Credits / Shoutouts
 
 - All the hard work is done in [pptxgenjs](https://github.com/gitbrent/PptxGenJS) by Brent Ely 
