@@ -121,7 +121,11 @@ export type InternalLine = {
   };
 };
 
-export type InternalSlideObject = InternalText | InternalImage | InternalShape | InternalLine;
+export type InternalSlideObject =
+  | InternalText
+  | InternalImage
+  | InternalShape
+  | InternalLine;
 
 export type InternalImageSrc =
   | { kind: "data"; data: string }

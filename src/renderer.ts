@@ -65,14 +65,19 @@ const renderSlideObject = async (
       flipV = true;
     }
 
-    slide.addShape('line', {
-      x, y, w, h, flipH, flipV,
+    slide.addShape("line", {
+      x,
+      y,
+      w,
+      h,
+      flipH,
+      flipV,
       line: {
         width: style.width ?? undefined,
         color: style.color ?? undefined,
       },
-    })
-    return
+    });
+    return;
   }
 
   const { x, y, w, h } = object.style;

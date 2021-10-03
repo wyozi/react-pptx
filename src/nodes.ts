@@ -153,8 +153,7 @@ export type LineProps = {
     width?: number;
   };
 };
-export const Line: React.FC<LineProps> =
-  NodeTypes.LINE as unknown as React.FC;
+export const Line: React.FC<LineProps> = NodeTypes.LINE as unknown as React.FC;
 export const isLine = (
   el: React.ReactElement
 ): el is React.ReactElement<LineProps> => {
