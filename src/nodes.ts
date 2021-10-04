@@ -15,6 +15,7 @@ export enum NodeTypes {
   TEXT_LINK = "text-link",
   TEXT_BULLET = "text-bullet",
   SLIDE = "slide",
+  MASTER_SLIDE = "master-slide",
   IMAGE = "image",
   PRESENTATION = "presentation",
 }
@@ -165,6 +166,7 @@ export type Visual = typeof Text | typeof Image | typeof Shape;
 
 export type SlideProps = {
   children?: ChildElement<VisualProps>;
+  masterName?: string;
   hidden?: boolean;
   style?: {
     backgroundColor?: string;
@@ -174,11 +176,22 @@ export type SlideProps = {
 export const Slide: React.FC<SlideProps> =
   NodeTypes.SLIDE as unknown as React.FC;
 
+export type MasterSlideProps = {
+  name: string;
+  children?: ChildElement<VisualProps>;
+  style?: {
+    backgroundColor?: string;
+    backgroundImage?: InternalImageSrc;
+  };
+};
+export const MasterSlide: React.FC<MasterSlideProps> =
+  NodeTypes.MASTER_SLIDE as unknown as React.FC;
+
 export type PresentationProps = Omit<
   InternalPresentation,
-  "slides" | "layout"
+  "slides" | "masterSlides" | "layout"
 > & {
-  children?: ChildElement<SlideProps>;
+  children?: ChildElement<SlideProps | MasterSlideProps>;
   layout?: InternalPresentation["layout"];
 };
 export const Presentation: React.FC<PresentationProps> =

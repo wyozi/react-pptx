@@ -1,13 +1,23 @@
 import * as React from "react";
 import { render } from "./index";
 import fs = require("fs");
-import { Presentation, Slide, Shape, Text, Image, Line } from "./nodes";
+import { Presentation, Slide, Shape, Text, Image, Line, MasterSlide } from "./nodes";
 
 describe("test render", () => {
   it("ok", async () => {
+    // Test using a separate component for master slides
+    const MasterSlides = () => {
+      return (
+        <MasterSlide name="MASTER_SLIDE">
+          <Shape type="rect" style={{ x: 0, y: 5, w: "100%", h: 0.65, backgroundColor: '#003b75' }} />
+        </MasterSlide>
+      )
+    }
+    
     const test = (
       <Presentation>
-        <Slide style={{ backgroundColor: "#DDDDDD" }}>
+        <MasterSlides />
+        <Slide masterName="MASTER_SLIDE" style={{ backgroundColor: "#DDDDDD" }}>
           <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
             Hello there!
             <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">

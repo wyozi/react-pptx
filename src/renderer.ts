@@ -9,6 +9,7 @@ import {
   InternalSlide,
   InternalSlideObject,
   InternalTextPart,
+  InternalMasterSlide,
 } from "./normalizer";
 
 const renderTextParts = (parts: InternalTextPart[]): PptxGenJs.TextProps[] => {
@@ -199,6 +200,44 @@ const renderSlide = async (
   );
 };
 
+const renderMasterSlide = async (
+  node: InternalMasterSlide
+): Promise<PptxGenJs.SlideMasterProps> => {
+  const masterSlide: PptxGenJs.SlideMasterProps = {
+    title: node.name,
+  };
+  if (node.backgroundColor)
+    masterSlide.background = { fill: node.backgroundColor };
+  if (node.backgroundImage) {
+    masterSlide.background = {
+      [node.backgroundImage.kind]:
+        node.backgroundImage[node.backgroundImage.kind],
+    };
+  }
+
+  masterSlide.objects = node.objects.map((object) => {
+    if (object.kind === "shape" && object.type === "rect") {
+      return {
+        rect: {
+          x: object.style.x,
+          y: object.style.y,
+          w: object.style.w,
+          h: object.style.h,
+          ...(object.style.backgroundColor && {
+            fill: { color: object.style.backgroundColor },
+          }),
+        },
+      };
+    } else {
+      throw new Error(
+        "Unsupported master slide object found! Master slides only support a small subset of objects at the moment."
+      );
+    }
+  });
+
+  return masterSlide;
+};
+
 export interface RenderOptions {
   outputType:
     | "arraybuffer"
@@ -226,6 +265,18 @@ export const render = async (
   }
   pres.layout = layout;
 
+  // First render async in order
+  const masterSlides = await Promise.all(
+    Object.values(normalized.masterSlides).map((masterSlideNode) => {
+      return renderMasterSlide(masterSlideNode);
+    })
+  );
+
+  // .. then add to presentation in order
+  for (const masterSlide of masterSlides) {
+    pres.defineSlideMaster(masterSlide);
+  }
+
   const fileProps = ["author", "company", "revision", "subject", "title"];
   for (const propName in fileProps) {
     if (normalized[propName]) {
@@ -235,7 +286,9 @@ export const render = async (
 
   await Promise.all(
     normalized.slides.map((slideNode) => {
-      const slide = pres.addSlide();
+      const slide = pres.addSlide({
+        ...(slideNode.masterName && { masterName: slideNode.masterName }),
+      });
       return renderSlide(pres, slide, slideNode);
     })
   );

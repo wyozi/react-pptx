@@ -18,6 +18,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint 'src/**/*.ts' --quiet",
+    "lint:fix": "eslint 'src/**/*.ts' --fix",
     "generate-types": "tsc --d --declarationDir dist --emitDeclarationOnly",
     "build": "rollup -c && pnpm run generate-types"
   },

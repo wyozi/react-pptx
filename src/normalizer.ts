@@ -17,6 +17,8 @@ import {
   isTextLink,
   isTextBullet,
   isLine,
+  NodeTypes,
+  MasterSlideProps,
 } from "./nodes";
 import React, { ReactElement } from "react";
 
@@ -132,14 +134,23 @@ export type InternalImageSrc =
   | { kind: "path"; path: string };
 
 export type InternalSlide = {
+  masterName: string | null;
   objects: InternalSlideObject[];
   backgroundColor: HexColor | null;
   backgroundImage: InternalImageSrc | null;
   hidden: boolean;
 };
 
+export type InternalMasterSlide = {
+  name: string;
+  objects: InternalSlideObject[];
+  backgroundColor: HexColor | null;
+  backgroundImage: InternalImageSrc | null;
+};
+
 export type InternalPresentation = {
   slides: InternalSlide[];
+  masterSlides: { [name: string]: InternalMasterSlide };
   layout: "16x9" | "16x10" | "4x3" | "wide";
   author?: string;
   company?: string;
@@ -156,6 +167,7 @@ export const normalizeHexOrComplexColor = (
 ): HexColor | ComplexColor => {
   const clr = Color(colorString);
 
+  // PptxGenJs hex color don't use leading # for hex colors
   const hexColor = clr.hex().substring(1).toUpperCase();
 
   if (clr.alpha() === 1) {
@@ -367,6 +379,7 @@ const normalizeSlide = ({
   props,
 }: React.ReactElement<SlideProps>): InternalSlide => {
   const slide: InternalSlide = {
+    masterName: props.masterName ?? null,
     hidden: props.hidden ?? false,
     backgroundColor: props?.style?.backgroundColor
       ? normalizeHexColor(props.style.backgroundColor)
@@ -381,11 +394,31 @@ const normalizeSlide = ({
   }
   return slide;
 };
+const normalizeMasterSlide = ({
+  props,
+}: React.ReactElement<MasterSlideProps>): InternalMasterSlide => {
+  const slide: InternalMasterSlide = {
+    name: props.name,
+    backgroundColor: props?.style?.backgroundColor
+      ? normalizeHexColor(props.style.backgroundColor)
+      : null,
+    backgroundImage: props?.style?.backgroundImage ?? null,
+    objects: [],
+  };
+  if (props.children) {
+    slide.objects = flattenChildren(props.children)
+      .map(normalizeSlideObject)
+      .filter(isPresent);
+  }
+  return slide;
+};
+
 export const normalizeJsx = ({
   props,
 }: React.ReactElement<PresentationProps>): InternalPresentation => {
   const pres: InternalPresentation = {
     layout: props.layout ?? "16x9",
+    masterSlides: {},
     slides: [],
     author: props.author,
     company: props.company,
@@ -394,7 +427,18 @@ export const normalizeJsx = ({
     title: props.title,
   };
   if (props.children) {
-    pres.slides = flattenChildren(props.children).map(normalizeSlide);
+    const children = flattenChildren(props.children);
+
+    pres.slides = children
+      .filter((child) => (child as any).type === NodeTypes.SLIDE)
+      .map(normalizeSlide);
+
+    const masterSlides = children
+      .filter((child) => (child as any).type === NodeTypes.MASTER_SLIDE)
+      .map(normalizeMasterSlide);
+    pres.masterSlides = Object.fromEntries(
+      masterSlides.map((slide) => [slide.name, slide])
+    );
   }
   return pres;
 };

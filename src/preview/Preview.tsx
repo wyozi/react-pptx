@@ -10,6 +10,7 @@ import {
   InternalTextPart,
   InternalImage,
   InternalTextPartBaseStyle,
+  InternalMasterSlide,
 } from "../normalizer";
 import { layoutToInches, POINTS_TO_INCHES } from "../util";
 
@@ -370,11 +371,13 @@ const useResize = (myRef: any) => {
 };
 const SlidePreview = ({
   slide,
+  masterSlide,
   dimensions,
   slideStyle,
   drawBoundingBoxes,
 }: {
   slide: InternalSlide;
+  masterSlide?: InternalMasterSlide;
   dimensions: [number, number];
   slideStyle?: React.CSSProperties;
   drawBoundingBoxes: boolean;
@@ -394,6 +397,15 @@ const SlidePreview = ({
         ...slideStyle,
       }}
     >
+      {masterSlide?.objects?.map((o, i) => (
+        <SlideObjectPreview
+          key={i}
+          object={o}
+          dimensions={dimensions}
+          slideWidth={width}
+          drawBoundingBoxes={drawBoundingBoxes}
+        />
+      ))}
       {slide.objects.map((o, i) => (
         <SlideObjectPreview
           key={i}
@@ -431,6 +443,7 @@ const Preview = (props: {
           <SlidePreview
             key={i}
             slide={slide}
+            masterSlide={(slide.masterName && normalized.masterSlides[slide.masterName]) || undefined}
             dimensions={layoutToInches(normalized.layout)}
             slideStyle={props.slideStyle}
             drawBoundingBoxes={!!props.drawBoundingBoxes}
