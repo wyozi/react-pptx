@@ -13,11 +13,11 @@ describe("test render", () => {
         </MasterSlide>
       )
     }
-    
+
     const test = (
       <Presentation>
         <MasterSlides />
-        <Slide masterName="MASTER_SLIDE" style={{ backgroundColor: "#DDDDDD" }}>
+        <Slide masterName="MASTER_SLIDE">
           <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
             Hello there!
             <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">

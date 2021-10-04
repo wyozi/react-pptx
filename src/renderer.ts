@@ -187,12 +187,13 @@ const renderSlide = async (
   node: InternalSlide
 ) => {
   slide.hidden = node.hidden;
-  if (node.backgroundColor) slide.background = { fill: node.backgroundColor };
   if (node.backgroundImage) {
     slide.background = {
       [node.backgroundImage.kind]:
         node.backgroundImage[node.backgroundImage.kind],
     };
+  } else if (node.backgroundColor) {
+    slide.background = { color: node.backgroundColor };
   }
 
   return Promise.all(
@@ -206,13 +207,15 @@ const renderMasterSlide = async (
   const masterSlide: PptxGenJs.SlideMasterProps = {
     title: node.name,
   };
-  if (node.backgroundColor)
-    masterSlide.background = { fill: node.backgroundColor };
   if (node.backgroundImage) {
     masterSlide.background = {
       [node.backgroundImage.kind]:
         node.backgroundImage[node.backgroundImage.kind],
     };
+  } else if (node.backgroundColor) {
+    masterSlide.background = { color: node.backgroundColor };
+  } else {
+    masterSlide.background = { color: 'FFFFFF' };
   }
 
   masterSlide.objects = node.objects.map((object) => {
