@@ -136,7 +136,7 @@ export type InternalImageSrc =
 export type InternalSlide = {
   masterName: string | null;
   objects: InternalSlideObject[];
-  backgroundColor: HexColor | null;
+  backgroundColor: HexColor | ComplexColor | null;
   backgroundImage: InternalImageSrc | null;
   hidden: boolean;
 };
@@ -144,7 +144,7 @@ export type InternalSlide = {
 export type InternalMasterSlide = {
   name: string;
   objects: InternalSlideObject[];
-  backgroundColor: HexColor | null;
+  backgroundColor: HexColor | ComplexColor | null;
   backgroundImage: InternalImageSrc | null;
 };
 
@@ -382,7 +382,7 @@ const normalizeSlide = ({
     masterName: props.masterName ?? null,
     hidden: props.hidden ?? false,
     backgroundColor: props?.style?.backgroundColor
-      ? normalizeHexColor(props.style.backgroundColor)
+      ? normalizeHexOrComplexColor(props.style.backgroundColor)
       : null,
     backgroundImage: props?.style?.backgroundImage ?? null,
     objects: [],
@@ -400,7 +400,7 @@ const normalizeMasterSlide = ({
   const slide: InternalMasterSlide = {
     name: props.name,
     backgroundColor: props?.style?.backgroundColor
-      ? normalizeHexColor(props.style.backgroundColor)
+      ? normalizeHexOrComplexColor(props.style.backgroundColor)
       : null,
     backgroundImage: props?.style?.backgroundImage ?? null,
     objects: [],

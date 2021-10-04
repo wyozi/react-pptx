@@ -75,7 +75,7 @@ describe("test render", () => {
             }}
           />
         </Slide>
-        <Slide style={{ backgroundColor: "#DDDDDD" }}>
+        <Slide style={{ backgroundColor: "rgba(255, 127, 0, 0.4)" }}>
           <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 16 }}>
             Text before bullet
             <Text.Bullet>Adding bullet 1</Text.Bullet>

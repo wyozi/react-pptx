@@ -10,7 +10,15 @@ import {
   InternalSlideObject,
   InternalTextPart,
   InternalMasterSlide,
+  HexColor,
+  ComplexColor,
 } from "./normalizer";
+
+const normalizedColorToPptxgenShapeFill = (
+  color: HexColor | ComplexColor | null
+): pptxgen.ShapeFillProps | undefined => {
+  return typeof color === "string" ? { color: color } : color ?? undefined;
+};
 
 const renderTextParts = (parts: InternalTextPart[]): PptxGenJs.TextProps[] => {
   const containsBullet = parts.some(({ bullet }) => !!bullet);
@@ -146,10 +154,9 @@ const renderSlideObject = async (
 
     // react-pptx deprecated string-only bgcolor, but we still
     // support it because it makes sense in our use-contexts
-    const backgroundColor =
-      typeof style.backgroundColor === "string"
-        ? { color: style.backgroundColor }
-        : style.backgroundColor ?? undefined;
+    const backgroundColor = normalizedColorToPptxgenShapeFill(
+      style.backgroundColor
+    );
 
     if (object.text) {
       slide.addText(renderTextParts(object.text), {
@@ -193,7 +200,9 @@ const renderSlide = async (
         node.backgroundImage[node.backgroundImage.kind],
     };
   } else if (node.backgroundColor) {
-    slide.background = { color: node.backgroundColor };
+    slide.background = {
+      ...normalizedColorToPptxgenShapeFill(node.backgroundColor),
+    };
   }
 
   return Promise.all(
@@ -213,9 +222,11 @@ const renderMasterSlide = async (
         node.backgroundImage[node.backgroundImage.kind],
     };
   } else if (node.backgroundColor) {
-    masterSlide.background = { color: node.backgroundColor };
+    masterSlide.background = normalizedColorToPptxgenShapeFill(
+      node.backgroundColor
+    );
   } else {
-    masterSlide.background = { color: 'FFFFFF' };
+    masterSlide.background = { color: "FFFFFF" };
   }
 
   masterSlide.objects = node.objects.map((object) => {
