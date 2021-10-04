@@ -80,7 +80,7 @@ export type InternalTextPart = PptxGenJsTextOptions & {
         slide: number;
       }
   );
-  bullet?: Exclude<PptxGenJs.TextBaseProps["bullet"], boolean>;
+  bullet?: true | Exclude<PptxGenJs.TextBaseProps["bullet"], boolean>;
 };
 export type InternalText = ObjectBase & {
   kind: "text";
@@ -194,7 +194,12 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
           | ReactElement<TextBulletProps>
       ) => {
         if (React.isValidElement(el)) {
-          let bullet;
+          let bullet:
+            | true
+            | Exclude<
+                PptxGenJs.TextBaseProps["bullet"],
+                boolean | undefined | "style"
+              >;
           if (isTextBullet(el)) {
             // We know the intention is for a bullet, so pass on true if no customisation required
             const { children, style, rtlMode, lang, ...bulletProps } = el.props;
@@ -241,7 +246,6 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
             rtlMode,
             lang,
             link,
-            bullet,
             style: {
               ...(style || {}),
               color: style?.color ? normalizeHexColor(style.color) : undefined,

@@ -194,10 +194,13 @@ const renderSlide = async (
   node: InternalSlide
 ) => {
   slide.hidden = node.hidden;
-  if (node.backgroundImage) {
+  if (node.backgroundImage?.kind === "data") {
     slide.background = {
-      [node.backgroundImage.kind]:
-        node.backgroundImage[node.backgroundImage.kind],
+      data: node.backgroundImage.data,
+    };
+  } else if (node.backgroundImage?.kind === "path") {
+    slide.background = {
+      path: node.backgroundImage.path,
     };
   } else if (node.backgroundColor) {
     slide.background = {
@@ -216,10 +219,13 @@ const renderMasterSlide = async (
   const masterSlide: PptxGenJs.SlideMasterProps = {
     title: node.name,
   };
-  if (node.backgroundImage) {
+  if (node.backgroundImage?.kind === "data") {
     masterSlide.background = {
-      [node.backgroundImage.kind]:
-        node.backgroundImage[node.backgroundImage.kind],
+      data: node.backgroundImage.data,
+    };
+  } else if (node.backgroundImage?.kind === "path") {
+    masterSlide.background = {
+      path: node.backgroundImage.path,
     };
   } else if (node.backgroundColor) {
     masterSlide.background = normalizedColorToPptxgenShapeFill(
@@ -262,6 +268,13 @@ export interface RenderOptions {
     | "uint8array";
 }
 
+const PRESENTATION_METADATA_PROPS = [
+  "author",
+  "company",
+  "revision",
+  "subject",
+  "title",
+] as const;
 export const render = async (
   node: React.ReactElement<PresentationProps>,
   opts?: RenderOptions
@@ -291,10 +304,10 @@ export const render = async (
     pres.defineSlideMaster(masterSlide);
   }
 
-  const fileProps = ["author", "company", "revision", "subject", "title"];
-  for (const propName in fileProps) {
-    if (normalized[propName]) {
-      pres[propName] = normalized[propName];
+  for (const propName of PRESENTATION_METADATA_PROPS) {
+    const metadataValue = normalized[propName];
+    if (typeof metadataValue === "string") {
+      pres[propName] = metadataValue;
     }
   }
 

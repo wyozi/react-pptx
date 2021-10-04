@@ -67,7 +67,7 @@ const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
 };
 
 interface ListParts {
-  listType?: Exclude<InternalTextPart["bullet"], undefined>["type"];
+  listType?: Exclude<InternalTextPart["bullet"], undefined | boolean>["type"];
   parts: InternalTextPart[];
 }
 
