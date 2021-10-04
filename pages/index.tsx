@@ -4,6 +4,7 @@ import * as ReactPPTX from "react-pptx";
 import {
   Presentation,
   Slide,
+  MasterSlide,
   Image,
   Text,
   Shape,
@@ -16,7 +17,7 @@ import { transform } from "buble";
 declare var __LATEST_GIT_TAG__: string;
 declare var __LATEST_GIT_COMMIT_HASH__: string;
 
-const primitives = { Presentation, Slide, Image, Text, Shape, Line };
+const primitives = { Presentation, Slide, MasterSlide, Image, Text, Shape, Line };
 
 const transpile = (code, callback, onError) => {
   try {
