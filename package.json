@@ -1,5 +1,6 @@
 {
   "name": "react-pptx",
+  "description": "Render JSX to a .pptx file",
   "version": "0.0.0-development",
   "repository": "github:wyozi/react-pptx",
   "main": "dist/index.js",
