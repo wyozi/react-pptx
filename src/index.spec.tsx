@@ -1,5 +1,6 @@
 import * as React from "react";
 import { render } from "./index";
+import PPTX2Json from "pptx2json";
 import fs = require("fs");
 import { Presentation, Slide, Shape, Text, Image, Line, MasterSlide } from "./nodes";
 
@@ -200,3 +201,29 @@ describe("test render", () => {
     fs.writeFileSync("test.pptx", rendered as Buffer);
   }, 25000);
 });
+
+describe("e2e renders", () => {
+  it("includes metadata tags", async () => {
+    const json = await renderToJson(
+      <Presentation author="Author"
+        company="Company"
+        revision="Revision"
+        subject="Subject"
+        title="Title"
+      />
+    )
+    expect(json['docProps/app.xml'].Properties.Company).toEqual(["Company"]);
+    expect(json['docProps/core.xml']['cp:coreProperties']['dc:creator']).toEqual(["Author"]);
+    expect(json['docProps/core.xml']['cp:coreProperties']['cp:lastModifiedBy']).toEqual(["Author"]);
+    expect(json['docProps/core.xml']['cp:coreProperties']['dc:title']).toEqual(["Title"]);
+    expect(json['docProps/core.xml']['cp:coreProperties']['dc:subject']).toEqual(["Subject"]);
+    expect(json['docProps/core.xml']['cp:coreProperties']['cp:revision']).toEqual(["Revision"]);
+  });
+});
+
+async function renderToJson(node: Parameters<typeof render>[0]) {
+  const rendered = await render(node, { outputType: "nodebuffer" });
+
+  const pptx2json = new PPTX2Json();
+  return await pptx2json.buffer2json(rendered);
+}

@@ -8,6 +8,6 @@
     "noImplicitAny": true,
     "strictNullChecks": true
   },
-  "include": ["src"],
+  "include": ["src", "types"],
   "exclude": ["dist"]
 }
