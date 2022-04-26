@@ -28,7 +28,7 @@ export type ComplexColor = {
   color: HexColor;
   alpha: number; // [0, 100]
 };
-type Position = number | string; // number (inches) or string (`{percentage}%`)
+type Position = number | `${number}%`; // number (inches) or string (`{percentage}%`)
 
 type ObjectBase = {
   style: {
@@ -283,14 +283,14 @@ const PERCENTAGE_REGEXP = /^\d+%$/;
 export const normalizeCoordinate = (
   x: string | number | null | undefined,
   _default: number
-): string | number => {
+): `${number}%` | number => {
   if (typeof x === "string") {
     if (!PERCENTAGE_REGEXP.test(x)) {
       throw new TypeError(
         `"${x}" is invalid position; string positions must be of format '[0-9]+%'`
       );
     }
-    return x;
+    return x as `${number}%`;
   } else if (typeof x === "number") {
     return x;
   }
@@ -320,12 +320,13 @@ const normalizeSlideObject = (
     };
   }
 
-  let { x, y, w, h } = node.props.style;
-  x = normalizeCoordinate(x, 0);
-  y = normalizeCoordinate(y, 0);
-  w = normalizeCoordinate(w, 1);
-  h = normalizeCoordinate(h, 1);
-  const normalizedCoordinates = { x, y, w, h };
+  const { x: origX, y: origY, w: origW, h: origH } = node.props.style;
+  const normalizedCoordinates = {
+    x: normalizeCoordinate(origX, 0),
+    y: normalizeCoordinate(origY, 0),
+    w: normalizeCoordinate(origW, 1),
+    h: normalizeCoordinate(origH, 1),
+  };
 
   if (isText(node)) {
     const style = node.props.style;
