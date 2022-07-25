@@ -393,6 +393,10 @@ const SlidePreview = ({
         backgroundColor: slide.backgroundColor
           ? normalizedColorToCSS(slide.backgroundColor)
           : "white",
+        backgroundImage:
+          slide.backgroundImage && slide.backgroundImage?.kind === "path"
+            ? `url("${slide.backgroundImage.path}")`
+            : `url("data:${slide.backgroundImage?.data}")`,
         position: "relative",
         ...slideStyle,
       }}
