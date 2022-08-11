@@ -61,6 +61,7 @@ type PptxGenJsTextStyles = Pick<
 >;
 export interface InternalTextPartBaseStyle extends PptxGenJsTextStyles {
   color: HexColor | null;
+  verticalAlign?: "top" | "bottom" | "middle";
 }
 
 type PptxGenJsTextOptions = Pick<
