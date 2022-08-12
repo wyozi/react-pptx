@@ -91,9 +91,10 @@ const renderSlideObject = async (
 
   const { x, y, w, h } = object.style;
   if (object.kind === "text") {
-    const { color, verticalAlign, ...style } = object.style;
+    const { color, verticalAlign, backgroundColor, ...style } = object.style;
     slide.addText(renderTextParts(object.text), {
       ...style,
+      fill: backgroundColor ? normalizedColorToPptxgenShapeFill(backgroundColor) : undefined,
       color: color ?? undefined,
       valign: verticalAlign,
       breakLine: true,
@@ -310,7 +311,7 @@ export const render = async (
       pres[propName] = metadataValue;
     }
   }
-
+  
   await Promise.all(
     normalized.slides.map((slideNode) => {
       const slide = pres.addSlide({
