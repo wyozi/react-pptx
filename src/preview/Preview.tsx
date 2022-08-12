@@ -89,6 +89,19 @@ const getTextStyleForPart = (
       margin = `0 ${pointsToPx(style.margin)}px`;
     }
   }
+  
+  let verticalAlign: "start" | "center" | "end" | undefined;
+  switch (style.verticalAlign) {
+    case "top":
+      verticalAlign = "start"
+      break;
+    case "middle":
+      verticalAlign = "center"
+      break;
+    case "bottom":
+      verticalAlign = "end"
+      break;
+  }
 
   const textDecorationParts: string[] = [];
   if (style.underline) {
@@ -122,6 +135,8 @@ const getTextStyleForPart = (
       ? `${pointsToPx(style.paraSpaceAfter)}px`
       : undefined,
     transform: style.rotate ? `rotate(${style.rotate}deg)` : undefined,
+    alignItems: verticalAlign,
+    backgroundColor: style.backgroundColor ? normalizedColorToCSS(style.backgroundColor) : undefined
   };
 };
 
@@ -315,8 +330,8 @@ const SlideObjectPreview = ({
         <div
           style={{
             ...getTextStyleForPart(object.style, dimensions, slideWidth),
+            height: "100%",
             display: "flex",
-            alignItems: object.style.verticalAlign,
             textAlign: object.style.align,
             justifyContent: object.style.align,
           }}
