@@ -63,7 +63,7 @@ export default [
         }
       },
       virtual({
-        'previewEntry.ts': `export * from './dist/preview/Preview'`
+        'previewEntry.ts': `export { default } from './dist/preview/Preview'`
       })
     ]
   }
