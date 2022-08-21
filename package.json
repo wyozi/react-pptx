@@ -21,7 +21,8 @@
     "lint": "eslint 'src/**/*.ts' --quiet",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "generate-types": "tsc --d --declarationDir dist --emitDeclarationOnly",
-    "build": "rollup -c && pnpm run generate-types"
+    "insert-preview-types": "echo 'export { default } from \"../dist/preview/Preview\"' > preview/index.d.ts",
+    "build": "rollup -c && pnpm run generate-types && pnpm run insert-preview-types"
   },
   "peerDependencies": {
     "react": "^16.0.0 || ^17.0.0 || ^18.0.0"
@@ -30,6 +31,7 @@
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.4",
+    "@rollup/plugin-virtual": "^2.1.0",
     "@types/color": "^3.0.3",
     "@types/jest": "^28.1.6",
     "@types/node": "^18.7.2",

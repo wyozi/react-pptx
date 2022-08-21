@@ -4,6 +4,7 @@ specifiers:
   '@rollup/plugin-commonjs': ^22.0.2
   '@rollup/plugin-node-resolve': ^13.3.0
   '@rollup/plugin-typescript': ^8.3.4
+  '@rollup/plugin-virtual': ^2.1.0
   '@types/color': ^3.0.3
   '@types/jest': ^28.1.6
   '@types/node': ^18.7.2
@@ -39,6 +40,7 @@ devDependencies:
   '@rollup/plugin-commonjs': 22.0.2_rollup@2.77.3
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.3
   '@rollup/plugin-typescript': 8.3.4_z6zeof5eklcd4ck5cj6ien7gzy
+  '@rollup/plugin-virtual': 2.1.0_rollup@2.77.3
   '@types/color': 3.0.3
   '@types/jest': 28.1.6
   '@types/node': 18.7.2
@@ -761,6 +763,15 @@ packages:
       rollup: 2.77.3
       tslib: 2.4.0
       typescript: 4.7.4
+    dev: true
+
+  /@rollup/plugin-virtual/2.1.0_rollup@2.77.3:
+    resolution: {integrity: sha512-CPPAtlKT53HFqC8jFHb/V5WErpU8Hrq2TyCR0A7kPQMlF2wNUf0o1xuAc+Qxj8NCZM0Z3Yvl+FbUXfJjVWqDwA==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      rollup: 2.77.3
     dev: true
 
   /@rollup/pluginutils/3.1.0_rollup@2.77.3:

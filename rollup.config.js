@@ -1,6 +1,7 @@
 import typescript from "@rollup/plugin-typescript";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import virtual from '@rollup/plugin-virtual';
 import pkg from "./package.json";
 
 const external = [
@@ -37,10 +38,33 @@ export default [
     output: [
       {
         format: "cjs",
-        file: "preview/index.js",
+        file: "dist/preview/Preview.js"
       },
     ],
     external,
-    plugins,
+    plugins
   },
+  {
+    input: 'previewEntry.ts',
+    output: [
+      {
+        format: "cjs",
+        file: "preview/index.js"
+      },
+    ],
+    plugins: [
+      {
+        name: 'keep-relative-preview-dist-import',
+        resolveId(source) {
+          if (source === './dist/preview/Preview') {
+            return { id: '../dist/preview/Preview', external: true };
+          }
+          return null;
+        }
+      },
+      virtual({
+        'previewEntry.ts': `export * from './dist/preview/Preview'`
+      })
+    ]
+  }
 ];
