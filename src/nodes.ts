@@ -172,6 +172,7 @@ export type SlideProps = {
     backgroundColor?: string;
     backgroundImage?: InternalImageSrc;
   };
+  notes?: string;
 };
 export const Slide: React.FC<SlideProps> =
   NodeTypes.SLIDE as unknown as React.FC;

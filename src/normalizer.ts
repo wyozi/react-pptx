@@ -141,6 +141,7 @@ export type InternalSlide = {
   backgroundColor: HexColor | ComplexColor | null;
   backgroundImage: InternalImageSrc | null;
   hidden: boolean;
+  notes?: string;
 };
 
 export type InternalMasterSlide = {

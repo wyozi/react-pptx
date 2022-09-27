@@ -210,6 +210,9 @@ const renderSlide = async (
       ...normalizedColorToPptxgenShapeFill(node.backgroundColor),
     };
   }
+  if(node.notes) {
+    slide.addNotes(node.notes);
+  }
 
   return Promise.all(
     node.objects.map((object) => renderSlideObject(pres, slide, object))
