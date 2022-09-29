@@ -219,6 +219,76 @@ const renderSlide = async (
   );
 };
 
+const renderMasterSlideObject = async (object: InternalSlideObject) => {
+  if (object.kind === "line") {
+    throw new Error(
+      "Lines are not currently supported master slide objects! Master slides only support a subset of objects at the moment."
+    );
+  }
+
+  const { x, y, w, h } = object.style;
+  if (object.kind === "shape" && object.type === "rect") {
+    return {
+      rect: {
+        x: object.style.x,
+        y: object.style.y,
+        w: object.style.w,
+        h: object.style.h,
+        ...(object.style.backgroundColor && {
+          fill: { color: object.style.backgroundColor },
+        }),
+      },
+    };
+  } else if (object.kind === "image") {
+    let data = "";
+    if (object.src.kind === "data") {
+      data = `data:${object.src[object.src.kind]}`;
+    } else {
+      const req = await fetch(object.src[object.src.kind]);
+
+      if ("buffer" in req) {
+        // node-fetch
+        const contentType = (req as any).headers.raw()["content-type"][0];
+        const buffer: Buffer = await (req as any).buffer();
+
+        data = `data:${contentType};base64,${buffer.toString("base64")}`;
+      } else {
+        const blob = await req.blob();
+
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        data = await new Promise<string>((resolve) => {
+          reader.onloadend = function () {
+            resolve(reader.result as string);
+          };
+        });
+      }
+    }
+
+    let sizing;
+    if (object.style.sizing && object.style.sizing.fit) {
+      const imageWidth =
+        object.style.sizing.imageWidth ??
+        (typeof w === "number" ? w : parseInt(w, 10));
+      const imageHeight =
+        object.style.sizing.imageHeight ??
+        (typeof h === "number" ? h : parseInt(h, 10));
+      if (isNaN(imageWidth) || isNaN(imageHeight)) {
+        throw new TypeError(
+          "when using sizing.fit, width and height must be specified numerically, either in style itself or in sizing.width/height!"
+        );
+      }
+      sizing = { type: object.style.sizing.fit, w: imageWidth, h: imageHeight };
+    }
+
+    return { image: { x, y, w, h, data, sizing } };
+  } else {
+    throw new Error(
+      "Unsupported master slide object found! Master slides only support a small subset of objects at the moment."
+    );
+  }
+};
+
 const renderMasterSlide = async (
   node: InternalMasterSlide
 ): Promise<PptxGenJs.SlideMasterProps> => {
@@ -240,26 +310,9 @@ const renderMasterSlide = async (
   } else {
     masterSlide.background = { color: "FFFFFF" };
   }
-
-  masterSlide.objects = node.objects.map((object) => {
-    if (object.kind === "shape" && object.type === "rect") {
-      return {
-        rect: {
-          x: object.style.x,
-          y: object.style.y,
-          w: object.style.w,
-          h: object.style.h,
-          ...(object.style.backgroundColor && {
-            fill: { color: object.style.backgroundColor },
-          }),
-        },
-      };
-    } else {
-      throw new Error(
-        "Unsupported master slide object found! Master slides only support a small subset of objects at the moment."
-      );
-    }
-  });
+  masterSlide.objects = await Promise.all(
+    node.objects.map((object) => renderMasterSlideObject(object))
+  );
 
   return masterSlide;
 };

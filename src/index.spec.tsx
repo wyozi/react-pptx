@@ -36,6 +36,18 @@ describe("test render", () => {
               backgroundColor: "#003b75",
             }}
           />
+          <Image
+            src={{
+              kind: "path",
+              path: "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg",
+            }}
+            style={{
+              x: 0.2,
+              y: 0.2,
+              w: 3,
+              h: 1.54,
+            }}
+          />
         </MasterSlide>
       );
     };
