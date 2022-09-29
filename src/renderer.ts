@@ -210,7 +210,7 @@ const renderSlide = async (
       ...normalizedColorToPptxgenShapeFill(node.backgroundColor),
     };
   }
-  if(node.notes) {
+  if (node.notes) {
     slide.addNotes(node.notes);
   }
 

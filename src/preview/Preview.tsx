@@ -89,17 +89,17 @@ const getTextStyleForPart = (
       margin = `0 ${pointsToPx(style.margin)}px`;
     }
   }
-  
+
   let verticalAlign: "start" | "center" | "end" | undefined;
   switch (style.verticalAlign) {
     case "top":
-      verticalAlign = "start"
+      verticalAlign = "start";
       break;
     case "middle":
-      verticalAlign = "center"
+      verticalAlign = "center";
       break;
     case "bottom":
-      verticalAlign = "end"
+      verticalAlign = "end";
       break;
   }
 
@@ -136,7 +136,9 @@ const getTextStyleForPart = (
       : undefined,
     transform: style.rotate ? `rotate(${style.rotate}deg)` : undefined,
     alignItems: verticalAlign,
-    backgroundColor: style.backgroundColor ? normalizedColorToCSS(style.backgroundColor) : undefined
+    backgroundColor: style.backgroundColor
+      ? normalizedColorToCSS(style.backgroundColor)
+      : undefined,
   };
 };
 
@@ -270,9 +272,7 @@ const constrainObjectFit = (
 };
 
 const calculatePercentage = (value: any, total: number) =>
-  typeof value === "number"
-    ? (value / total) * 100
-    : parseInt(value, 10);
+  typeof value === "number" ? (value / total) * 100 : parseInt(value, 10);
 
 const SlideObjectPreview = ({
   object,
@@ -285,15 +285,15 @@ const SlideObjectPreview = ({
   slideWidth: number;
   drawBoundingBoxes: boolean;
 }) => {
-  if (object.kind === 'line') {
+  if (object.kind === "line") {
     const { x1, x2, y1, y2 } = object;
     const thickness = object.style.width ?? 1;
 
     // from https://stackoverflow.com/a/8673281/13065068
-    const length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
-    const centerX = ((x1 + x2) / 2) - (length / 2);
-    const centerY = ((y1 + y2) / 2);
-    const angle = Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI);
+    const length = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    const centerX = (x1 + x2) / 2 - length / 2;
+    const centerY = (y1 + y2) / 2;
+    const angle = Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI);
 
     return (
       <div
@@ -304,11 +304,12 @@ const SlideObjectPreview = ({
           width: `${calculatePercentage(length, dimensions[0])}%`,
           transform: `rotate(${angle}deg) translateY(${thickness / 2}px)`,
           height: thickness,
-          backgroundColor: object.style.color ? normalizedColorToCSS(object.style.color) : undefined
+          backgroundColor: object.style.color
+            ? normalizedColorToCSS(object.style.color)
+            : undefined,
         }}
-      >
-      </div>
-    )
+      ></div>
+    );
   }
   const xPercentage = calculatePercentage(object.style.x, dimensions[0]);
   const yPercentage = calculatePercentage(object.style.y, dimensions[1]);
@@ -399,19 +400,24 @@ const SlidePreview = ({
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const { width } = useResize(ref);
+
+  const backgroundColor = slide.backgroundColor ?? masterSlide?.backgroundColor;
+  const backgroundImage = slide.backgroundImage ?? masterSlide?.backgroundImage;
+
   return (
     <div
       ref={ref}
       style={{
         width: "100%",
         height: width / (dimensions[0] / dimensions[1]),
-        backgroundColor: slide.backgroundColor
-          ? normalizedColorToCSS(slide.backgroundColor)
+        backgroundColor: backgroundColor
+          ? normalizedColorToCSS(backgroundColor)
           : "white",
         backgroundImage:
-          slide.backgroundImage && slide.backgroundImage?.kind === "path"
-            ? `url("${slide.backgroundImage.path}")`
-            : `url("data:${slide.backgroundImage?.data}")`,
+          backgroundImage && backgroundImage?.kind === "path"
+            ? `url("${backgroundImage.path}")`
+            : `url("data:${backgroundImage?.data}")`,
+        backgroundSize: "contain",
         position: "relative",
         ...slideStyle,
       }}
@@ -462,7 +468,10 @@ const Preview = (props: {
           <SlidePreview
             key={i}
             slide={slide}
-            masterSlide={(slide.masterName && normalized.masterSlides[slide.masterName]) || undefined}
+            masterSlide={
+              (slide.masterName && normalized.masterSlides[slide.masterName]) ||
+              undefined
+            }
             dimensions={layoutToInches(normalized.layout)}
             slideStyle={props.slideStyle}
             drawBoundingBoxes={!!props.drawBoundingBoxes}
