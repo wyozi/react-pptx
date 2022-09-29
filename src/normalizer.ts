@@ -393,6 +393,7 @@ const normalizeSlide = ({
       ? normalizeHexOrComplexColor(props.style.backgroundColor)
       : null,
     backgroundImage: props?.style?.backgroundImage ?? null,
+    notes: props.notes,
     objects: [],
   };
   if (props.children) {

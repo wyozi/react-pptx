@@ -18,7 +18,7 @@ describe("test render", () => {
     const test = (
       <Presentation>
         <MasterSlides />
-        <Slide masterName="MASTER_SLIDE">
+        <Slide notes="test notes rendering" masterName="MASTER_SLIDE">
           <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
             Hello there!
             <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">
@@ -211,7 +211,7 @@ describe("e2e renders", () => {
         subject="Subject"
         title="Title"
       />
-    )
+    );
     expect(json['docProps/app.xml'].Properties.Company).toEqual(["Company"]);
     expect(json['docProps/core.xml']['cp:coreProperties']['dc:creator']).toEqual(["Author"]);
     expect(json['docProps/core.xml']['cp:coreProperties']['cp:lastModifiedBy']).toEqual(["Author"]);
