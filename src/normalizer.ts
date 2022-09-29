@@ -141,6 +141,7 @@ export type InternalSlide = {
   backgroundColor: HexColor | ComplexColor | null;
   backgroundImage: InternalImageSrc | null;
   hidden: boolean;
+  notes?: string;
 };
 
 export type InternalMasterSlide = {
@@ -392,6 +393,7 @@ const normalizeSlide = ({
       ? normalizeHexOrComplexColor(props.style.backgroundColor)
       : null,
     backgroundImage: props?.style?.backgroundImage ?? null,
+    notes: props.notes,
     objects: [],
   };
   if (props.children) {
