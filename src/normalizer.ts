@@ -154,7 +154,8 @@ export type InternalMasterSlide = {
 export type InternalPresentation = {
   slides: InternalSlide[];
   masterSlides: { [name: string]: InternalMasterSlide };
-  layout: "16x9" | "16x10" | "4x3" | "wide";
+  layout: "16x9" | "16x10" | "4x3" | "wide" | "custom";
+  customLayout?: { width: number; height: number };
   author?: string;
   company?: string;
   revision?: string;
@@ -427,6 +428,7 @@ export const normalizeJsx = ({
 }: React.ReactElement<PresentationProps>): InternalPresentation => {
   const pres: InternalPresentation = {
     layout: props.layout ?? "16x9",
+    customLayout: props.customLayout,
     masterSlides: {},
     slides: [],
     author: props.author,

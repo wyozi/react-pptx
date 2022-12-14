@@ -102,4 +102,11 @@ describe("normalizeJsx", () => {
       layout: "16x10",
     });
   });
+  it("has custom layout", () => {
+    expect(
+      normalizeJsx(<Presentation customLayout={{ width: 10, height: 15 }} />)
+    ).toMatchObject({
+      customLayout: { width: 10, height: 15 },
+    });
+  });
 });

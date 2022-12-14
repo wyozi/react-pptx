@@ -17,6 +17,8 @@ export const layoutToInches = (
       return [10, 7.5];
     case "wide":
       return [13.3, 7.5];
+    default:
+      return [0, 0];
   }
 };
 

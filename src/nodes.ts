@@ -194,6 +194,7 @@ export type PresentationProps = Omit<
 > & {
   children?: ChildElement<SlideProps | MasterSlideProps>;
   layout?: InternalPresentation["layout"];
+  customLayout?: InternalPresentation["customLayout"];
 };
 export const Presentation: React.FC<PresentationProps> =
   NodeTypes.PRESENTATION as unknown as React.FC;
