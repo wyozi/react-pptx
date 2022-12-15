@@ -265,17 +265,18 @@ export const render = async (
   const pres = new pptxgen();
 
   // https://gitbrent.github.io/PptxGenJS/docs/usage-pres-options/#custom-slide-layouts
-  if (Object.keys(normalized.customLayout || {}).length > 0) {
-    const { width = 0, height = 0 } = normalized.customLayout as {
+  if (typeof pres.layout === "object" && Object.keys(pres.layout).length > 0) {
+    const { width = 0, height = 0 } = pres.layout as {
       width: number;
       height: number;
     };
+    const name = `customLayout-${width}x${height}`;
     pres.defineLayout({
-      name: "customLayout",
+      name,
       width,
-      height: height,
+      height,
     });
-    pres.layout = "customLayout";
+    pres.layout = name;
   } else {
     let layout = "LAYOUT_16x9";
     if (normalized.layout === "16x10") {

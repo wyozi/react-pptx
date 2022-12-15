@@ -472,14 +472,7 @@ const Preview = (props: {
               (slide.masterName && normalized.masterSlides[slide.masterName]) ||
               undefined
             }
-            dimensions={
-              Object.keys(normalized.customLayout || {}).length > 0
-                ? [
-                    normalized.customLayout?.width || 0,
-                    normalized.customLayout?.height || 0,
-                  ]
-                : layoutToInches(normalized.layout)
-            }
+            dimensions={layoutToInches(normalized.layout)}
             slideStyle={props.slideStyle}
             drawBoundingBoxes={!!props.drawBoundingBoxes}
           />
