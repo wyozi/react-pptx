@@ -154,7 +154,13 @@ export type InternalMasterSlide = {
 export type InternalPresentation = {
   slides: InternalSlide[];
   masterSlides: { [name: string]: InternalMasterSlide };
-  layout: "16x9" | "16x10" | "4x3" | "wide";
+  layout:
+    | "16x9"
+    | "16x10"
+    | "4x3"
+    | "wide"
+    | "custom"
+    | { width: number; height: number };
   author?: string;
   company?: string;
   revision?: string;

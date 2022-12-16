@@ -17,6 +17,10 @@ export const layoutToInches = (
       return [10, 7.5];
     case "wide":
       return [13.3, 7.5];
+    default:
+      return typeof layout === "object" && Object.keys(layout).length > 0
+        ? [layout.width, layout.height]
+        : [0, 0];
   }
 };
 

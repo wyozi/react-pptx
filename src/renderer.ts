@@ -264,15 +264,30 @@ export const render = async (
   const normalized = normalizeJsx(node);
   const pres = new pptxgen();
 
-  let layout = "LAYOUT_16x9";
-  if (normalized.layout === "16x10") {
-    layout = "LAYOUT_16x10";
-  } else if (normalized.layout === "4x3") {
-    layout = "LAYOUT_4x3";
-  } else if (normalized.layout === "wide") {
-    layout = "LAYOUT_WIDE";
+  // https://gitbrent.github.io/PptxGenJS/docs/usage-pres-options/#custom-slide-layouts
+  if (typeof pres.layout === "object" && Object.keys(pres.layout).length > 0) {
+    const { width = 0, height = 0 } = pres.layout as {
+      width: number;
+      height: number;
+    };
+    const name = `customLayout-${width}x${height}`;
+    pres.defineLayout({
+      name,
+      width,
+      height,
+    });
+    pres.layout = name;
+  } else {
+    let layout = "LAYOUT_16x9";
+    if (normalized.layout === "16x10") {
+      layout = "LAYOUT_16x10";
+    } else if (normalized.layout === "4x3") {
+      layout = "LAYOUT_4x3";
+    } else if (normalized.layout === "wide") {
+      layout = "LAYOUT_WIDE";
+    }
+    pres.layout = layout;
   }
-  pres.layout = layout;
 
   // First render async in order
   const masterSlides = await Promise.all(

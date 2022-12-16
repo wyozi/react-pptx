@@ -232,7 +232,7 @@ const Previewer = () => {
             ReactPPTX.render(doc, { outputType: "blob" }).then(
               (blob) => {
                 const a = document.createElement("a");
-                const url = URL.createObjectURL(blob);
+                const url = URL.createObjectURL(blob as Blob | MediaSource);
                 a.href = url;
                 a.download = "presentation.pptx";
                 a.click();
