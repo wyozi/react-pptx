@@ -10,6 +10,7 @@ import {
 import { ChildElement } from "./util";
 
 export enum NodeTypes {
+  TABLE = "table",
   SHAPE = "shape",
   LINE = "line",
   TEXT_LINK = "text-link",
@@ -159,6 +160,22 @@ export const isLine = (
   el: React.ReactElement
 ): el is React.ReactElement<LineProps> => {
   return el.type === NodeTypes.LINE;
+};
+
+export type TableProps = VisualBaseProps & {
+  rows: Array<Array<string>>;
+  style?: {
+    backgroundColor?: string;
+    borderWidth?: number;
+    borderColor?: string;
+  };
+};
+export const Table: React.FC<TableProps> =
+  NodeTypes.TABLE as unknown as React.FC;
+export const isTable = (
+  el: React.ReactElement
+): el is React.ReactElement<TableProps> => {
+  return el.type === NodeTypes.TABLE;
 };
 
 export type VisualProps = TextProps | ImageProps | ShapeProps;
