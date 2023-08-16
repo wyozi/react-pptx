@@ -109,7 +109,7 @@ export type ImageProps = VisualBaseProps & {
   src: InternalImageSrc;
   style?: {
     /**
-     * @deprecated no longer has any effect and will be removed soon! Use imageFit instead
+     * @deprecated no longer has any effect and will be removed soon! Use sizing.fit instead
      */
     backgroundSize?: "contain" | "cover";
 
