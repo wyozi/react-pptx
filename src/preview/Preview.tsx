@@ -1,18 +1,18 @@
 import * as React from "react";
 import { PresentationProps } from "../nodes";
 import {
-  normalizeJsx,
+  ComplexColor,
+  HexColor,
+  InternalImage,
+  InternalMasterSlide,
+  InternalShape,
   InternalSlide,
   InternalSlideObject,
-  HexColor,
-  ComplexColor,
-  InternalShape,
   InternalTextPart,
-  InternalImage,
   InternalTextPartBaseStyle,
-  InternalMasterSlide,
+  normalizeJsx,
 } from "../normalizer";
-import { layoutToInches, POINTS_TO_INCHES } from "../util";
+import { POINTS_TO_INCHES, layoutToInches } from "../util";
 
 const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
   if (typeof color === "string") {
@@ -358,6 +358,28 @@ const SlideObjectPreview = ({
             objectFit: constrainObjectFit(object.style.sizing),
           }}
         />
+      ) : object.kind === "table" ? (
+        <table style={{ width: "100%", height: "100%" }}>
+          <tbody>
+            {object.rows.map((row, i) => (
+              <tr key={i}>
+                {row.map((cell, i) => {
+                  return (
+                    <td key={i}>
+                      <TextPreview
+                        parts={cell.text}
+                        subscript={cell.style.subscript}
+                        superscript={cell.style.superscript}
+                        dimensions={dimensions} // TODO: these should be divided by table rows/cols
+                        slideWidth={slideWidth}
+                      />
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <SlideObjectShape shape={object} />
       )}
