@@ -90,6 +90,22 @@ const renderSlideObject = async (
     return;
   }
 
+  if (object.kind === "table") {
+    const { x, y, h, w } = object.style;
+    const rows = object.rows.map((row: string[]) =>
+      row.map((cell: string) => ({ text: cell }))
+    );
+    slide.addTable(rows, {
+      x,
+      y,
+      w,
+      h,
+      rowH: 1,
+      align: "center",
+    });
+    return;
+  }
+
   const { x, y, w, h } = object.style;
   if (object.kind === "text") {
     const { color, verticalAlign, backgroundColor, ...style } = object.style;
