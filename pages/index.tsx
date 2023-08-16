@@ -150,6 +150,7 @@ const code = `ReactPPTX.render(
         }}
       />
     </Slide>
+    
     <Slide style={{ backgroundColor: "#DDDDDD" }}>
       <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
         <Text.Bullet>Adding bullet 1</Text.Bullet>
@@ -166,6 +167,30 @@ const code = `ReactPPTX.render(
         style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
       />
     </Slide>
+    <Slide>
+      <Table
+        rows={[
+          ["foo", <Text style={{ align: "right", backgroundColor: '#404040' }}>bar</Text>],
+          [
+            <Text style={{ verticalAlign: "bottom" }}>
+              what about a{" "}
+              <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">
+                link
+              </Text.Link>
+            </Text>,
+            "xyz",
+          ],
+        ]}
+        style={{
+          x: "10%",
+          y: "10%",
+          w: "80%",
+          h: "80%",
+          borderWidth: 10,
+          borderColor: "#ff0000",
+        }}
+      />
+</Slide>
     {[1, 2, 3].map(n => (
       <Slide key={n}>
         <Text style={{x: "50%", y: "50%", w: 1, h: 0.2}}>
