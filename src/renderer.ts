@@ -16,7 +16,7 @@ import {
 } from "./normalizer";
 
 const normalizedColorToPptxgenShapeFill = (
-  color: HexColor | ComplexColor | null
+  color: HexColor | ComplexColor | null | undefined
 ): pptxgen.ShapeFillProps | undefined => {
   return typeof color === "string" ? { color: color } : color ?? undefined;
 };
@@ -95,9 +95,7 @@ const renderSlideObject = async (
     const { color, verticalAlign, backgroundColor, ...style } = object.style;
     slide.addText(renderTextParts(object.text), {
       ...style,
-      fill: backgroundColor
-        ? normalizedColorToPptxgenShapeFill(backgroundColor)
-        : undefined,
+      fill: normalizedColorToPptxgenShapeFill(backgroundColor),
       color: color ?? undefined,
       valign: verticalAlign,
       breakLine: true,
@@ -229,7 +227,7 @@ const renderMasterSlideObject = async (object: InternalSlideObject) => {
         w: object.style.w,
         h: object.style.h,
         ...(object.style.backgroundColor && {
-          fill: { color: object.style.backgroundColor },
+          fill: normalizedColorToPptxgenShapeFill(object.style.backgroundColor),
         }),
       },
     };
