@@ -190,7 +190,7 @@ const code = `ReactPPTX.render(
           borderColor: "#ff0000",
         }}
       />
-</Slide>
+    </Slide>
     {[1, 2, 3].map(n => (
       <Slide key={n}>
         <Text style={{x: "50%", y: "50%", w: 1, h: 0.2}}>
