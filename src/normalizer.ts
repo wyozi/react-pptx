@@ -17,6 +17,7 @@ import {
   isTextLink,
   isTextBullet,
   isLine,
+  isTable,
   NodeTypes,
   MasterSlideProps,
 } from "./nodes";
@@ -125,11 +126,22 @@ export type InternalLine = {
   };
 };
 
+export type InternalTable = ObjectBase & {
+  kind: "table";
+  rows: Array<Array<string>>;
+  style: {
+    backgroundColor: HexColor | ComplexColor | null;
+    borderColor: HexColor | null;
+    borderWidth: number | null;
+  };
+};
+
 export type InternalSlideObject =
   | InternalText
   | InternalImage
   | InternalShape
-  | InternalLine;
+  | InternalLine
+  | InternalTable;
 
 export type InternalImageSrc =
   | { kind: "data"; data: string }
@@ -374,6 +386,21 @@ const normalizeSlideObject = (
         ...normalizedCoordinates,
         backgroundColor: node.props.style.backgroundColor
           ? normalizeHexOrComplexColor(node.props.style.backgroundColor)
+          : null,
+        borderColor: node.props.style.borderColor
+          ? normalizeHexColor(node.props.style.borderColor)
+          : null,
+        borderWidth: node.props.style.borderWidth ?? null,
+      },
+    };
+  } else if (isTable(node)) {
+    return {
+      kind: "table",
+      rows: node.props.rows,
+      style: {
+        ...normalizedCoordinates,
+        backgroundColor: node.props.style.backgroundColor
+          ? normalizeHexColor(node.props.style.backgroundColor)
           : null,
         borderColor: node.props.style.borderColor
           ? normalizeHexColor(node.props.style.borderColor)
