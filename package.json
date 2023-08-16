@@ -20,6 +20,8 @@
     "test": "jest",
     "lint": "eslint 'src/**/*.ts' --quiet",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
+    "format": "prettier --check ./src",
+    "format:fix": "prettier --write ./src",
     "generate-types": "tsc --d --declarationDir dist --emitDeclarationOnly",
     "insert-preview-types": "echo 'export { default } from \"../dist/preview/Preview\"' > preview/index.d.ts",
     "build": "rollup -c && pnpm run generate-types && pnpm run insert-preview-types"
@@ -41,7 +43,6 @@
     "@typescript-eslint/parser": "^6.4.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
     "jest": "^29.6.2",
     "pptx2json": "^0.0.8",
     "prettier": "^3.0.2",
@@ -74,5 +75,8 @@
       "tsx",
       "js"
     ]
+  },
+  "prettier": {
+    "trailingComma": "es5"
   }
 }

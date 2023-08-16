@@ -44,7 +44,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run linter
-        run: pnpm run lint
+        run: |
+          pnpm run lint
+          pnpm run format
   publish:
     needs: [unit-tests, lint]
     name: Build and Publish
