@@ -12,7 +12,6 @@ const plugins = [
   nodeResolve(),
   commonjs(),
   typescript({
-    typescript: require("typescript"),
     exclude: "**/*.spec.tsx",
   }),
 ];
