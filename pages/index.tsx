@@ -68,8 +68,8 @@ const transpile = (code, callback, onError) => {
 };
 
 import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
-import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
-import "monaco-editor/esm/vs/editor/contrib/hover/hover.js";
+import "monaco-editor/esm/vs/editor/browser/coreCommands.js";
+import "monaco-editor/esm/vs/editor/contrib/hover/browser/hover.js";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
 
