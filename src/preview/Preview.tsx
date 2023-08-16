@@ -16,7 +16,7 @@ import { POINTS_TO_INCHES, layoutToInches } from "../util";
 
 const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
   if (typeof color === "string") {
-    return `#${color}`;
+    return color.startsWith("#") ? color : `#${color}`;
   } else {
     const r = parseInt(color.color.substring(0, 2), 16);
     const g = parseInt(color.color.substring(2, 4), 16);
@@ -359,13 +359,34 @@ const SlideObjectPreview = ({
           }}
         />
       ) : object.kind === "table" ? (
-        <table style={{ width: "100%", height: "100%" }}>
+        <table
+          style={{
+            width: "100%",
+            height: "100%",
+            border: `${object.style.borderWidth ?? 0}px solid ${
+              object.style.borderColor
+                ? normalizedColorToCSS(object.style.borderColor)
+                : undefined ?? "transparent"
+            }`,
+          }}
+        >
           <tbody>
             {object.rows.map((row, i) => (
               <tr key={i}>
                 {row.map((cell, i) => {
                   return (
-                    <td key={i}>
+                    <td
+                      key={i}
+                      style={{
+                        ...getTextStyleForPart(
+                          cell.style,
+                          dimensions,
+                          slideWidth
+                        ),
+                        textAlign: cell.style.align,
+                        verticalAlign: cell.style.verticalAlign,
+                      }}
+                    >
                       <TextPreview
                         parts={cell.text}
                         subscript={cell.style.subscript}
