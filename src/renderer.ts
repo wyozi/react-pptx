@@ -1,18 +1,18 @@
 // Renderer renders normalized nodes into pptxgenjs presentations
 
-import pptxgen from "pptxgenjs";
 import fetch from "cross-fetch";
 import type PptxGenJs from "pptxgenjs";
+import pptxgen from "pptxgenjs";
 import { PresentationProps } from "./nodes";
 import {
-  normalizeJsx,
+  ComplexColor,
+  HexColor,
+  InternalImage,
+  InternalMasterSlide,
   InternalSlide,
   InternalSlideObject,
   InternalTextPart,
-  InternalMasterSlide,
-  HexColor,
-  ComplexColor,
-  InternalImage,
+  normalizeJsx,
 } from "./normalizer";
 
 const normalizedColorToPptxgenShapeFill = (
@@ -166,6 +166,38 @@ const renderSlideObject = async (
         },
       });
     }
+  } else if (object.kind === "table") {
+    const style = object.style;
+
+    const mapped: PptxGenJs.TableRow[] = object.rows.map((row) =>
+      row.map((cell) => {
+        const { color, verticalAlign, backgroundColor, ...style } = cell.style;
+        // this is super weird, but works?
+        return {
+          text: renderTextParts(cell.text),
+          options: {
+            ...style,
+            fill: backgroundColor
+              ? normalizedColorToPptxgenShapeFill(backgroundColor)
+              : undefined,
+            color: color ?? undefined,
+            valign: verticalAlign,
+            breakLine: true,
+          },
+        };
+      })
+    );
+
+    slide.addTable(mapped, {
+      x,
+      y,
+      w,
+      h,
+      border: {
+        pt: style.borderWidth ?? undefined,
+        color: style.borderColor ?? undefined,
+      },
+    });
   }
 };
 

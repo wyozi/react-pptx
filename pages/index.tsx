@@ -1,7 +1,24 @@
+import { transform } from "buble";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as ReactPPTX from "react-pptx";
 import {
+  Image,
+  Line,
+  MasterSlide,
+  Presentation,
+  Shape,
+  Slide,
+  Table,
+  Text,
+  normalizeJsx,
+} from "react-pptx";
+import Preview from "react-pptx/preview";
+
+declare var __LATEST_GIT_TAG__: string;
+declare var __LATEST_GIT_COMMIT_HASH__: string;
+
+const primitives = {
   Presentation,
   Slide,
   MasterSlide,
@@ -9,15 +26,8 @@ import {
   Text,
   Shape,
   Line,
-  normalizeJsx,
-} from "react-pptx";
-import Preview from "react-pptx/preview";
-import { transform } from "buble";
-
-declare var __LATEST_GIT_TAG__: string;
-declare var __LATEST_GIT_COMMIT_HASH__: string;
-
-const primitives = { Presentation, Slide, MasterSlide, Image, Text, Shape, Line };
+  Table,
+};
 
 const transpile = (code, callback, onError) => {
   try {
@@ -57,11 +67,11 @@ const transpile = (code, callback, onError) => {
   },
 };
 
+import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
 import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
 import "monaco-editor/esm/vs/editor/contrib/hover/hover.js";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
-import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution";
 
 // @ts-ignore
 import coreDefs from "!!raw-loader!../node_modules/typescript/lib/lib.es5.d.ts";

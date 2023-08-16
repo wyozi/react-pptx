@@ -1,16 +1,17 @@
+import PPTX2Json from "pptx2json";
 import * as React from "react";
 import { render } from "./index";
-import PPTX2Json from "pptx2json";
-import fs = require("fs");
 import {
-  Presentation,
-  Slide,
-  Shape,
-  Text,
   Image,
   Line,
   MasterSlide,
+  Presentation,
+  Shape,
+  Slide,
+  Table,
+  Text,
 } from "./nodes";
+import fs = require("fs");
 
 describe("test render", () => {
   it("ok", async () => {
@@ -225,6 +226,30 @@ describe("test render", () => {
           <Image
             src={{ kind: "path", path: "http://www.fillmurray.com/460/300" }}
             style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
+          />
+        </Slide>
+        <Slide>
+          <Table
+            rows={[
+              ["foo", <Text style={{ align: "right" }}>bar</Text>],
+              [
+                <Text style={{ verticalAlign: "bottom" }}>
+                  what about a{" "}
+                  <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">
+                    link
+                  </Text.Link>
+                </Text>,
+                "xyz",
+              ],
+            ]}
+            style={{
+              x: "10%",
+              y: "10%",
+              w: "80%",
+              h: "80%",
+              borderWidth: 1,
+              borderColor: "#ff0000",
+            }}
           />
         </Slide>
       </Presentation>

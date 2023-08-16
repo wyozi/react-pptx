@@ -1,27 +1,27 @@
 // Normalizer converts and normalizes JSX Presentation trees into internal nodes
 // that roughly match what pptxgenjs will want to ingest
 
-import type PptxGenJs from "pptxgenjs";
 import Color from "color";
-import { flattenChildren, isReactElementOrElementArray } from "./util";
+import type PptxGenJs from "pptxgenjs";
+import React, { ReactElement } from "react";
 import {
+  MasterSlideProps,
+  NodeTypes,
   PresentationProps,
   SlideProps,
-  VisualProps,
-  isText,
-  isImage,
-  isShape,
+  TextBulletProps,
   TextChild,
   TextLinkProps,
-  TextBulletProps,
-  isTextLink,
-  isTextBullet,
+  VisualProps,
+  isImage,
   isLine,
+  isShape,
   isTable,
-  NodeTypes,
-  MasterSlideProps,
+  isText,
+  isTextBullet,
+  isTextLink,
 } from "./nodes";
-import React, { ReactElement } from "react";
+import { flattenChildren, isReactElementOrElementArray } from "./util";
 
 export type HexColor = string; // 6-Character hex (without prefix hash)
 export type ComplexColor = {
@@ -110,6 +110,14 @@ export type InternalShape = ObjectBase & {
   text: InternalTextPart[] | null;
   style: {
     backgroundColor: HexColor | ComplexColor | null;
+    borderColor: HexColor | null;
+    borderWidth: number | null;
+  };
+};
+export type InternalTable = ObjectBase & {
+  kind: "table";
+  rows: Array<Array<InternalText>>;
+  style: {
     borderColor: HexColor | null;
     borderWidth: number | null;
   };
@@ -394,14 +402,24 @@ const normalizeSlideObject = (
       },
     };
   } else if (isTable(node)) {
+    const normalized: InternalText[][] = node.props.rows.map((row) =>
+      row.map((cell) => {
+        if (typeof cell === "string") {
+          return {
+            kind: "text",
+            text: [{ text: cell, style: {} }],
+            style: { x: 0, y: 0, w: 0, h: 0, color: null },
+          };
+        } else {
+          return normalizeSlideObject(cell) as InternalText;
+        }
+      })
+    );
     return {
       kind: "table",
-      rows: node.props.rows,
+      rows: normalized,
       style: {
         ...normalizedCoordinates,
-        backgroundColor: node.props.style.backgroundColor
-          ? normalizeHexColor(node.props.style.backgroundColor)
-          : null,
         borderColor: node.props.style.borderColor
           ? normalizeHexColor(node.props.style.borderColor)
           : null,
