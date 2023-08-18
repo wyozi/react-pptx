@@ -114,13 +114,15 @@ export type InternalShape = ObjectBase & {
     borderWidth: number | null;
   };
 };
+export type InternalTableStyle = {
+  borderColor: HexColor | null;
+  borderWidth: number | null;
+};
 export type InternalTable = ObjectBase & {
   kind: "table";
+  header: boolean;
   rows: Array<Array<InternalText>>;
-  style: {
-    borderColor: HexColor | null;
-    borderWidth: number | null;
-  };
+  style: InternalTableStyle;
 };
 export type InternalLine = {
   kind: "line";
@@ -407,6 +409,7 @@ const normalizeSlideObject = (
     );
     return {
       kind: "table",
+      header: node.props.header ?? false,
       rows: normalized,
       style: {
         ...normalizedCoordinates,

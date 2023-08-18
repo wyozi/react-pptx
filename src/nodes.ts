@@ -146,6 +146,7 @@ export const isShape = (
 };
 
 export type TableProps = VisualBaseProps & {
+  header?: boolean;
   rows: Array<Array<string | React.ReactElement<TextProps>>>;
   style?: {
     borderWidth?: number;
