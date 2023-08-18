@@ -8,6 +8,8 @@ import {
   InternalShape,
   InternalSlide,
   InternalSlideObject,
+  InternalTableStyle,
+  InternalText,
   InternalTextPart,
   InternalTextPartBaseStyle,
   normalizeJsx,
@@ -25,6 +27,13 @@ const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
     return `rgba(${r}, ${g}, ${b}, ${1 - color.alpha / 100})`;
   }
 };
+
+const normalizeBorderToCSS = (style: InternalTableStyle) =>
+  `${style.borderWidth ?? 0}px solid ${
+    style.borderColor
+      ? normalizedColorToCSS(style.borderColor)
+      : undefined ?? "transparent"
+  }`;
 
 const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
   const baseStyle = {
@@ -363,17 +372,14 @@ const SlideObjectPreview = ({
           style={{
             width: "100%",
             height: "100%",
-            border: `${object.style.borderWidth ?? 0}px solid ${
-              object.style.borderColor
-                ? normalizedColorToCSS(object.style.borderColor)
-                : undefined ?? "transparent"
-            }`,
+            border: normalizeBorderToCSS(object.style),
+            borderCollapse: "collapse",
           }}
         >
           <tbody>
-            {object.rows.map((row, i) => (
+            {object.rows.map((row: InternalText[], i: number) => (
               <tr key={i}>
-                {row.map((cell, i) => {
+                {row.map((cell: InternalText) => {
                   return (
                     <td
                       key={i}
@@ -383,9 +389,15 @@ const SlideObjectPreview = ({
                           dimensions,
                           slideWidth
                         ),
+                        border: normalizeBorderToCSS(object.style),
                         textAlign: cell.style.align,
                         verticalAlign: cell.style.verticalAlign,
                       }}
+                      colSpan={
+                        object.header && i == 0 && object.rows[1]
+                          ? object.rows[1].length
+                          : undefined
+                      }
                     >
                       <TextPreview
                         parts={cell.text}
