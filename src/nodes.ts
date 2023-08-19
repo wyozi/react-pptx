@@ -234,4 +234,6 @@ export const Presentation: React.FC<PresentationProps> =
   NodeTypes.PRESENTATION as unknown as React.FC;
 
 export const isReactPPTXComponent = (node: React.ReactElement): boolean =>
-  Object.values(NodeTypes).includes(node.type as NodeTypes) || isText(node) || isTable(node);
+  Object.values(NodeTypes).includes(node.type as NodeTypes) ||
+  isText(node) ||
+  isTable(node);
