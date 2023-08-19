@@ -17,7 +17,6 @@ export enum NodeTypes {
   SLIDE = "slide",
   MASTER_SLIDE = "master-slide",
   IMAGE = "image",
-  TABLE = "table",
   TABLE_CELL = "table-cell",
   PRESENTATION = "presentation",
 }
@@ -159,19 +158,25 @@ export const isTableCell = (
 };
 
 export type TableProps = VisualBaseProps & {
-  rows: Array<Array<string | React.ReactElement<TextProps>>>;
+  rows: Array<Array<string | React.ReactElement<TableCellProps>>>;
   style?: {
     borderWidth?: number;
     borderColor?: string;
     width?: number;
   };
 };
-export const Table: React.FC<TableProps> =
-  NodeTypes.TABLE as unknown as React.FC;
+
+const TableFn: React.FC<TableProps> = () => null;
+TableFn.prototype.isPptxTableElement = true;
+TableFn.prototype.Cell = TableCell;
+export const Table = Object.assign(TableFn, {
+  Cell: TableCell,
+});
+(Table.prototype as any).isPptxTableElement = true;
 export const isTable = (
   el: React.ReactElement
 ): el is React.ReactElement<TableProps> => {
-  return el.type === NodeTypes.TABLE;
+  return el.type instanceof Function && el.type.prototype?.isPptxTableElement;
 };
 
 export type LineProps = {
