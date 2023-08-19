@@ -170,7 +170,7 @@ const code = `ReactPPTX.render(
     <Slide>
       <Table
         rows={[
-          [<Table.Cell colSpan={2} style={{ align: "center", backgroundColor: '#00F', color: 'white' }}>Title</Table.Cell>],
+          [<Table.Cell colSpan={2} style={{ align: "center", backgroundColor: '#115599', color: 'white' }}>Title</Table.Cell>],
           ["foo", <Text style={{ align: "right", backgroundColor: '#404040' }}>bar</Text>],
           [
             <Text style={{ verticalAlign: "bottom" }}>
