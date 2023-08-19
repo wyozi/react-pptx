@@ -175,7 +175,7 @@ export const Table = Object.assign(TableFn, {
 (Table.prototype as any).isPptxTableElement = true;
 export const isTable = (
   el: React.ReactElement
-): el is React.ReactElement<TableProps> => {
+): el is React.FunctionComponentElement<TableProps> => {
   return el.type instanceof Function && el.type.prototype?.isPptxTableElement;
 };
 
@@ -234,4 +234,4 @@ export const Presentation: React.FC<PresentationProps> =
   NodeTypes.PRESENTATION as unknown as React.FC;
 
 export const isReactPPTXComponent = (node: React.ReactElement): boolean =>
-  Object.values(NodeTypes).includes(node.type as NodeTypes) || isText(node);
+  Object.values(NodeTypes).includes(node.type as NodeTypes) || isText(node) || isTable(node);
