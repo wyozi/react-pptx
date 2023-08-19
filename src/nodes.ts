@@ -18,6 +18,7 @@ export enum NodeTypes {
   MASTER_SLIDE = "master-slide",
   IMAGE = "image",
   TABLE = "table",
+  TABLE_CELL = "table-cell",
   PRESENTATION = "presentation",
 }
 
@@ -145,8 +146,19 @@ export const isShape = (
   return el.type === NodeTypes.SHAPE;
 };
 
+export type TableCellProps = TextProps & {
+  colSpan?: number
+  rowSpan?: number
+};
+export const TableCell: React.FC<TableCellProps> =
+  NodeTypes.TABLE_CELL as unknown as React.FC;
+export const isTableCell = (
+  el: React.ReactElement
+): el is React.ReactElement<TableCellProps> => {
+  return el.type === NodeTypes.TABLE_CELL;
+};
+
 export type TableProps = VisualBaseProps & {
-  header?: boolean;
   rows: Array<Array<string | React.ReactElement<TextProps>>>;
   style?: {
     borderWidth?: number;
