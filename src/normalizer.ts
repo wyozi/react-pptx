@@ -119,15 +119,14 @@ export type InternalTableStyle = {
   borderColor: HexColor | null;
   borderWidth: number | null;
 };
+export type InternalTableCell = InternalText & {
+  colSpan?: number;
+  rowSpan?: number;
+};
 export type InternalTable = ObjectBase & {
   kind: "table";
   rows: Array<Array<InternalTableCell>>;
   style: InternalTableStyle;
-};
-export type InternalTableCell = Omit<InternalText, 'kind'> & {
-  kind: "table-cell";
-  colSpan?: number;
-  rowSpan?: number;
 };
 export type InternalLine = {
   kind: "line";
@@ -381,7 +380,7 @@ const normalizeSlideObject = (
     };
   } else if (isTableCell(node)) {
     return {
-      kind: "table-cell",
+      kind: "text",
       ...normalizeTextType(node, normalizedCoordinates),
       colSpan: node.props.colSpan,
       rowSpan: node.props.rowSpan,
@@ -419,7 +418,7 @@ const normalizeSlideObject = (
       row.map((cell) => {
         if (typeof cell === "string") {
           return {
-            kind: "table-cell",
+            kind: "text",
             text: [{ text: cell, style: {} }],
             style: { x: 0, y: 0, w: 0, h: 0, color: null },
           };
