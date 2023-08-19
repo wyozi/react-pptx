@@ -12,6 +12,7 @@ import {
   InternalSlide,
   InternalSlideObject,
   InternalTextPart,
+  InternalTableCell,
   normalizeJsx,
 } from "./normalizer";
 
@@ -150,9 +151,8 @@ const renderSlideObject = async (
     }
   } else if (object.kind === "table") {
     const style = object.style;
-
-    const mapped: PptxGenJs.TableRow[] = object.rows.map((row) =>
-      row.map((cell) => {
+    const mapped: PptxGenJs.TableRow[] = object.rows.map((row: InternalTableCell[]) =>
+      row.map((cell: InternalTableCell) => {
         const { color, verticalAlign, backgroundColor, ...style } = cell.style;
         // this is super weird, but works?
         return {
@@ -163,8 +163,10 @@ const renderSlideObject = async (
               ? normalizedColorToPptxgenShapeFill(backgroundColor)
               : undefined,
             color: color ?? undefined,
-            valign: verticalAlign,
+            valign: verticalAlign ?? 'middle',
             breakLine: true,
+            colspan: cell.colSpan,
+            rowspan: cell.rowSpan
           },
         };
       })
