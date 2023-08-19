@@ -306,13 +306,16 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
   }
 };
 
-const normalizeTextType = (node: React.ReactElement, normalizedCoordinates: any) => {
+const normalizeTextType = (
+  node: React.ReactElement,
+  normalizedCoordinates: any
+) => {
   const style = node.props.style;
-  return {        
+  return {
     text:
-        node.props.children !== undefined
-          ? normalizeText(node.props.children)
-          : [],
+      node.props.children !== undefined
+        ? normalizeText(node.props.children)
+        : [],
     style: {
       ...style,
       ...normalizedCoordinates,
@@ -322,8 +325,8 @@ const normalizeTextType = (node: React.ReactElement, normalizedCoordinates: any)
     },
     colSpan: node.props.colSpan,
     rowSpan: node.props.rowSpan,
-  }
-}
+  };
+};
 const PERCENTAGE_REGEXP = /^\d+%$/;
 export const normalizeCoordinate = (
   x: string | number | null | undefined,
@@ -384,7 +387,7 @@ const normalizeSlideObject = (
       ...normalizeTextType(node, normalizedCoordinates),
       colSpan: node.props.colSpan,
       rowSpan: node.props.rowSpan,
-    }
+    };
   } else if (isImage(node)) {
     return {
       kind: "image",

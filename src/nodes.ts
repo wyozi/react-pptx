@@ -146,8 +146,8 @@ export const isShape = (
 };
 
 export type TableCellProps = TextProps & {
-  colSpan?: number
-  rowSpan?: number
+  colSpan?: number;
+  rowSpan?: number;
 };
 export const TableCell: React.FC<TableCellProps> =
   NodeTypes.TABLE_CELL as unknown as React.FC;
