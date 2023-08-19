@@ -8,8 +8,8 @@ import {
   InternalShape,
   InternalSlide,
   InternalSlideObject,
+  InternalTableCell,
   InternalTableStyle,
-  InternalText,
   InternalTextPart,
   InternalTextPartBaseStyle,
   normalizeJsx,
@@ -377,9 +377,9 @@ const SlideObjectPreview = ({
           }}
         >
           <tbody>
-            {object.rows.map((row: InternalText[], i: number) => (
+            {object.rows.map((row: InternalTableCell[], i: number) => (
               <tr key={i}>
-                {row.map((cell: InternalText) => {
+                {row.map((cell: InternalTableCell) => {
                   return (
                     <td
                       key={i}
@@ -393,11 +393,7 @@ const SlideObjectPreview = ({
                         textAlign: cell.style.align,
                         verticalAlign: cell.style.verticalAlign,
                       }}
-                      colSpan={
-                        object.header && i == 0 && object.rows[1]
-                          ? object.rows[1].length
-                          : undefined
-                      }
+                      colSpan={cell.colSpan}
                     >
                       <TextPreview
                         parts={cell.text}
@@ -414,7 +410,7 @@ const SlideObjectPreview = ({
           </tbody>
         </table>
       ) : (
-        <SlideObjectShape shape={object} />
+        <SlideObjectShape shape={object as InternalShape} />
       )}
     </div>
   );
