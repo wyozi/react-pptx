@@ -392,6 +392,7 @@ const SlideObjectPreview = ({
                         border: normalizeBorderToCSS(object.style),
                         textAlign: cell.style.align,
                         verticalAlign: cell.style.verticalAlign,
+                        padding: object.style.margin ?? undefined,
                       }}
                       colSpan={cell.colSpan}
                     >

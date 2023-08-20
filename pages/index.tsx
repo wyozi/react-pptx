@@ -170,7 +170,15 @@ const code = `ReactPPTX.render(
     <Slide>
       <Table
         rows={[
-          [<Table.Cell colSpan={2} style={{ align: "center", backgroundColor: '#115599', color: 'white' }}>Title</Table.Cell>],
+          [<Table.Cell 
+            colSpan={2} 
+            style={{ 
+              align: "center", 
+              backgroundColor: '#115599', 
+              color: 'white'
+            }}>
+            Title
+          </Table.Cell>],
           ["foo", <Text style={{ align: "right", backgroundColor: '#404040' }}>bar</Text>],
           [
             <Text style={{ verticalAlign: "bottom" }}>
@@ -185,10 +193,11 @@ const code = `ReactPPTX.render(
         style={{
           x: "10%",
           y: "10%",
-          w: "80%",
-          h: "80%",
-          borderWidth: 10,
+          w: "40%",
+          h: "70%",
+          borderWidth: 4,
           borderColor: "#ff0000",
+          margin: 15,
         }}
       />
     </Slide>
