@@ -170,7 +170,7 @@ const code = `ReactPPTX.render(
     <Slide>
       <Table
         rows={[
-          [<Table.Cell 
+          [<Table.Cell
             colSpan={2} 
             style={{ 
               align: "center", 
@@ -179,14 +179,14 @@ const code = `ReactPPTX.render(
             }}>
             Title
           </Table.Cell>],
-          ["foo", <Text style={{ align: "right", backgroundColor: '#404040' }}>bar</Text>],
+          ["foo", <Table.Cell style={{ align: "right", backgroundColor: '#404040' }}>bar</Table.Cell>],
           [
-            <Text style={{ verticalAlign: "bottom" }}>
+            <Table.Cell style={{ verticalAlign: "bottom" }}>
               what about a{" "}
               <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">
                 link
               </Text.Link>
-            </Text>,
+            </Table.Cell>,
             "xyz",
           ],
         ]}

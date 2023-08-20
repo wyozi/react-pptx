@@ -324,8 +324,6 @@ const normalizeTextType = (
       fontFace: style.fontFace ?? DEFAULT_FONT_FACE,
       fontSize: style.fontSize ?? DEFAULT_FONT_SIZE,
     },
-    colSpan: node.props.colSpan,
-    rowSpan: node.props.rowSpan,
   };
 };
 
