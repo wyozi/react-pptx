@@ -163,6 +163,7 @@ export type TableProps = VisualBaseProps & {
     borderWidth?: number;
     borderColor?: string;
     width?: number;
+    margin?: number;
   };
 };
 

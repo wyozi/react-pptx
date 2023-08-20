@@ -118,6 +118,7 @@ export type InternalShape = ObjectBase & {
 export type InternalTableStyle = {
   borderColor: HexColor | null;
   borderWidth: number | null;
+  margin: number | null;
 };
 export type InternalTableCell = InternalText & {
   colSpan?: number;
@@ -308,7 +309,7 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
 
 const normalizeTextType = (
   node: React.ReactElement,
-  normalizedCoordinates: any
+  normalizedCoordinates: Record<string, `${number}%` | number>
 ) => {
   const style = node.props.style;
   return {
@@ -327,7 +328,9 @@ const normalizeTextType = (
     rowSpan: node.props.rowSpan,
   };
 };
+
 const PERCENTAGE_REGEXP = /^\d+%$/;
+
 export const normalizeCoordinate = (
   x: string | number | null | undefined,
   _default: number
@@ -439,6 +442,7 @@ const normalizeSlideObject = (
           ? normalizeHexColor(node.props.style.borderColor)
           : null,
         borderWidth: node.props.style.borderWidth ?? null,
+        margin: node.props.style.margin ?? null
       },
     };
   } else {

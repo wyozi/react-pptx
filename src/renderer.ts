@@ -179,6 +179,7 @@ const renderSlideObject = async (
       y,
       w,
       h,
+      margin: style.margin ?? undefined,
       border: {
         type: "solid",
         pt: style.borderWidth ?? undefined,
