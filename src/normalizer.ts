@@ -442,7 +442,7 @@ const normalizeSlideObject = (
           ? normalizeHexColor(node.props.style.borderColor)
           : null,
         borderWidth: node.props.style.borderWidth ?? null,
-        margin: node.props.style.margin ?? null
+        margin: node.props.style.margin ?? null,
       },
     };
   } else {
