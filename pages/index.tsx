@@ -193,11 +193,11 @@ const code = `ReactPPTX.render(
         style={{
           x: "10%",
           y: "10%",
-          w: "40%",
-          h: "70%",
+          w: "80%",
+          h: "80%",
           borderWidth: 4,
           borderColor: "#ff0000",
-          margin: 15,
+          margin: 20,
         }}
       />
     </Slide>
