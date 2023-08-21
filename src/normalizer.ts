@@ -17,6 +17,7 @@ import {
   isLine,
   isShape,
   isTable,
+  isTableCell,
   isText,
   isTextBullet,
   isTextLink,
@@ -114,13 +115,19 @@ export type InternalShape = ObjectBase & {
     borderWidth: number | null;
   };
 };
+export type InternalTableStyle = {
+  borderColor: HexColor | null;
+  borderWidth: number | null;
+  margin: number | null;
+};
+export type InternalTableCell = InternalText & {
+  colSpan?: number;
+  rowSpan?: number;
+};
 export type InternalTable = ObjectBase & {
   kind: "table";
-  rows: Array<Array<InternalText>>;
-  style: {
-    borderColor: HexColor | null;
-    borderWidth: number | null;
-  };
+  rows: Array<Array<InternalTableCell>>;
+  style: InternalTableStyle;
 };
 export type InternalLine = {
   kind: "line";
@@ -139,6 +146,7 @@ export type InternalSlideObject =
   | InternalImage
   | InternalShape
   | InternalTable
+  | InternalTableCell
   | InternalLine;
 
 export type InternalImageSrc =
@@ -181,6 +189,7 @@ export type InternalPresentation = {
 export const normalizeHexColor = (colorString: string): HexColor => {
   return Color(colorString).hex().substring(1).toUpperCase();
 };
+
 export const normalizeHexOrComplexColor = (
   colorString: string
 ): HexColor | ComplexColor => {
@@ -298,7 +307,28 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
   }
 };
 
+const normalizeTextType = (
+  node: React.ReactElement,
+  normalizedCoordinates: Record<string, `${number}%` | number>
+) => {
+  const style = node.props.style;
+  return {
+    text:
+      node.props.children !== undefined
+        ? normalizeText(node.props.children)
+        : [],
+    style: {
+      ...style,
+      ...normalizedCoordinates,
+      color: style.color ? normalizeHexColor(style.color) : null,
+      fontFace: style.fontFace ?? DEFAULT_FONT_FACE,
+      fontSize: style.fontSize ?? DEFAULT_FONT_SIZE,
+    },
+  };
+};
+
 const PERCENTAGE_REGEXP = /^\d+%$/;
+
 export const normalizeCoordinate = (
   x: string | number | null | undefined,
   _default: number
@@ -348,20 +378,16 @@ const normalizeSlideObject = (
   };
 
   if (isText(node)) {
-    const style = node.props.style;
     return {
       kind: "text",
-      text:
-        node.props.children !== undefined
-          ? normalizeText(node.props.children)
-          : [],
-      style: {
-        ...style,
-        ...normalizedCoordinates,
-        color: style.color ? normalizeHexColor(style.color) : null,
-        fontFace: style.fontFace ?? DEFAULT_FONT_FACE,
-        fontSize: style.fontSize ?? DEFAULT_FONT_SIZE,
-      },
+      ...normalizeTextType(node, normalizedCoordinates),
+    };
+  } else if (isTableCell(node)) {
+    return {
+      kind: "text",
+      ...normalizeTextType(node, normalizedCoordinates),
+      colSpan: node.props.colSpan,
+      rowSpan: node.props.rowSpan,
     };
   } else if (isImage(node)) {
     return {
@@ -392,7 +418,7 @@ const normalizeSlideObject = (
       },
     };
   } else if (isTable(node)) {
-    const normalized: InternalText[][] = node.props.rows.map((row) =>
+    const normalized: InternalTableCell[][] = node.props.rows.map((row) =>
       row.map((cell) => {
         if (typeof cell === "string") {
           return {
@@ -401,7 +427,7 @@ const normalizeSlideObject = (
             style: { x: 0, y: 0, w: 0, h: 0, color: null },
           };
         } else {
-          return normalizeSlideObject(cell) as InternalText;
+          return normalizeSlideObject(cell) as InternalTableCell;
         }
       })
     );
@@ -414,6 +440,7 @@ const normalizeSlideObject = (
           ? normalizeHexColor(node.props.style.borderColor)
           : null,
         borderWidth: node.props.style.borderWidth ?? null,
+        margin: node.props.style.margin ?? null,
       },
     };
   } else {

@@ -170,14 +170,23 @@ const code = `ReactPPTX.render(
     <Slide>
       <Table
         rows={[
-          ["foo", <Text style={{ align: "right", backgroundColor: '#404040' }}>bar</Text>],
+          [<Table.Cell
+            colSpan={2} 
+            style={{ 
+              align: "center", 
+              backgroundColor: '#115599', 
+              color: 'white'
+            }}>
+            Title
+          </Table.Cell>],
+          ["foo", <Table.Cell style={{ align: "right", backgroundColor: '#404040' }}>bar</Table.Cell>],
           [
-            <Text style={{ verticalAlign: "bottom" }}>
+            <Table.Cell style={{ verticalAlign: "bottom" }}>
               what about a{" "}
               <Text.Link url="https://www.youtube.com/watch?v=6IqKEeRS90A">
                 link
               </Text.Link>
-            </Text>,
+            </Table.Cell>,
             "xyz",
           ],
         ]}
@@ -186,8 +195,9 @@ const code = `ReactPPTX.render(
           y: "10%",
           w: "80%",
           h: "80%",
-          borderWidth: 10,
+          borderWidth: 4,
           borderColor: "#ff0000",
+          margin: 20,
         }}
       />
     </Slide>

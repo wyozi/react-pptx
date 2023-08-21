@@ -17,7 +17,7 @@ export enum NodeTypes {
   SLIDE = "slide",
   MASTER_SLIDE = "master-slide",
   IMAGE = "image",
-  TABLE = "table",
+  TABLE_CELL = "table-cell",
   PRESENTATION = "presentation",
 }
 
@@ -145,20 +145,39 @@ export const isShape = (
   return el.type === NodeTypes.SHAPE;
 };
 
+export type TableCellProps = TextProps & {
+  colSpan?: number;
+  rowSpan?: number;
+};
+export const TableCell: React.FC<TableCellProps> =
+  NodeTypes.TABLE_CELL as unknown as React.FC;
+export const isTableCell = (
+  el: React.ReactElement
+): el is React.ReactElement<TableCellProps> => {
+  return el.type === NodeTypes.TABLE_CELL;
+};
+
 export type TableProps = VisualBaseProps & {
-  rows: Array<Array<string | React.ReactElement<TextProps>>>;
+  rows: Array<Array<string | React.ReactElement<TableCellProps>>>;
   style?: {
     borderWidth?: number;
     borderColor?: string;
     width?: number;
+    margin?: number;
   };
 };
-export const Table: React.FC<TableProps> =
-  NodeTypes.TABLE as unknown as React.FC;
+
+const TableFn: React.FC<TableProps> = () => null;
+TableFn.prototype.isPptxTableElement = true;
+TableFn.prototype.Cell = TableCell;
+export const Table = Object.assign(TableFn, {
+  Cell: TableCell,
+});
+(Table.prototype as any).isPptxTableElement = true;
 export const isTable = (
   el: React.ReactElement
-): el is React.ReactElement<TableProps> => {
-  return el.type === NodeTypes.TABLE;
+): el is React.FunctionComponentElement<TableProps> => {
+  return el.type instanceof Function && el.type.prototype?.isPptxTableElement;
 };
 
 export type LineProps = {
@@ -216,4 +235,6 @@ export const Presentation: React.FC<PresentationProps> =
   NodeTypes.PRESENTATION as unknown as React.FC;
 
 export const isReactPPTXComponent = (node: React.ReactElement): boolean =>
-  Object.values(NodeTypes).includes(node.type as NodeTypes) || isText(node);
+  Object.values(NodeTypes).includes(node.type as NodeTypes) ||
+  isText(node) ||
+  isTable(node);

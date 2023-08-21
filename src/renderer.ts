@@ -12,6 +12,7 @@ import {
   InternalSlide,
   InternalSlideObject,
   InternalTextPart,
+  InternalTableCell,
   normalizeJsx,
 } from "./normalizer";
 
@@ -150,24 +151,27 @@ const renderSlideObject = async (
     }
   } else if (object.kind === "table") {
     const style = object.style;
-
-    const mapped: PptxGenJs.TableRow[] = object.rows.map((row) =>
-      row.map((cell) => {
-        const { color, verticalAlign, backgroundColor, ...style } = cell.style;
-        // this is super weird, but works?
-        return {
-          text: renderTextParts(cell.text),
-          options: {
-            ...style,
-            fill: backgroundColor
-              ? normalizedColorToPptxgenShapeFill(backgroundColor)
-              : undefined,
-            color: color ?? undefined,
-            valign: verticalAlign,
-            breakLine: true,
-          },
-        };
-      })
+    const mapped: PptxGenJs.TableRow[] = object.rows.map(
+      (row: InternalTableCell[]) =>
+        row.map((cell: InternalTableCell) => {
+          const { color, verticalAlign, backgroundColor, ...style } =
+            cell.style;
+          // this is super weird, but works?
+          return {
+            text: renderTextParts(cell.text),
+            options: {
+              ...style,
+              fill: backgroundColor
+                ? normalizedColorToPptxgenShapeFill(backgroundColor)
+                : undefined,
+              color: color ?? undefined,
+              valign: verticalAlign ?? "middle",
+              breakLine: true,
+              colspan: cell.colSpan,
+              rowspan: cell.rowSpan,
+            },
+          };
+        })
     );
 
     slide.addTable(mapped, {
@@ -175,6 +179,7 @@ const renderSlideObject = async (
       y,
       w,
       h,
+      margin: style.margin ?? undefined,
       border: {
         type: "solid",
         pt: style.borderWidth ?? undefined,
