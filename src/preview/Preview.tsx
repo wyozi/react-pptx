@@ -379,10 +379,10 @@ const SlideObjectPreview = ({
           <tbody>
             {object.rows.map((row: InternalTableCell[], i: number) => (
               <tr key={i}>
-                {row.map((cell: InternalTableCell) => {
+                {row.map((cell: InternalTableCell, j: number) => {
                   return (
                     <td
-                      key={i}
+                      key={`${i}-${j}`}
                       style={{
                         ...getTextStyleForPart(
                           cell.style,
