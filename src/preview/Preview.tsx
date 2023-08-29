@@ -379,7 +379,7 @@ const SlideObjectPreview = ({
           <tbody>
             {object.rows.map((row: InternalTableCell[], i: number) => (
               <tr key={i}>
-                {row.map((cell: InternalTableCell) => {
+                {row.map((cell: InternalTableCell, j: number) => {
                   return (
                     <td
                       key={`${i}-${j}`}
@@ -476,7 +476,7 @@ const SlidePreview = ({
     >
       {masterSlide?.objects?.map((o, i) => (
         <SlideObjectPreview
-          key={i}
+          key={`${i}.${i}`}
           object={o}
           dimensions={dimensions}
           slideWidth={width}
