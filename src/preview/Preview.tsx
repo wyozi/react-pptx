@@ -476,7 +476,7 @@ const SlidePreview = ({
     >
       {masterSlide?.objects?.map((o, i) => (
         <SlideObjectPreview
-          key={`${i}.${i}`}
+          key={i}
           object={o}
           dimensions={dimensions}
           slideWidth={width}
