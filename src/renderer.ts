@@ -362,11 +362,10 @@ const processImageData = async (
   const { w, h } = object.style;
 
   let data = "";
-  if (object.src.kind === "data") {
-    data = `data:${object.src[object.src.kind]}`;
-  } else {
-    const req = await fetch(object.src[object.src.kind]);
-
+  if (typeof object.src === "string" || object.src.kind === "path") {
+    const req = await fetch(
+      typeof object.src === "string" ? object.src : object.src[object.src.kind]
+    );
     if ("buffer" in req) {
       // node-fetch
       const contentType = (req as any).headers.raw()["content-type"][0];
@@ -384,6 +383,8 @@ const processImageData = async (
         };
       });
     }
+  } else {
+    data = `data:${object.src[object.src.kind]}`;
   }
 
   let sizing;

@@ -96,7 +96,7 @@ export type InternalText = ObjectBase & {
 };
 export type InternalImage = ObjectBase & {
   kind: "image";
-  src: InternalImageSrc;
+  src: InternalImageSrc | string;
   style: {
     sizing: {
       fit: "contain" | "cover" | "crop";
