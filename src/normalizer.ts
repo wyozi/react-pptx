@@ -307,6 +307,18 @@ export const normalizeText = (t: TextChild): InternalTextPart[] => {
   }
 };
 
+const normalizeImageSrc = (
+  src: string | InternalImageSrc
+): InternalImageSrc => {
+  if (typeof src === "string") {
+    return {
+      kind: "path",
+      path: src,
+    };
+  }
+  return src;
+};
+
 const normalizeTextType = (
   node: React.ReactElement,
   normalizedCoordinates: Record<string, `${number}%` | number>
@@ -392,7 +404,7 @@ const normalizeSlideObject = (
   } else if (isImage(node)) {
     return {
       kind: "image",
-      src: node.props.src,
+      src: normalizeImageSrc(node.props.src),
       style: {
         ...normalizedCoordinates,
         sizing: node.props.style.sizing ?? null,

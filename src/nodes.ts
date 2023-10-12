@@ -106,7 +106,7 @@ export const isText = (
 };
 
 export type ImageProps = VisualBaseProps & {
-  src: InternalImageSrc;
+  src: InternalImageSrc | string;
   style?: {
     /**
      * @deprecated no longer has any effect and will be removed soon! Use sizing.fit instead

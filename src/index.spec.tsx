@@ -214,6 +214,18 @@ describe("test render", () => {
               sizing: { fit: "cover", imageWidth: 3, imageHeight: 1.54 },
             }}
           />
+          <Image
+            src={
+              "https://raw.githubusercontent.com/gitbrent/PptxGenJS/master/demos/common/images/tokyo-subway-route-map.jpg"
+            }
+            style={{
+              x: 3.3,
+              y: 2,
+              w: 3,
+              h: 2,
+              sizing: { fit: "cover", imageWidth: 3, imageHeight: 1.54 },
+            }}
+          />
         </Slide>
         <Slide
           style={{
