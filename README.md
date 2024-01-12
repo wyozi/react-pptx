@@ -34,7 +34,7 @@ render(
       <Image
         src={{
           kind: "path",
-          path: "http://www.fillmurray.com/460/300"
+          path: "https://picsum.photos/id/237/460/300"
         }}
         style={{
           x: "10%", y: "10%", w: "80%", h: "80%"
