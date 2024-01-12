@@ -53,6 +53,19 @@ render(
 
 Asynchronously renders given presentation JSX.
 
+### `<Preview>`
+
+Takes a `Presentation` component as a child and renders a preview of the presentation. (Used for displaying slides on the client).
+
+#### Props
+
+| name | type | default value | description |
+| -- | -- | -- | -- |
+| `children` | `React.ReactElement<PresentationProps>` |  | The `Presentation` component to preview. |
+| `slideStyle` | `React.CSSProperties` |  | Optional styles to apply to each slide in the preview. |
+| `drawBoundingBoxes` | `boolean` | `false` | Whether to draw bounding boxes around each slide object in the preview. |
+
+
 ### `<Presentation>`
 
 Wraps the whole presentation.
