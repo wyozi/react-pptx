@@ -150,7 +150,7 @@ const code = `ReactPPTX.render(
         }}
       />
     </Slide>
-    
+
     <Slide style={{ backgroundColor: "#DDDDDD" }}>
       <Text style={{ x: 3, y: 1, w: 3, h: 0.5, fontSize: 32 }}>
         <Text.Bullet>Adding bullet 1</Text.Bullet>
@@ -163,7 +163,7 @@ const code = `ReactPPTX.render(
     </Slide>
     <Slide>
       <Image
-        src={{ kind: "path", path: "https://source.unsplash.com/random/800x600" }}
+        src={{ kind: "path", path: "https://picsum.photos/800/600" }}
         style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
       />
     </Slide>
@@ -171,10 +171,10 @@ const code = `ReactPPTX.render(
       <Table
         rows={[
           [<Table.Cell
-            colSpan={2} 
-            style={{ 
-              align: "center", 
-              backgroundColor: '#115599', 
+            colSpan={2}
+            style={{
+              align: "center",
+              backgroundColor: '#115599',
               color: 'white'
             }}>
             Title
