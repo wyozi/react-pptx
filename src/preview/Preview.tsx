@@ -32,7 +32,7 @@ const normalizeBorderToCSS = (style: InternalTableStyle) =>
   `${style.borderWidth ?? 0}px solid ${
     style.borderColor
       ? normalizedColorToCSS(style.borderColor)
-      : undefined ?? "transparent"
+      : undefined
   }`;
 
 const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {
