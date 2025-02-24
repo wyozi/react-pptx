@@ -30,9 +30,7 @@ const normalizedColorToCSS = (color: HexColor | ComplexColor) => {
 
 const normalizeBorderToCSS = (style: InternalTableStyle) =>
   `${style.borderWidth ?? 0}px solid ${
-    style.borderColor
-      ? normalizedColorToCSS(style.borderColor)
-      : undefined ?? "transparent"
+    style.borderColor ? normalizedColorToCSS(style.borderColor) : undefined
   }`;
 
 const SlideObjectShape = ({ shape }: { shape: InternalShape }) => {

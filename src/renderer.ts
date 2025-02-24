@@ -19,7 +19,7 @@ import {
 const normalizedColorToPptxgenShapeFill = (
   color: HexColor | ComplexColor | null | undefined
 ): pptxgen.ShapeFillProps | undefined => {
-  return typeof color === "string" ? { color: color } : color ?? undefined;
+  return typeof color === "string" ? { color: color } : (color ?? undefined);
 };
 
 const renderTextParts = (parts: InternalTextPart[]): PptxGenJs.TextProps[] => {

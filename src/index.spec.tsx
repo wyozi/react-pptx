@@ -236,7 +236,7 @@ describe("test render", () => {
           }}
         >
           <Image
-            src={{ kind: "path", path: "http://www.fillmurray.com/460/300" }}
+            src={{ kind: "path", path: "https://picsum.photos/460/300" }}
             style={{ x: "10%", y: "10%", w: "80%", h: "80%" }}
           />
         </Slide>
